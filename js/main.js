@@ -48,3 +48,30 @@ function stopTimer() {
     }
     console.log(timerAnch);
 }
+
+
+var myMap = function(key, val, idx){
+    this.key = key;
+    this.value = val;
+    this.idx = idx;
+};
+myMap.prototype.key = null;
+myMap.prototype.value = null;
+
+var ENTRY_IN = 'IN';
+var ENTRY_OUT = 'OUT';
+var storageHelper = new StorageHelper();
+
+function createEntry(lbl, val) {
+    var ins = storageHelper.getJson('entries', []);
+    ins.push(new myMap(lbl, val, ins.length));
+    return storageHelper.setJson('entries', ins);
+}
+
+function doIn(){
+    createEntry(ENTRY_IN, (new Date()).getTime());
+}
+
+function doOut(){
+    createEntry(ENTRY_OUT, (new Date()).getTime());
+}
