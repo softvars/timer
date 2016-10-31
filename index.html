@@ -17,7 +17,7 @@
 
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
-    <body onload="startTime()">
+    <body onload="renderTime()">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -45,6 +45,16 @@
                       <div class="col-xs-12">
                         <button type="button"><span onclick="doIn()">In</span></button> ::
                         <button type="button"><span onclick="doOut()">Out</span></button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                          <div class="table-responsive">
+                            <table class="table table-hover" id="tabletime">
+                                <tr class="success"></tr>
+                                <tr class="info"></tr>
+                            </table>
+                           </div>
                       </div>
                     </div>
                 </div>

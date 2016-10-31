@@ -1,40 +1,54 @@
 var timerAnch;
-function getInterval() {
-    return 100;
+
+function getDate() {
+    var today = new Date();
+    var t = {};
+    t.d = today.getDate();
+    t.m = today.getMonth() + 1;
+    t.y = today.getYear() + 1900;
+
+    t.d = checkTime(t.d);
+    t.m = checkTime(t.m);
+    return t;
 }
 
-function startTime() {
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
+function getTime(a) {
+    var today = a ? new Date(a) : new Date();
+    var t = {};
+    t.h = today.getHours();
+    t.m = today.getMinutes();
+    t.s = today.getSeconds();
     var mi = today.getMilliseconds();
 
-    mi = mi > 944 ? 0 : Math.round((mi / 100));
-//console.log(mi);
+    t.mi = mi > 944 ? 0 : Math.round((mi / 100));
 
-    m = checkTime(m);
-    s = checkTime(s);
-    mi = checkTime(mi);
+    t.m = checkTime(t.m);
+    t.s = checkTime(t.s);
+    t.mi = checkTime(t.mi);
 
+    return t;
+}
+
+function renderTime() {
+    var t = getTime();
     document.getElementById('intimer').innerHTML =
-    h + ":" + m + ":" + s + ":" + mi;
-
-    //var interval = getInterval();
-    //timerAnch = setTimeout(startTime, interval);
-    //return timerAnch;
+    t.h + ":" + t.m + ":" + t.s + ":" + t.mi;
 }
 
 function checkTime(i) {
-    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    if (i < 10 && i >=0) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
+}
+
+function getInterval() {
+    return 100;
 }
 
 function startTimer() {
     console.log(timerAnch);
     if(!timerAnch) {
         var interval = getInterval();
-        timerAnch = setInterval(startTime, interval);
+        timerAnch = setInterval(renderTime, interval);
         console.log("::" + timerAnch);
     }
 }
@@ -60,18 +74,67 @@ myMap.prototype.value = null;
 
 var ENTRY_IN = 'IN';
 var ENTRY_OUT = 'OUT';
+var CONTEXT = {};
+CONTEXT[ENTRY_IN] = "success";
+CONTEXT[ENTRY_OUT] = "info"
+
 var storageHelper = new StorageHelper();
 
 function createEntry(lbl, val) {
     var ins = storageHelper.getJson('entries', []);
     ins.push(new myMap(lbl, val, ins.length));
-    return storageHelper.setJson('entries', ins);
+    storageHelper.setJson('entries', ins);
+    return ins;
 }
 
+function renderTimes(lbl, val) {
+    var ins = createEntry(lbl, val);
+
+    var rows = [];
+    ins.forEach(function(a, i, arr){
+        var t = getTime(a.value);
+        var time = t.h + ":" + t.m + ":" + t.s;
+        var diff = "00" , prv = arr[i-1];
+        if(t && prv) {
+            p = a.value - prv.value ;
+            var _p = {
+              mi: 0,
+              m: 0,
+              s: 0,
+              h: 0
+            };
+            _p.mi = p < 1000 ? p : p % 1000 ; 
+            if(p > 999) {
+                _p.s = p / 1000;
+                if(_p.s > 60) {
+                    _p.m = _p.s / 60;
+                    _p.s = _p.s % 60;
+                }
+                if(_p.m > 60) {
+                    _p.h = _p.m / 60;
+                    _p.m = _p.m % 60;
+                }
+                if(_p.h > 24) {
+                    diff = "Hr > 24 Err";
+                } else {
+                    diff = checkTime(Math.floor(_p.h)) + ":" + checkTime(Math.floor(_p.m)) + ":" + checkTime(Math.floor(_p.s))
+                    + ":" + checkTime(Math.floor(_p.mi));
+                }
+            }
+            //diff = checkTime(t.h - p.h) + ":" + checkTime(t.m - p.m) + ":" + checkTime(t.s - p.s);
+        }
+        rows.push('<tr class="'+CONTEXT[a.key]+'"><td>'+time+'</td><td>'+diff+'</td></tr>');
+        //console.log(a);
+    })
+    $('#tabletime').html(rows.join(' '));
+}
 function doIn(){
-    createEntry(ENTRY_IN, (new Date()).getTime());
+    renderTimes(ENTRY_IN, (new Date()).getTime());
 }
 
 function doOut(){
-    createEntry(ENTRY_OUT, (new Date()).getTime());
+    renderTimes(ENTRY_OUT, (new Date()).getTime());
 }
+
+//myStorage.entries
+//myStorage.removeItem("entries")
