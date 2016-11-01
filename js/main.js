@@ -29,42 +29,12 @@ function getTime(a) {
     return t;
 }
 
-function renderTime() {
-    var t = getTime();
-    document.getElementById('intimer').innerHTML =
-    t.h + ":" + t.m + ":" + t.s + ":" + t.mi;
-}
-
 function checkTime(i) {
     if (i < 10 && i >=0) {
 i = "0" + i;
 };  // add zero in front of numbers < 10
     return i;
 }
-
-function getInterval() {
-    return 100;
-}
-
-function startTimer() {
-    console.log(timerAnch);
-    if(!timerAnch) {
-        var interval = getInterval();
-        timerAnch = setInterval(renderTime, interval);
-        console.log("::" + timerAnch);
-    }
-}
-
-function stopTimer() {
-    //clearTimeout(timerAnch);
-    if(timerAnch) {
-        console.log("::" + timerAnch);
-        clearInterval(timerAnch);
-        timerAnch = null;
-    }
-    console.log(timerAnch);
-}
-
 
 var myMap = function(key, val, idx){
     this.key = key;
@@ -76,9 +46,18 @@ myMap.prototype.value = null;
 
 var ENTRY_IN = 'IN';
 var ENTRY_OUT = 'OUT';
+
 var CONTEXT = {};
 CONTEXT[ENTRY_IN] = "success";
 CONTEXT[ENTRY_OUT] = "info";
+
+
+var KEY_ENTRIES = "_TimeEntries";
+
+var KEY_DATE_ENTRIES = (function(){
+    var date = getDate();
+    return "" + date.y + date.m + date.d + KEY_ENTRIES;
+})();
 
 var storageHelper = new StorageHelper();
 
@@ -87,6 +66,7 @@ function createEntry(lbl, val) {
     if(lbl) {
         ins.push(new myMap(lbl, val, ins.length));
         storageHelper.setJson('entries', ins);
+        storageHelper.setJson(KEY_DATE_ENTRIES, ins);
     }
     return ins;
 }
@@ -96,10 +76,10 @@ function getDiff(a, b) {
     }
 
     var p = a.value - b.value ;
-    return getTimeFromTS(p);
+    return getTimeFromTSDiff(p);
 }
 
-function getTimeFromTS(p) {
+function getTimeFromTSDiff(p) {
     var diff = {};
     diff.p = p;
     var _p = {
@@ -135,7 +115,7 @@ function renderTimes(lbl, val) {
     var ins = createEntry(lbl, val);
 
     var rows = [];
-    var total = 0, ntotal =0;
+    var total = 0, ntotal =0, n2total=0;
     ins.forEach(function(a, i, arr){
         var t = getTime(a.value);
         var time = t.h + ":" + t.m + ":" + t.s;
@@ -153,16 +133,55 @@ function renderTimes(lbl, val) {
         total += a.p;
         ntotal += (i && (a.key == ENTRY_OUT && ((prv && prv.key == ENTRY_IN) || (prv && prv.key == ENTRY_OUT))) ||  
          (a.key == ENTRY_IN && (prv && prv.key == ENTRY_IN) )) ? a.p : 0;
-        rows.push('<tr class="'+CONTEXT[a.key]+'"><td>'+time+'</td><td>'+ _diff +'</td></tr>');
+
+        n2total += (i && (a.key == ENTRY_OUT && (prv && prv.key == ENTRY_IN)) ||
+         (a.key == ENTRY_IN && (prv && prv.key == ENTRY_IN) )) ? a.p : 0;
+        rows.push('<tr class="'+CONTEXT[a.key]+'"><td>'+time+'</td><td>'+ _diff +'</td><td><button type="button" class="btn btn-danger btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove-sign"></span></button></td></tr>');
     });
-    var _total = getTimeFromTS(total);
-    var _ntotal = getTimeFromTS(ntotal);
-    rows.push('<tr class=""><td>'+total+'</td><td>'+ _total.m +'</td></tr>');
-    rows.push('<tr class=""><td>'+ntotal+'</td><td>'+ _ntotal.m +'</td></tr>');
+    var _total = getTimeFromTSDiff(total);
+    var _ntotal = getTimeFromTSDiff(ntotal);
+    var _n2total = getTimeFromTSDiff(n2total);
+    rows.push('<tr class=""><td><strong>Total</strong></td><td>'+ _total.m +'</td><td>'+total+'</td></tr>');
+    rows.push('<tr class=""><td><strong>Office</strong></td><td><strong>'+ _ntotal.m +'</strong></td><td>'+ntotal+'</td></tr>');
+    rows.push('<tr class=""><td><strong>Actual</strong></td><td><strong>'+ _n2total.m +'</strong></td><td>'+n2total+'</td></tr>');
     storageHelper.setJson('entries', ins);
+    storageHelper.setJson(KEY_DATE_ENTRIES, ins);
     storageHelper.setJson('entriesTimeTotal', total);
     $('#tabletime').html(rows.join(' '));
 }
+
+function renderTime() {
+    var t = getTime();
+    document.getElementById('intimer').innerHTML =
+    t.h + ":" + t.m + ":" + t.s + ":" + t.mi;
+
+    //renderTimes();
+}
+
+function getInterval() {
+    return 100;
+}
+
+function startTimer() {
+    console.log(timerAnch);
+    if(!timerAnch) {
+        var interval = getInterval();
+        timerAnch = setInterval(renderTime, interval);
+        console.log("::" + timerAnch);
+    }
+}
+startTimer();
+
+function stopTimer() {
+    //clearTimeout(timerAnch);
+    if(timerAnch) {
+        console.log("::" + timerAnch);
+        clearInterval(timerAnch);
+        timerAnch = null;
+    }
+    console.log(timerAnch);
+}
+
 function doIn(){
     renderTimes(ENTRY_IN, (new Date()).getTime());
 }
@@ -178,3 +197,9 @@ function clearEntries() {
     renderTimes(); // $('#tabletime').html(rows.join(' '));
 }
 //JSON.parse(myStorage.entries)
+
+
+$('.removeEntry').on('click', function(){
+    var i = $(this).data(i);
+    console.log(i);
+})

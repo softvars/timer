@@ -1,0 +1,29 @@
+.header-wrapper {
+  /* background: lightyellow;
+  color: darkturquoise;
+  margin-top: 5px; */
+  background: rgb(232, 232, 219);
+  color: rgb(24, 179, 181);
+  margin-top: 1px;
+}
+.timer-wrapper {
+  margin: 0 0 12px;
+}
+#intimer {
+  color: peru;
+}
+
+
+.body-wrapper {
+  margin-top: 10px;
+}
+
+.removeEntry{
+    color: white;
+    /* cursor: pointer; */
+}
+
+.removeEntry:before {
+  font-size: large;
+  line-height: 24px;
+}
