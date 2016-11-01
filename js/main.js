@@ -75,6 +75,11 @@ function removeEntry(i) {
     if(i >= 0 && i < ins.length) {
         //ins.push(new myMap(lbl, val, ins.length));
         ins.splice(i, 1);
+        var nextEntry = ins[i];
+        if(nextEntry && nextEntry.m){
+            nextEntry.p = nextEntry.m = null;
+            ins[i] = nextEntry;
+        }
         storageHelper.setJson('entries', ins);
         storageHelper.setJson(KEY_DATE_ENTRIES, ins);
     }
@@ -127,6 +132,9 @@ function renderTimes(lbl, val) {
     var rows = [];
     var total = 0, ntotal =0, n2total=0;
     ins.forEach(function(a, i, arr){
+        if(!(a && a.value)) {
+            return;
+        }
         var t = getTime(a.value);
         var time = t.h + ":" + t.m + ":" + t.s;
         a.p  = a.p || 0;
