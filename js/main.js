@@ -70,6 +70,16 @@ function createEntry(lbl, val) {
     }
     return ins;
 }
+function removeEntry(i) {
+    var ins = storageHelper.getJson('entries', []);
+    if(i >= 0 && i < ins.length) {
+        //ins.push(new myMap(lbl, val, ins.length));
+        ins.splice(i, 1);
+        storageHelper.setJson('entries', ins);
+        storageHelper.setJson(KEY_DATE_ENTRIES, ins);
+    }
+    return ins;
+}
 function getDiff(a, b) {
     if(!(a.value && b.value && (a.value >= b.value))) {
         return null;
@@ -148,6 +158,13 @@ function renderTimes(lbl, val) {
     storageHelper.setJson(KEY_DATE_ENTRIES, ins);
     storageHelper.setJson('entriesTimeTotal', total);
     $('#tabletime').html(rows.join(' '));
+
+    $('span.removeEntry').off("click");
+    $('span.removeEntry').on("click", function(e) {
+        var i = $(this).data("i");
+        console.log(i);
+        removeEntry(i);
+    });
 }
 
 function renderTime() {
@@ -199,7 +216,8 @@ function clearEntries() {
 //JSON.parse(myStorage.entries)
 
 
-$('.removeEntry').on('click', function(){
-    var i = $(this).data(i);
+/*$('span.removeEntry').on("click", function(e){
+    var i = $(this).data("i");
     console.log(i);
-})
+});
+*/
