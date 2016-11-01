@@ -36,7 +36,9 @@ function renderTime() {
 }
 
 function checkTime(i) {
-    if (i < 10 && i >=0) {i = "0" + i};  // add zero in front of numbers < 10
+    if (i < 10 && i >=0) {
+i = "0" + i;
+};  // add zero in front of numbers < 10
     return i;
 }
 
@@ -76,7 +78,7 @@ var ENTRY_IN = 'IN';
 var ENTRY_OUT = 'OUT';
 var CONTEXT = {};
 CONTEXT[ENTRY_IN] = "success";
-CONTEXT[ENTRY_OUT] = "info"
+CONTEXT[ENTRY_OUT] = "info";
 
 var storageHelper = new StorageHelper();
 
@@ -170,5 +172,8 @@ function doOut(){
 }
 
 //myStorage.entries
-//myStorage.removeItem("entries")
+
+function clearEntries() {
+myStorage.removeItem("entries");
+}
 //JSON.parse(myStorage.entries)
