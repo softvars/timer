@@ -31,8 +31,8 @@ function getTime(a) {
 
 function checkTime(i) {
     if (i < 10 && i >=0) {
-i = "0" + i;
-};  // add zero in front of numbers < 10
+        i = "0" + i;
+    };  // add zero in front of numbers < 10
     return i;
 }
 
@@ -158,14 +158,15 @@ function renderTimes(lbl, val) {
     storageHelper.setJson(KEY_DATE_ENTRIES, ins);
     storageHelper.setJson('entriesTimeTotal', total);
     $('#tabletime').html(rows.join(' '));
-
-    $('span.removeEntry').off("click");
-    $('span.removeEntry').on("click", function(e) {
-        var i = $(this).data("i");
-        console.log(i);
-        removeEntry(i);
-    });
 }
+
+$('table#tabletime').off("click");
+$('table#tabletime').on("click", "span.removeEntry",function(e) {
+    var i = $(this).data("i");
+    console.log(i);
+    removeEntry(i);
+    renderTimes();
+});
 
 function renderTime() {
     var t = getTime();
