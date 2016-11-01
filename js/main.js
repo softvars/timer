@@ -86,8 +86,8 @@ function createEntry(lbl, val) {
     var ins = storageHelper.getJson('entries', []);
     if(lbl) {
         ins.push(new myMap(lbl, val, ins.length));
+        storageHelper.setJson('entries', ins);
     }
-    storageHelper.setJson('entries', ins);
     return ins;
 }
 function getDiff(a, b) {
@@ -174,6 +174,7 @@ function doOut(){
 //myStorage.entries
 
 function clearEntries() {
-myStorage.removeItem("entries");
+    myStorage.removeItem("entries");
+    renderTimes(); // $('#tabletime').html(rows.join(' '));
 }
 //JSON.parse(myStorage.entries)
