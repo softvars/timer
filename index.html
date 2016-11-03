@@ -18,7 +18,7 @@
 
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
-    <body onload="renderTimes();">
+    <body onload="">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -38,9 +38,15 @@
             <div class="row body-wrapper">
                 <div class="col-xs-12 col-md-8 col-md-offset-2">
                     <div class="row">
-                      <!-- <div class="col-xs-12 text-center timer-wrapper">
-                        <strong><span id="intimer" class="timer in"></span></strong>
-                      </div> -->
+                      <div class="col-xs-8 text-left tools-wrapper">
+                        <div class="btn-group tools" role="group" aria-label="...">
+                          <button type="button" class="btn btn-default strict">Strict</button>
+                          <button type="button" class="btn btn-default flex">Flex</button>
+                        </div>
+                      </div>
+                      <div class="col-xs-4 text-right settings-wrapper">
+                        <button type="button" id="settings" class="btn btn-default settings"><span class="glyphicon glyphicon-cog"></span></button>
+                      </div>
                     </div>
                     <div class="row">
                       <!-- <div class="col-xs-12">
@@ -50,13 +56,18 @@
                         </div>
                       </div> -->
                     </div>
-                    <div class="row">
+
+                    <div class="row option-strict">
+                      <div class="col-xs-12">
+                          <button type="button" class="btn btn-primary btn-lg btn-block" data-fn="IN"><span>In</span></button>
+                      </div>
+                    </div>
+                    <div class="row option-flex">
                       <div class="col-xs-12">
                           <button type="button" class="btn btn-primary btn-lg btn-block" onclick="doIn()"><span>In</span></button>
                           <button type="button" class="btn btn-warning btn-lg btn-block" onclick="doOut()"><span>Out</span></button>
                       </div>
                     </div>
-
                     <div class="row">
                       <div class="col-xs-12">
                           <div class="table-responsive">
@@ -69,7 +80,7 @@
                     </div>
                     <div class="row">
                       <div class="col-xs-12">
-                        <button type="button" class="btn btn-danger btn-lg" onclick="clearEntries()"><span>ClearAll</span></button>
+                        <button type="button" class="btn btn-danger btn-lg clear-entries" onclick="clearEntries()"><span>ClearAll</span></button>
                       </div>
                     </div>
                 </div>

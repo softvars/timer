@@ -168,14 +168,6 @@ function renderTimes(lbl, val) {
     $('#tabletime').html(rows.join(' '));
 }
 
-$('table#tabletime').off("click");
-$('table#tabletime').on("click", "span.removeEntry",function(e) {
-    var i = $(this).data("i");
-    console.log(i);
-    removeEntry(i);
-    renderTimes();
-});
-
 function renderTime() {
     var t = getTime();
     document.getElementById('intimer').innerHTML =
@@ -230,3 +222,61 @@ function clearEntries() {
     console.log(i);
 });
 */
+
+$('table#tabletime').off("click");
+$('table#tabletime').on("click", "span.removeEntry",function(e) {
+    var i = $(this).data("i");
+    console.log(i);
+    removeEntry(i);
+    renderTimes();
+});
+
+
+$('.tools').off("click");
+$('.tools').on("click", "button.strict",function(e) {
+    //var i = $(this).data("i");
+    $('.option-strict').show();
+    $('.option-flex').hide();
+
+    //console.log(i);
+});
+$('.tools').on("click", "button.flex",function(e) {
+    //var i = $(this).data("i");
+    $('.option-strict').hide();
+    $('.option-flex').show();
+    //console.log(i);
+});
+
+$('.option-strict').on("click", "button",function(e) {
+    var fn = $(this).data("fn");
+
+    var $flx_btn = $(this);
+    try {
+        if(fn == "IN") {
+           doIn();
+        } else {
+           doOut() ;
+        }
+        fn == "IN" ? "OUT" : "IN";
+        $(this).data("fn", fn);
+        $flx_btn.children('span').get(0).html = fn;
+    }catch(e){}
+    //console.log(i);
+});
+function day_init() {
+    var todayEntries = storageHelper.getJson(KEY_DATE_ENTRIES);
+    if(!(todayEntries)) {
+        storageHelper.setJson('entries', []);
+        storageHelper.setJson(KEY_DATE_ENTRIES, []);
+    }
+    renderTimes();
+
+}
+
+function page_init() {
+    day_init();
+}
+
+$(function(){
+    page_init();
+});

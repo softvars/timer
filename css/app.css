@@ -13,7 +13,15 @@
   color: peru;
 }
 
-
+button#settings {
+    margin-bottom: 10px;
+}
+.settings span {
+    font-size: x-large;
+}
+.option-flex{
+  display: none;
+}
 .body-wrapper {
   margin-top: 10px;
 }
