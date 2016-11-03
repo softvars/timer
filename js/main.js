@@ -52,36 +52,37 @@ CONTEXT[ENTRY_IN] = "success";
 CONTEXT[ENTRY_OUT] = "info";
 
 
-var KEY_ENTRIES = "_TimeEntries";
+var KEY_ENTRIES = "entries";
+var KEY_UC_STATE = "User_Curr_State";
+var KEY_DAY_ENTRIES = "_TimeEntries";
 
 var KEY_DATE_ENTRIES = (function(){
     var date = getDate();
-    return "" + date.y + date.m + date.d + KEY_ENTRIES;
+    return "" + date.y + date.m + date.d + KEY_DAY_ENTRIES;
 })();
 
 var storageHelper = new StorageHelper();
 
 function createEntry(lbl, val) {
-    var ins = storageHelper.getJson('entries', []);
+    var ins = storageHelper.get(KEY_ENTRIES, []);
     if(lbl) {
         ins.push(new myMap(lbl, val, ins.length));
-        storageHelper.setJson('entries', ins);
-        storageHelper.setJson(KEY_DATE_ENTRIES, ins);
+        storageHelper.set(KEY_ENTRIES, ins);
+        storageHelper.set(KEY_DATE_ENTRIES, ins);
     }
     return ins;
 }
 function removeEntry(i) {
-    var ins = storageHelper.getJson('entries', []);
+    var ins = storageHelper.get(KEY_ENTRIES, []);
     if(i >= 0 && i < ins.length) {
-        //ins.push(new myMap(lbl, val, ins.length));
         ins.splice(i, 1);
         var nextEntry = ins[i];
         if(nextEntry && nextEntry.m){
             nextEntry.p = nextEntry.m = null;
             ins[i] = nextEntry;
         }
-        storageHelper.setJson('entries', ins);
-        storageHelper.setJson(KEY_DATE_ENTRIES, ins);
+        storageHelper.set(KEY_ENTRIES, ins);
+        storageHelper.set(KEY_DATE_ENTRIES, ins);
     }
     return ins;
 }
@@ -127,8 +128,9 @@ function getTimeFromTSDiff(p) {
 }
 
 function renderTimes(lbl, val) {
-    var ins = createEntry(lbl, val);
+    setUserStateText(storageHelper.get(KEY_UC_STATE));
 
+    var ins = createEntry(lbl, val);
     var rows = [];
     var total = 0, ntotal =0, n2total=0;
     ins.forEach(function(a, i, arr){
@@ -154,26 +156,24 @@ function renderTimes(lbl, val) {
 
         n2total += (i && (a.key == ENTRY_OUT && (prv && prv.key == ENTRY_IN)) ||
          (a.key == ENTRY_IN && (prv && prv.key == ENTRY_IN) )) ? a.p : 0;
-        rows.push('<tr class="'+CONTEXT[a.key]+'"><td>'+time+'</td><td>'+ _diff +'</td><td><button type="button" class="btn btn-danger btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove-sign"></span></button></td></tr>');
+        rows.push('<tr class="'+CONTEXT[a.key]+'"><td>'+time+'</td><td>'+ _diff +'</td><td class="text-right"><button type="button" class="btn btn-danger btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove-sign"></span></button></td></tr>');
     });
     var _total = getTimeFromTSDiff(total);
     var _ntotal = getTimeFromTSDiff(ntotal);
     var _n2total = getTimeFromTSDiff(n2total);
     rows.push('<tr class=""><td><strong>Total</strong></td><td>'+ _total.m +'</td><td>'+total+'</td></tr>');
-    rows.push('<tr class=""><td><strong>Office</strong></td><td><strong>'+ _ntotal.m +'</strong></td><td>'+ntotal+'</td></tr>');
-    rows.push('<tr class=""><td><strong>Actual</strong></td><td><strong>'+ _n2total.m +'</strong></td><td>'+n2total+'</td></tr>');
-    storageHelper.setJson('entries', ins);
-    storageHelper.setJson(KEY_DATE_ENTRIES, ins);
-    storageHelper.setJson('entriesTimeTotal', total);
+    rows.push('<tr class="office-total"><td><strong>Office</strong></td><td><strong>'+ _ntotal.m +'</strong></td><td>'+ntotal+'</td></tr>');
+    rows.push('<tr class="actual-total"><td><strong>Actual</strong></td><td><strong>'+ _n2total.m +'</strong></td><td>'+n2total+'</td></tr>');
+    storageHelper.set(KEY_ENTRIES, ins);
+    storageHelper.set(KEY_DATE_ENTRIES, ins);
+    storageHelper.set('entriesTimeTotal', total);
     $('#tabletime').html(rows.join(' '));
 }
 
+var in_timer_elm_id = 'intimer';
 function renderTime() {
     var t = getTime();
-    document.getElementById('intimer').innerHTML =
-    t.h + ":" + t.m + ":" + t.s + ":" + t.mi;
-
-    //renderTimes();
+    document.getElementById(in_timer_elm_id).innerHTML = t.h + ':' + t.m + ':' + t.s + ':' + t.mi;
 }
 
 function getInterval() {
@@ -188,10 +188,9 @@ function startTimer() {
         console.log("::" + timerAnch);
     }
 }
-startTimer();
 
+startTimer();
 function stopTimer() {
-    //clearTimeout(timerAnch);
     if(timerAnch) {
         console.log("::" + timerAnch);
         clearInterval(timerAnch);
@@ -201,27 +200,21 @@ function stopTimer() {
 }
 
 function doIn(){
+    storageHelper.set(KEY_UC_STATE, ENTRY_IN);
     renderTimes(ENTRY_IN, (new Date()).getTime());
 }
 
 function doOut(){
+    storageHelper.set(KEY_UC_STATE, ENTRY_OUT);
     renderTimes(ENTRY_OUT, (new Date()).getTime());
 }
 
-//myStorage.entries
-
 function clearEntries() {
-    myStorage.removeItem("entries");
-    renderTimes(); // $('#tabletime').html(rows.join(' '));
+    storageHelper.unset(KEY_ENTRIES);
+    storageHelper.set(KEY_UC_STATE, ENTRY_OUT);
+    toggleStrictButton($('.option-strict button'), true);
+    renderTimes();
 }
-//JSON.parse(myStorage.entries)
-
-
-/*$('span.removeEntry').on("click", function(e){
-    var i = $(this).data("i");
-    console.log(i);
-});
-*/
 
 $('table#tabletime').off("click");
 $('table#tabletime').on("click", "span.removeEntry",function(e) {
@@ -231,51 +224,65 @@ $('table#tabletime').on("click", "span.removeEntry",function(e) {
     renderTimes();
 });
 
-
-$('.tools').off("click");
-$('.tools').on("click", "button.strict",function(e) {
-    //var i = $(this).data("i");
+$('.menu').off("click");
+$('.menu').on("click", "button.strict", function(e) {
     $('.option-strict').show();
     $('.option-flex').hide();
-
-    //console.log(i);
+    toggleStrictButton($('.option-strict button'), true);
 });
-$('.tools').on("click", "button.flex",function(e) {
-    //var i = $(this).data("i");
+
+$('.menu').on("click", "button.flex", function(e) {
     $('.option-strict').hide();
     $('.option-flex').show();
-    //console.log(i);
 });
+
 $('.option-strict').off("click");
-$('.option-strict').on("click", "button",function(e) {
-    var fn = $(this).data("fn");
-
-    //var $flx_btn = $(this);
-    try {
-        var _fn = fn == "IN" ? "OUT" : "IN";
-        $(this).data("fn", _fn);
-        $(this).children('span').get(0).html = _fn;
-
-        if(fn == "IN") {
-           doIn();
-        } else {
-           doOut();
-        }
-    }catch(e){}
-    //console.log(i);
-});
-function day_init() {
-    var todayEntries = storageHelper.getJson(KEY_DATE_ENTRIES);
-    if(!(todayEntries)) {
-        storageHelper.setJson('entries', []);
-        storageHelper.setJson(KEY_DATE_ENTRIES, []);
+$('.option-strict').on("click", "button", function(e) {
+    var uc_state = toggleStrictButton($(this), false);
+    //setUserStateText(uc_state);
+    if(uc_state == ENTRY_OUT) {
+       doIn();
+    } else {
+       doOut();
     }
-    renderTimes();
+});
 
+function day_init() {
+    var todayEntries = storageHelper.get(KEY_DATE_ENTRIES);
+    if(!(todayEntries)) {
+        storageHelper.set(KEY_ENTRIES, []);
+        storageHelper.set(KEY_DATE_ENTRIES, []);
+        storageHelper.set(KEY_UC_STATE, ENTRY_OUT);
+    }
+}
+
+function setUserStateText(state){
+    $('.status-info span.user-state').get(0).innerText = state;
+}
+
+function setupStrictButton($elm, state) {
+    $elm.children('span.ti-btn-lbl').get(0).innerText = state;
+    $elm.addClass(state == ENTRY_IN ? 'btn-primary' : 'btn-warning swip-out');
+    $elm.removeClass(state == ENTRY_OUT ? 'btn-primary' : 'btn-warning swip-out');
+    //setUserStateText(storageHelper.get(KEY_UC_STATE));
+}
+
+function toggleStrictButton($elm, noswap) {
+    if($elm) {
+        var uc_state = storageHelper.get(KEY_UC_STATE);
+        var state = (!!(noswap) && ((uc_state == ENTRY_IN) ? ENTRY_OUT : ENTRY_IN)) || uc_state;
+        setupStrictButton($elm, state);
+        return uc_state
+    }
 }
 
 function page_init() {
+    //var uc_state = storageHelper.get(KEY_UC_STATE);
+    //var _uc_state = uc_state == ENTRY_IN ? ENTRY_OUT : ENTRY_IN;
+    toggleStrictButton($('.option-strict button'), true);
+    //setUserStateText(storageHelper.get(KEY_UC_STATE));
     day_init();
+    renderTimes();
 }
 
 $(function(){

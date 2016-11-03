@@ -11,13 +11,15 @@
 }
 #intimer {
   color: peru;
+  font-size: large;
 }
 
 button#settings {
     margin-bottom: 10px;
 }
-.settings span {
-    font-size: x-large;
+.toolbar span {
+  font-size: large;
+  vertical-align: sub;
 }
 .option-flex{
   display: none;
@@ -26,12 +28,56 @@ button#settings {
   margin-top: 10px;
 }
 
-.removeEntry{
-    color: white;
-    /* cursor: pointer; */
+.status-info .alert {
+  padding: 5px;
+  color: #31708f;
+  border-color: #bce8f1;
+  margin-bottom: 10px;
+}
+.option-swip button span{
+  line-height: 30px;
 }
 
+.option-swip .swip-out {
+    color: #2e6da4;
+    font-weight: 700;
+}
+
+.ti-plus-sign {
+  margin-right: 4px;
+  margin-left: 4px;
+  vertical-align: bottom;
+  vertical-align: initial;
+}
+.removeEntry{
+    color: white;
+}
 .removeEntry:before {
   font-size: large;
   line-height: 24px;
+}
+.margin_bottom_10 {
+    margin-bottom: 10px;
+}
+
+.office-total {
+    font-size: 20px;
+    color: darkcyan;
+}
+.actual-total {
+    font-size: 17px;
+    color: cadetblue;
+}
+
+.rotate {
+    /* Safari */
+    -webkit-transform: rotate(-90deg);
+    /* Firefox */
+    -moz-transform: rotate(-90deg);
+    /* IE */
+    -ms-transform: rotate(-90deg);
+    /* Opera */
+    -o-transform: rotate(-90deg);
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
