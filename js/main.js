@@ -246,20 +246,21 @@ $('.tools').on("click", "button.flex",function(e) {
     $('.option-flex').show();
     //console.log(i);
 });
-
+$('.option-strict').off("click");
 $('.option-strict').on("click", "button",function(e) {
     var fn = $(this).data("fn");
 
-    var $flx_btn = $(this);
+    //var $flx_btn = $(this);
     try {
+        var _fn = fn == "IN" ? "OUT" : "IN";
+        $(this).data("fn", _fn);
+        $(this).children('span').get(0).html = _fn;
+
         if(fn == "IN") {
            doIn();
         } else {
-           doOut() ;
+           doOut();
         }
-        fn == "IN" ? "OUT" : "IN";
-        $(this).data("fn", fn);
-        $flx_btn.children('span').get(0).html = fn;
     }catch(e){}
     //console.log(i);
 });
