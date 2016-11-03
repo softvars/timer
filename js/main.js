@@ -252,8 +252,8 @@ function day_init() {
     if(!(todayEntries)) {
         storageHelper.set(KEY_ENTRIES, []);
         storageHelper.set(KEY_DATE_ENTRIES, []);
-        storageHelper.set(KEY_UC_STATE, ENTRY_OUT);
     }
+    storageHelper.set(KEY_UC_STATE, (storageHelper.get(KEY_UC_STATE) || ENTRY_OUT));
 }
 
 function setUserStateText(state){
