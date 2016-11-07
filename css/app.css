@@ -68,8 +68,23 @@ button#settings {
     font-size: 17px;
     color: cadetblue;
 }
-.btn-clear-all,  .btn-done-edit,  button.btn-remove-entry {
+.clear-entries, .confirm-edit, button.btn-remove-entry {
   display:none
+}
+
+.clear-entries {
+    margin-bottom: 90px;
+}
+.confirm-edit {
+    position: fixed;
+    padding: 10px 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(232, 232, 219);
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    /* padding: 5px */;
+    vertical-align: middle;
 }
 .rotate {
     /* Safari */

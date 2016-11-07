@@ -92,17 +92,25 @@
                           <div class="table-responsive">
                             <table class="table table-hover" id="tabletime">
                                 <tr class="success"></tr>
-                                <tr class="info"></tr>
                             </table>
                            </div>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-xs-6 btn-clear-all">
-                        <button type="button" class="btn btn-danger btn-lg clear-entries" onclick="clearEntries()"><span>ClearAll</span></button>
+                    <div class="row clear-entries">
+                      <div class="col-xs-12">
+                        <button type="button" class="btn btn-danger btn-sm btn-block btn-clear-entries"><span>Clear All Entries</span></button>
                       </div>
-                      <div class="col-xs-6 text-right btn-done-edit">
-                        <button type="button" class="btn btn-success btn-lg done--edit" onclick="doneEditEntries()"><span>Done</span></button>
+                    </div>
+                    <div class="row confirm-edit">
+                      <div class="col-xs-5 col-xs-offset-1 text-right cancel-edit">
+                        <button type="button" class="btn btn-default btn-lg btn-block btn-cancel-edit">
+                            <span>Cancel</span>
+                        </button>
+                      </div>
+                      <div class="col-xs-5 text-left done-edit">
+                        <button type="button" class="btn btn-default btn-lg btn-block btn-done-edit">
+                           <span>Save</span>
+                        </button>
                       </div>
                     </div>
                 </div>
@@ -115,6 +123,8 @@
         <script src="js/vendor/bootstrap.min.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/storage.js"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/const.js"></script>
         <script src="js/main.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
