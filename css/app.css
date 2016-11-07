@@ -68,7 +68,9 @@ button#settings {
     font-size: 17px;
     color: cadetblue;
 }
-
+.btn-clear-all,  .btn-done-edit,  button.btn-remove-entry {
+  display:none
+}
 .rotate {
     /* Safari */
     -webkit-transform: rotate(-90deg);

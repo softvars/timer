@@ -47,6 +47,10 @@ myMap.prototype.value = null;
 var ENTRY_IN = 'IN';
 var ENTRY_OUT = 'OUT';
 
+var ENTRY_PAIR = {};
+ENTRY_PAIR[ENTRY_IN] = ENTRY_OUT;
+ENTRY_PAIR[ENTRY_OUT] = ENTRY_IN;
+
 var CONTEXT = {};
 CONTEXT[ENTRY_IN] = "success";
 CONTEXT[ENTRY_OUT] = "info";
@@ -83,7 +87,19 @@ function removeEntry(i) {
         }
         storageHelper.set(KEY_ENTRIES, ins);
         storageHelper.set(KEY_DATE_ENTRIES, ins);
-    }
+    
+var uc_state = storageHelper.get(KEY_UC_STATE);
+if(ins.length == 0 && uc_state == ENTRY_IN) {
+   	storageHelper.set(KEY_UC_STATE, ENTRY_OUT);
+    toggleStrictButton($('.option-strict button'), true);
+} else {
+   var lastEntry = ins[ins.length-1] ;
+    if(lastEntry && lastEntry.key ) {
+	    	storageHelper.set(KEY_UC_STATE, lastEntry.key);
+      toggleStrictButton($('.option-strict button'), true);
+   }
+	}
+	}
     return ins;
 }
 function getDiff(a, b) {
@@ -156,7 +172,7 @@ function renderTimes(lbl, val) {
 
         n2total += (i && (a.key == ENTRY_OUT && (prv && prv.key == ENTRY_IN)) ||
          (a.key == ENTRY_IN && (prv && prv.key == ENTRY_IN) )) ? a.p : 0;
-        rows.push('<tr class="'+CONTEXT[a.key]+'"><td>'+time+'</td><td>'+ _diff +'</td><td class="text-right"><button type="button" class="btn btn-danger btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove-sign"></span></button></td></tr>');
+        rows.push('<tr class="'+CONTEXT[a.key]+'"><td>'+time+'</td><td>'+ _diff +'</td><td class="text-right"><button type="button" data-i="'+i+'" class="btn-remove-entry btn btn-danger btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove-sign"></span></button></td></tr>');
     });
     var _total = getTimeFromTSDiff(total);
     var _ntotal = getTimeFromTSDiff(ntotal);
@@ -217,7 +233,7 @@ function clearEntries() {
 }
 
 $('table#tabletime').off("click");
-$('table#tabletime').on("click", "span.removeEntry",function(e) {
+$('table#tabletime').on("click", "button.btn-remove-entry",function(e) {
     var i = $(this).data("i");
     console.log(i);
     removeEntry(i);
@@ -247,6 +263,10 @@ $('.option-strict').on("click", "button", function(e) {
     }
 });
 
+$('.tools').off("click");
+$('.tools').on("click", "button.edit", function(e) {
+    $(".btn-clear-all, .btn-done-edit, button.btn-remove-entry").show();
+});
 function day_init() {
     var todayEntries = storageHelper.get(KEY_DATE_ENTRIES);
     if(!(todayEntries)) {
@@ -272,7 +292,7 @@ function toggleStrictButton($elm, noswap) {
         var uc_state = storageHelper.get(KEY_UC_STATE);
         var state = (!!(noswap) && ((uc_state == ENTRY_IN) ? ENTRY_OUT : ENTRY_IN)) || uc_state;
         setupStrictButton($elm, state);
-        return uc_state
+        return uc_state;
     }
 }
 
