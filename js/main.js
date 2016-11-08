@@ -9,6 +9,24 @@ function createEntry(lbl, val) {
     }
     return ins;
 }
+function updateView(ins){
+    ins = ins || storageHelper.get(KEY_ENTRIES, []);
+    var uc_state = storageHelper.get(KEY_UC_STATE);
+    if(ins.length == 0) {
+        if(uc_state == ENTRY_IN) {
+            storageHelper.set(KEY_UC_STATE, ENTRY_OUT);
+            toggleStrictButton($('.option-strict button'), true);
+        }
+        $(".clear-entries").hide();
+    } else {
+        var lastEntry = ins[ins.length-1] ;
+        if(lastEntry && lastEntry.key ) {
+          storageHelper.set(KEY_UC_STATE, lastEntry.key);
+          toggleStrictButton($('.option-strict button'), true);
+       }
+   }
+}
+
 function removeEntry(i) {
     var ins = storageHelper.get(KEY_ENTRIES, []);
     if(i >= 0 && i < ins.length) {
@@ -20,20 +38,7 @@ function removeEntry(i) {
         }
         storageHelper.set(KEY_ENTRIES, ins);
         storageHelper.set(KEY_DATE_ENTRIES, ins);
-        var uc_state = storageHelper.get(KEY_UC_STATE);
-        if(ins.length == 0) { 
-            if(uc_state == ENTRY_IN) {
-           	    storageHelper.set(KEY_UC_STATE, ENTRY_OUT);
-                toggleStrictButton($('.option-strict button'), true);
-            }
-            $(".clear-entries").hide();
-        } else {
-            var lastEntry = ins[ins.length-1] ;
-            if(lastEntry && lastEntry.key ) {
-	    	  storageHelper.set(KEY_UC_STATE, lastEntry.key);
-              toggleStrictButton($('.option-strict button'), true);
-           }
-	   }
+        updateView(ins);
 	}
     return ins;
 }
@@ -41,7 +46,7 @@ function removeEntry(i) {
 function renderTimes(lbl, val) {
     setUserStateText(storageHelper.get(KEY_UC_STATE));
 
-    var rows = [];
+    var rows = [], _rows = [];
     var ins = createEntry(lbl, val);
     var isEntries = ins && ins.length;
     if(isEntries) {
@@ -75,15 +80,15 @@ function renderTimes(lbl, val) {
         var _total = getTimeFromTSDiff(total);
         var _ntotal = getTimeFromTSDiff(ntotal);
         var _n2total = getTimeFromTSDiff(n2total);
-        rows.push('<tr class=""><td><strong>Total</strong></td><td>'+ _total.m +'</td><td>'+total+'</td></tr>');
-        rows.push('<tr class="office-total"><td><strong>Office</strong></td><td><strong>'+ _ntotal.m +'</strong></td><td>'+ntotal+'</td></tr>');
-        rows.push('<tr class="actual-total"><td><strong>Actual</strong></td><td><strong>'+ _n2total.m +'</strong></td><td>'+n2total+'</td></tr>');
+        _rows.push('<tr class=""><td><strong>Total</strong></td><td>'+ _total.m +'</td><td>'+total+'</td></tr>');
+        _rows.push('<tr class="office-total"><td><strong>Total IN</strong></td><td><strong>'+ _ntotal.m +'</strong></td><td>'+ntotal+'</td></tr>');
+        _rows.push('<tr class="actual-total"><td><strong>Actual</strong></td><td><strong>'+ _n2total.m +'</strong></td><td>'+n2total+'</td></tr>');
         storageHelper.set(KEY_ENTRIES, ins);
         storageHelper.set(KEY_DATE_ENTRIES, ins);
-        storageHelper.set('entriesTimeTotal', total);       
+        storageHelper.set('entriesTimeTotal', total);
     }
-    $('#tabletime').html(rows.join(' '));
-    
+    var htmlStr = _rows.join('') + rows.join('');
+    $('#tabletime').html(htmlStr);
     if(isEntries) {
         var isEdit = $("body").data("is-edit");
         if(isEdit) {
@@ -93,8 +98,6 @@ function renderTimes(lbl, val) {
 }
 
 //var in_timer_elm_id = 'intimer';
-
-
 /*function renderTime(elmId) {
     var t = getTime();
     document.getElementById(elmId).innerHTML = t.h + _COLON + t.m + _COLON + t.s + _COLON + t.mi;
@@ -152,11 +155,23 @@ $('.menu').on("click", "button.flex", function(e) {
 });
 
 $('.option-strict').off("click");
-$('.option-strict').on("click", "button", function(e) {
+$('.option-strict').on("click", "button.enabled", function(e) {
     var uc_state = toggleStrictButton($(this), false);
     if(uc_state == ENTRY_OUT) {
        doIn();
     } else {
+       doOut();
+    }
+});
+
+$('.option-flex').off("click");
+$('.option-flex').on("click", "button.enabled", function(e) {
+    var $this= $(this);
+    var isIn = $this.hasClass('swip-in');
+    var isOut = $this.hasClass('swip-out');
+    if(isIn) {
+       doIn();
+    } else if(isOut){
        doOut();
     }
 });
@@ -170,6 +185,10 @@ $('.tools').on("click", "button.edit", function(e) {
         storageHelper.set(KEY_ENTRIES_UNDO, ins);
         $(".confirm-edit, button.btn-remove-entry").show();
         $(".clear-entries").show();
+        $(this).addClass('active');
+        $(".option-swip button").addClass('disabled');
+        $(".option-swip button").removeClass('enabled');
+        $(".last-row").addClass('edit-start');
     }
 });
 
@@ -182,10 +201,15 @@ $(".confirm-edit").on("click", "button", function(){
         var ins = storageHelper.get(KEY_ENTRIES_UNDO, []);
         storageHelper.set(KEY_ENTRIES, ins);
         storageHelper.set(KEY_DATE_ENTRIES, ins);
+        updateView(ins);
         renderTimes();
     }
     $(".clear-entries, .confirm-edit, button.btn-remove-entry").hide();
     $("body").data("is-edit", false);
+    $('.tools button.edit').removeClass('active');
+    $(".option-swip button").removeClass('disabled');
+    $(".option-swip button").addClass('enabled');
+    $(".last-row").removeClass('edit-start');
 });
 
 

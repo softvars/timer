@@ -30,9 +30,10 @@ button#settings {
 
 .status-info .alert {
   padding: 5px;
-  color: #31708f;
+  color: #97cce6;
   border-color: #bce8f1;
   margin-bottom: 10px;
+  font-size: x-large;
 }
 .option-swip button span{
   line-height: 30px;
@@ -71,8 +72,10 @@ button#settings {
 .clear-entries, .confirm-edit, button.btn-remove-entry {
   display:none
 }
-
-.clear-entries {
+.clear-entries{
+  margin-bottom: 9px;
+}
+.last-row.edit-start {
     margin-bottom: 90px;
 }
 .confirm-edit {
