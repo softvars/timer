@@ -109,10 +109,11 @@ var renderTime = getRenderTime({
     type: 12
 });
 
-startTimer({
+/*startTimer({
     interval : 100,
     fn: renderTime
-});
+});*/
+renderTime.render();
 
 function doIn(){
     storageHelper.set(KEY_UC_STATE, ENTRY_IN);
@@ -218,8 +219,9 @@ function day_init() {
     if(!(todayEntries)) {
         storageHelper.set(KEY_ENTRIES, []);
         storageHelper.set(KEY_DATE_ENTRIES, []);
+        storageHelper.set(KEY_UC_STATE, ENTRY_OUT);
     }
-    storageHelper.set(KEY_UC_STATE, (storageHelper.get(KEY_UC_STATE) || ENTRY_OUT));
+    //storageHelper.set(KEY_UC_STATE, (storageHelper.get(KEY_UC_STATE) || ENTRY_OUT));
 }
 
 function setUserStateText(state){
