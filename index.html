@@ -11,12 +11,12 @@
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <!-- Place favicon.ico in the root directory -->
 
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/app.css">
+        <link rel="stylesheet" href="./css/normalize.css">
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/main.css">
+        <link rel="stylesheet" href="./css/app.css">
 
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <script src="./js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body onload="">
         <!--[if lt IE 8]>
@@ -24,82 +24,139 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <div class="container-fluid">
+        <div class="container-fluid main-container-wrapper">
             <div class="row header-wrapper">
-                <div  class="text-center">
+                <!-- <div  class="text-center">
                     <div class="">
                         <h1><span><b>!N Time</b></span></h1>
                     </div>
-                </div>
+                </div> -->
                 <div class="col-xs-12 text-center timer-wrapper">
-                    <strong><span id="intimer" class="timer in"></span></strong>
+                    <strong><span id="intimerDate" class="col-xs-3"></span></strong>
+                    <strong><span id="intimer" class="col-xs-3 timer in"></span></strong>
                 </div>
             </div>
             <div class="row body-wrapper">
                 <div class="col-xs-12 col-md-10 col-md-offset-1">
-                    <div class="row">
-                      <div class="col-xs-7 text-left menu-wrapper">
+                    <div class="row toolbar-wraper">
+                      <div class="col-xs-4 text-left menu-wrapper">
                         <div class="btn-group menu" role="group" aria-label="...">
-                          <button type="button" class="btn btn-default toolbar strict">Pair
-                            <span class="glyphicon glyphicon-hourglass"></span>
+                          <button type="button" id="homeview" class="btn btn-default toolbar homeview enabled">
+                            <span class="glyphicon glyphicon-home"></span>
                           </button>
-                          <button type="button" class="btn btn-default toolbar flex">Flex
-                            <span class="glyphicon glyphicon-hourglass"></span>
+                          <button type="button" id="goback" class="btn btn-default toolbar goback enabled">
+                            <span class="glyphicon glyphicon-arrow-left"></span>
                           </button>
-                        </div>
-                      </div>
-                      <div class="col-xs-5 text-right tools-wrapper">
-                        <div class="btn-group tools" role="group" aria-label="...">
-                          <button type="button" id="edit" class="btn btn-default toolbar edit">
+                          <button type="button" id="edit" class="btn btn-default toolbar edit enabled">
                             <span class="glyphicon glyphicon-edit"></span>
                           </button>
-                          <button type="button" id="settings" class="btn btn-default toolbar settings">
+                        </div>
+                      </div>
+                      <div class="col-xs-8 text-right tools-wrapper">
+                        <div class="btn-group tools" role="group" aria-label="...">
+                          <button type="button" id="dateList" class="btn btn-default toolbar dateList enabled">
+                              <a href="#list" class="toolbar"><span class="glyphicon glyphicon-list-alt"></span></a>
+                          </button>
+                          <button type="button" id="settings" class="btn btn-default dropdown-toggle toolbar settings enabled" data-toggle="dropdown" haspopup="true">
                               <span class="glyphicon glyphicon-cog"></span>
                           </button>
+                          <ul class="dropdown-menu dropdown-menu-right toolbar settings-menu enabled">
+                            <li class="setting-mode">
+                              <a href="#pair" class="toolbar strict active enabled">Pair
+                                <span class="glyphicon glyphicon-link pull-right"></span>
+                              </a>
+                            </li>
+                            <li class="setting-mode">
+                              <a href="#flex" class="toolbar flex enabled">Flex
+                                <span class="glyphicon glyphicon-random pull-right"></span>
+                              </a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li class="setting-app-data">
+                                <a href="#flex" class="toolbar app-data-export enabled">Export
+                                  <span class="glyphicon glyphicon-open pull-right"></span>
+                                </a>
+                              </li>
+                            <li class="setting-app-data">
+                              <a href="#flex" class="toolbar app-data-import enabled">Import
+                                <span class="glyphicon glyphicon-save pull-right"></span>
+                              </a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li class="setting-help">
+                              <a href="#help" class="toolbar help enabled" data-toggle="modal" data-target="#myHelpModal">
+                                Help 
+                                <span class="glyphicon glyphicon-question-sign pull-right"></span>
+                              </a>
+                            </li>
+                          </ul>
+                          <button type="button" id="edit_list" class="btn btn-default toolbar edit-list enabled">
+                            <span class="glyphicon glyphicon-edit"></span>
+                          </button>
+                          <button type="button" id="edit_delete_date" class="btn btn-default toolbar delete-date-list enabled">
+                            <span class="glyphicon glyphicon-trash" data-toggle="modal" data-target="#myDateListModal"></span>
+                          </button>
+                          <button type="button" class="btn btn-default toolbar clear-all enabled">Clear</button>
+                          <button type="button" class="btn btn-default toolbar select-all enabled">Select All</button>
                         </div>
                       </div>
                     </div>
-                    <div class="row status-info text-center">
-                      <div class="col-xs-12">
-                        <div class="alert" role="alert">You are <strong><span class="user-state">OUT</span></strong></div>
+                    <div class="mainContent">
+                      <div class="row option-swip option-strict margin_bottom_10">
+                        <div class="col-xs-offset-2 col-xs-8">
+                            <button type="button" class="btn btn-primary btn-lg btn-block enabled swip-in-out">
+                                  <span class=""> Swip </span>
+                                  <span class="ti-btn-lbl">IN</span>
+                                  <span class="glyphicon glyphicon-plus-sign ti-plus-sign"></span>
+                            </button>
+                        </div>
+                      </div>
+                      <div class="row option-swip option-flex margin_bottom_10">
+                        <div class="col-xs-12">
+                          <div class="col-xs-6">
+                            <button type="button" class="btn btn-primary btn-lg btn-block enabled swip-in">
+                              <span> Swip </span>
+                              <span class="ti-btn-lbl">IN</span>
+                              <span class="glyphicon glyphicon-plus-sign ti-plus-sign"></span>
+                            </button>
+                          </div>
+                          <div class="col-xs-6">
+                            <button type="button" class="btn btn-warning btn-lg btn-block enabled swip-out">
+                                  <span> Swip </span>
+                                  <span class="ti-btn-lbl">OUT</span>
+                                  <span class="glyphicon glyphicon-plus-sign ti-plus-sign"></span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row status-info text-center">
+                        <div class="col-xs-12 status-info-bar">
+                          <div class="alert clearfix" role="alert">
+                            <strong class="pull-left"><span id="entryDate"></span></strong>
+                            <strong class="pull-right"><span class="user-state out">OUT</span></strong>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row clear-entries">
+                        <div class="col-xs-12">
+                          <button type="button" class="btn btn-danger btn-sm  btn-clear-entries"><span>Clear All</span></button>
+                        </div>
+                      </div>
+                      <div class="row tabletime-wrapper">
+                        <div class="col-xs-12">
+                            <div class="table-responsive">
+                              <table class="table table-hover" id="tabletimeTotal">
+                                  <tr class="success"></tr>
+                              </table>
+                              <table class="table table-hover" id="tabletime">
+                                  <tr class="success"></tr>
+                              </table>
+                            </div>
+                        </div>
                       </div>
                     </div>
-                    <div class="row option-swip option-strict margin_bottom_10">
-                      <div class="col-xs-12">
-                          <button type="button" class="btn btn-primary btn-lg btn-block enabled swip-in-out">
-                                <span class=""> Swip </span>
-                                <span class="ti-btn-lbl">IN</span>
-                                <span class="glyphicon glyphicon-plus-sign ti-plus-sign"></span>
-                           </button>
-                      </div>
-                    </div>
-                    <div class="row option-swip option-flex margin_bottom_10">
-                      <div class="col-xs-12">
-                          <button type="button" class="btn btn-primary btn-lg btn-block enabled swip-in">
-                                <span> Swip </span>
-                                <span class="ti-btn-lbl">IN</span>
-                                <span class="glyphicon glyphicon-plus-sign ti-plus-sign"></span>
-                          </button>
-                          <button type="button" class="btn btn-warning btn-lg btn-block enabled swip-out">
-                                <span> Swip </span>
-                                <span class="ti-btn-lbl">OUT</span>
-                                <span class="glyphicon glyphicon-plus-sign ti-plus-sign"></span>
-                          </button>
-                      </div>
-                    </div>
-                    <div class="row clear-entries">
-                      <div class="col-xs-12">
-                        <button type="button" class="btn btn-danger btn-sm btn-block btn-clear-entries"><span>Clear All</span></button>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-12">
-                          <div class="table-responsive">
-                            <table class="table table-hover" id="tabletime">
-                                <tr class="success"></tr>
-                            </table>
-                           </div>
-                      </div>
+                    <div class="data-list-wrapper">
+                      <ul class="date-list-group nav nav-pills nav-stacked"></ul>
                     </div>
                     <!-- <div class="row clear-entries">
                       <div class="col-xs-12">
@@ -108,32 +165,123 @@
                     </div> -->
                     <div class="row confirm-edit">
                       <div class="col-xs-5 col-xs-offset-1 text-right cancel-edit">
-                        <button type="button" class="btn btn-default btn-lg btn-block btn-cancel-edit">
+                        <button type="button" class="btn btn-default btn-block btn-cancel-edit">
                             <span>Cancel</span>
                         </button>
                       </div>
                       <div class="col-xs-5 text-left done-edit">
-                        <button type="button" class="btn btn-default btn-lg btn-block btn-done-edit">
+                        <button type="button" class="btn btn-primary btn-block btn-done-edit">
                            <span>Save</span>
                         </button>
                       </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-12 last-row">
+                        <div class="col-xs-12 last-row"></div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Modal Confirm Delete -->
+        <div class="modal fade" id="myDateListModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                
+                <h4 class="modal-title text-center" id="myModalLabel">
+                  <span class="glyphicon glyphicon-alert"></span>
+                   CAUTION </h4>
+              </div>
+              <div class="modal-body">
+                <p>Please confirm before deleting the history from the app storage. </p>
+                <p>This action is a <strong>NONREVERSIBLE</strong>.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger submit">Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Confirm Data Import Overwrite -->
+        <div class="modal fade" id="myDataImportModal" tabindex="-1" role="dialog" aria-labelledby="myDataImportModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>                
+                  <h4 class="modal-title text-center" id="myDataImportModalLabel">
+                    <!-- <span class="glyphicon glyphicon-alert"></span> -->
+                     Conflict </h4>
+                </div>
+                <div class="modal-body">
+                  <p>Some entries are already exist.</p>
+                  <p>Do you want to Overwrite them ? OR Merge only new entries alone without Overwritting ?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default cancel" data-dismiss="modal">Merge Import</button>
+                  <button type="button" class="btn btn-danger submit">Overwrite Import</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- Modal Help -->
+        <div class="modal fade" id="myHelpModal" tabindex="-1" role="dialog" aria-labelledby="myHelpModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title text-center" id="myHelpModalLabel">Help</h4>
+                </div>
+                <div class="modal-body">
+                  <p>Total Time Calculation Logic :-</p>
+                  <ul>
+                    <li><strong><u>FILO</u></strong> (First IN Last OUT): Over all in time for the day</li>
+                    <li><strong><u>Paired</u></strong> Last IN will be considered in the continues INs. first OUT will be considered in the continues OUTs.</li>
+                    <li><strong><u>Flexed</u></strong> This is inverse to Paired. First IN will be considered in the continues INs. Last OUT will be considered in the continues OUTs.</li>
+                  </ul>
+                  <p>Settings Menu <span class="glyphicon glyphicon-cog"></span> :-</p>
+                  <ul>
+                    <li><strong>Pair <span class="glyphicon glyphicon-link"></span></strong>
+                      Either In or OUT will be allowed.</li>
+                    <li><strong>Flex <span class="glyphicon glyphicon-random"></span></strong>
+                      Both IN and OUT options can be used anytime.</li>
+                  </ul>
+                  <p>Buttons :-</p>
+                  <ul>
+                    <li><strong>Settings <span class="glyphicon glyphicon-cog"></span></strong>
+                      Shows settings menu.</li>
+                    <li><strong>List <span class="glyphicon glyphicon-list-alt"></span></strong>
+                      To <u>load entries of particular date or remove a date from the date list</u> which you have already created.
+                      <ul>
+                        <li><strong>Back <span class="glyphicon glyphicon-arrow-left"></span></strong>
+                          To close the date list view and also to cancel the edit date list.</li>
+                        <li><strong>Edit <span class="glyphicon glyphicon-edit"></span></strong>
+                          To <u>remove any particular date or all dates</u> from your checked-in history.</li>
+                      </ul>
+                    </li>
+                    <li><strong>Home <span class="glyphicon glyphicon-home"></span></strong>
+                      To <u>reload today's entries</u> in main view.</li>
+                    <li><strong>Edit <span class="glyphicon glyphicon-edit"></span></strong>
+                      Can be used to <u>any particular entry or all entries</u> for the selected date.</li>
+                  </ul>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default close-help" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
         <!-- <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script> -->
         <!-- <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script> -->
 
-        <script src="js/vendor/jquery-1.12.0.min.js"></script>
-        <script src="js/vendor/bootstrap.min.js"></script>
-        <script src="js/plugins.js"></script>
-        <script src="js/storage.js"></script>
-        <script src="js/utils.js"></script>
-        <script src="js/const.js"></script>
-        <script src="js/main.js"></script>
+        <script src="./js/vendor/jquery-1.12.0.min.js"></script>
+        <script src="./js/vendor/bootstrap.min.js"></script>
+        <script src="./js/vendor/FileSaver.min.js"></script>
+        <script src="./js/plugins.js"></script>
+        <script src="./js/storage.js"></script>
+        <script src="./js/const.js" ></script>
+        <script src="./js/JSONReader.js" ></script>
+        <script src="./js/utils.js"></script>
+        <script src="./js/main.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <!--         <script>

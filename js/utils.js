@@ -8,15 +8,21 @@ myMap.prototype.key = null;
 myMap.prototype.value = null;
 myMap.prototype.idx = null;
 
-function getDate() {
-    var today = new Date();
+var KEY_DATE_ENTRIES = (function(){
+    var date = getDate();
+    return "" + date.y + date.m + date.d + KEY_DAY_ENTRIES;
+})();
+
+function getDate(d) {
+    var date = d && d.getDate && d|| new Date();
     var t = {};
-    t.d = today.getDate();
-    t.m = today.getMonth() + 1;
-    t.y = today.getYear() + 1900;
+    t.d = date.getDate();
+    t.m = date.getMonth() + 1;
+    t.y = date.getYear() + 1900;
 
     t.d = checkTime(t.d);
     t.m = checkTime(t.m);
+    t.now = date;
     return t;
 }
 
@@ -30,6 +36,7 @@ function getTime(a) {
 
     t.mi = mi > 944 ? 0 : Math.round((mi / 100));
 
+    //t.h = checkTime(t.h);
     t.m = checkTime(t.m);
     t.s = checkTime(t.s);
     t.mi = checkTime(t.mi);
@@ -38,8 +45,18 @@ function getTime(a) {
 
 /* add zero in front of numbers < 10 */
 function checkTime(i) {
-    if (i < 10 && i >=0) {
+    if (i < 10 && i >= 0) {
         i = "0" + i;
+    }
+    return i;
+}
+function checkDiffTime(i, milli, noDot) {
+    if(!noDot && i === 0){
+        i = ' . ';
+    } else if (i < 10 && i >= 0) {
+        i = i && ((milli ? "00" : "0") + i);
+    } else if (milli && i < 100 && i >= 10) {
+        i = i && ("0" + i);
     };
     return i;
 }
@@ -71,8 +88,8 @@ function getTimeFromTSDiff(p) {
             }
         }
     }
-    diff.m = checkTime(Math.floor(_p.h)) + ":" + checkTime(Math.floor(_p.m)) + ":" + checkTime(Math.floor(_p.s))
-            + ":" + checkTime(Math.floor(_p.mi));
+    diff.m = checkDiffTime(Math.floor(_p.h), false, true) + ":" + checkDiffTime(Math.floor(_p.m), false, true) + ":" + checkDiffTime(Math.floor(_p.s), false, true);
+    diff.mi = checkDiffTime(Math.floor(_p.mi), true);
     return diff;
 }
 
@@ -86,13 +103,30 @@ function getDiff(a, b) {
 
 /*-----*/
 function getRenderTime(c) {
-    var s = c.separator;
-    var isType12 = c.type == 12 ;
+    var s = c && c.separator;
+    var clockType = c.type === 12 || c.type === 24 ? c.type : 12;
     return {
-        render: function() {
-            var t = getTime();
-            var h = isType12 ?  (t.h % c.type) : t.h;
-            document.getElementById(c.elm_id).innerHTML = "" + h + s + t.m + s + t.s + s + t.mi;
+        render: function(d) {
+            if(c && c.elm_id) {
+                var elm = document.getElementById(c.elm_id);
+                if (elm) {
+                    var time = '';
+                    if (!c.noDate) {
+                        var d = getDate(d);
+                        time = d.d + s + d.m + s + d.y;
+                    }
+                    if (!c.noTime) {
+                        var t = getTime(d);
+                        var h = t.h % clockType;
+                        if (c.type) {
+                            h = h === 0 && c.type || h
+                        }
+                        time +=  c.noDate ? '' : '  '
+                        time +=  h + s + t.m + s + t.s + (c.noMilli ? '' : s + t.mi);
+                    }
+                    elm.innerHTML = time;
+                }
+            }
         }
     }
 };
@@ -113,4 +147,30 @@ function stopTimer() {
         timerAnch = null;
     }
     console.log(timerAnch);
+}
+
+function getDateFormted(date, noTime){
+    date = getDate(date);
+    var time = getTime(date.now);
+    return "" + date.y + date.m + date.d + (noTime ? '' : '_'+checkTime(time.h)+time.m+time.s);
+};
+
+function dataToFileSave(data, fileNamePrefix) {
+    try {
+        var isFileSaverSupported = !!new Blob;
+    } catch (e) {}
+
+    if(isFileSaverSupported && data) {
+        var fileName = 'APP.IN_TIME.DATA.' + (fileNamePrefix || '') + getDateFormted(new Date())+'.json';
+        var blob = new Blob([JSON.stringify(data)], {type: 'text/plain;charset=utf-8'});
+        saveAs(blob, fileName);
+  }
+}
+
+function exportAppData(fileNamePrefix){
+    var data = {};
+    storageHelper.each(function(k){
+        data[k] = storageHelper.get(k);
+    })
+    dataToFileSave(data, fileNamePrefix)
 }
