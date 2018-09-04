@@ -15,8 +15,8 @@ ENTRY_PAIR[ENTRY_IN] = ENTRY_OUT;
 ENTRY_PAIR[ENTRY_OUT] = ENTRY_IN;
 
 var CONTEXT = {};
-CONTEXT[ENTRY_IN] = "success";
-CONTEXT[ENTRY_OUT] = "info";
+CONTEXT[ENTRY_IN] = 'inTimeRow'; //"success";
+CONTEXT[ENTRY_OUT] = 'outTimeRow'; //"info";
 
 
 var KEY_ENTRIES = "entries";
