@@ -61,7 +61,7 @@ function checkDiffTime(i, milli, noDot) {
     return i;
 }
 
-function getTimeFromTSDiff(p) {
+function getTimeFromTSDiff(p, noDot) {
     var diff = {};
     diff.p = p;
     var _p = {
@@ -88,7 +88,7 @@ function getTimeFromTSDiff(p) {
             }
         }
     }
-    diff.m = checkDiffTime(Math.floor(_p.h), false, true) + ":" + checkDiffTime(Math.floor(_p.m), false, true) + ":" + checkDiffTime(Math.floor(_p.s), false, true);
+    diff.m = checkDiffTime(Math.floor(_p.h), false, noDot) + ":" + checkDiffTime(Math.floor(_p.m), false, noDot) + ":" + checkDiffTime(Math.floor(_p.s), false, noDot);
     diff.mi = checkDiffTime(Math.floor(_p.mi), true);
     return diff;
 }
@@ -155,6 +155,24 @@ function getDateFormted(date, noTime){
     return "" + date.y + date.m + date.d + (noTime ? '' : '_'+checkTime(time.h)+time.m+time.s);
 };
 
+function showAlert(config) {
+    var msg = config.msg;
+    if(msg) {
+        var type = config.type;
+        var duration = config.duration;
+        //type = (type && 'alert-' + type);
+        var appAlert = $('div#inTimeAppAlert');
+        appAlert.removeClass('alert-success alert-info  alert-warning  alert-danger');
+        type && appAlert.addClass('alert-' + type);
+        appAlert.show();
+        appAlert.find('span.alertMessage').html(msg)
+        setTimeout(function(){
+            /* appAlert.alert('close') */
+            appAlert.hide();
+        }, duration || 3500)
+    }
+}
+
 function dataToFileSave(data, fileNamePrefix) {
     try {
         var isFileSaverSupported = !!new Blob;
@@ -164,6 +182,9 @@ function dataToFileSave(data, fileNamePrefix) {
         var fileName = 'APP.IN_TIME.DATA.' + (fileNamePrefix || '') + getDateFormted(new Date())+'.json';
         var blob = new Blob([JSON.stringify(data)], {type: 'text/plain;charset=utf-8'});
         saveAs(blob, fileName);
+        showAlert({
+            msg: 'Data exported and saved as "'+fileName+'"'
+        });
   }
 }
 

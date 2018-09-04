@@ -16,7 +16,7 @@ function getLastEntryState(ins) {
         var lastEntry = ins[ins.length-1] ;
         uc_state = lastEntry && lastEntry.key
     }
-    return uc_state; 
+    return uc_state;
 }
 function updateView(ins){
     ins = ins || getEntries();
@@ -29,7 +29,7 @@ function updateView(ins){
 }
 
 /* ENTRY_IN,
-ENTRY_OUT 
+ENTRY_OUT
 (new Date()).getTime());
  new myMap()*/
  /** Add Manual Entry Draft */
@@ -86,7 +86,7 @@ function renderTimes(lbl, val) {
                 //diff = checkTime(t.h - p.h) + ":" + checkTime(t.m - p.m) + ":" + checkTime(t.s - p.s);
             }
             total += a.p;
-            ntotal += (i && (a.key == ENTRY_OUT && ((prv && prv.key == ENTRY_IN) || (prv && prv.key == ENTRY_OUT))) ||  
+            ntotal += (i && (a.key == ENTRY_OUT && ((prv && prv.key == ENTRY_IN) || (prv && prv.key == ENTRY_OUT))) ||
              (a.key == ENTRY_IN && (prv && prv.key == ENTRY_IN) )) ? a.p : 0;
 
             n2total += (i && (a.key == ENTRY_OUT && (prv && prv.key == ENTRY_IN)) ||
@@ -95,9 +95,9 @@ function renderTimes(lbl, val) {
             rows.push('<tr class="'+CONTEXT[a.key]+'"><td>'+time+'</td><td class="time-diff">'+ _diff +'<span class="time-diff-mi"> '+ _diffMi +'</span></td><td class="text-right"><span class="entryStateSingle">'+a.key+'</span><button type="button" data-i="'+i+'" class="btn-remove-entry btn btn-danger btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove-sign"></span></button></td></tr>');
         });
     }
-    var _total = getTimeFromTSDiff(total);
-    var _ntotal = getTimeFromTSDiff(ntotal);
-    var _n2total = getTimeFromTSDiff(n2total);
+    var _total = getTimeFromTSDiff(total, true);
+    var _ntotal = getTimeFromTSDiff(ntotal, true);
+    var _n2total = getTimeFromTSDiff(n2total, true);
 /*     _rows2.push('<tr class="filo-total"><td><strong>FILO</strong></td><td class="time-diff">'+ _total.m +'</td><td class="time-diff-milli">'+total+'</td></tr>');
     _rows2.push('<tr class="actual-total"><td><strong>'+(n2total != ntotal ? 'Paired' : 'In Time' ) + '</strong></td><td class="time-diff"><strong>'+ _n2total.m +'</strong></td><td class="time-diff-milli">'+n2total+'</td></tr>');
     if(n2total != ntotal) {
@@ -174,7 +174,7 @@ $(".btn-clear-entries").on("click", function() {
 $('table#tabletime').off("click");
 $('table#tabletime').on("click", "button.btn-remove-entry",function(e) {
     var i = $(this).data("i");
-    console.log(i);
+    //console.log(i);
     removeEntry(i);
     renderTimes();
 });
@@ -248,6 +248,9 @@ function updateAppWithData_(result, overWrite){
             storageHelper.set(key, result[key]);
         }
     }
+    showAlert({
+        msg: 'Importing data is completed.'
+    });
     app_in_time_init();
 }
 function updateAppWithData(result){
@@ -262,7 +265,7 @@ function updateAppWithData(result){
                 updateAppWithData_(result, overWrite);
             });
             break;
-        } 
+        }
     }
     if(!isValue && i === Object.keys(result).length){
         updateAppWithData_(result, overWrite);
@@ -344,13 +347,13 @@ $('#myDateListModal').on("click", "button.submit", function(e) {
         storageHelper.unset(dateKey);
         console.log(dateKey);
         isDeletedAnything = true;
-        if (dateKey === userCurrentDate) { 
+        if (dateKey === userCurrentDate) {
             userCurrentDate = KEY_DATE_ENTRIES;
-        }  
+        }
     });
     if(isDeletedAnything) {
         updateDateView();
-        renderTimes();    
+        renderTimes();
 /*         var today = isAppDateListEmpty();
         if(today.length === 0){
             $('.menu button.goback').trigger( "click" );
@@ -556,7 +559,7 @@ function day_init() {
 }
 
 function setUserStateText(state){
-    if (state) { 
+    if (state) {
         $('.status-info span.user-state').removeClass('in out').addClass(state.toLowerCase());
         $('.status-info span.user-state').get(0).innerText = state;
     }

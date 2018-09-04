@@ -3,7 +3,7 @@
 .btn.active:focus,
 .btn.focus,
 .btn:active.focus,
-.btn.active.focus {  
+.btn.active.focus {
   outline: 0;
   border:none;
 }
@@ -164,7 +164,8 @@ button#settings {
 
 #tabletimeTotal .actual-total .time-diff strong {
   font-size: 22px;
-  color: black;
+  color: #20aad6;
+  text-shadow: 0px 0px 3px #01d2d2;
 }
 
 /* .filo-total .time-diff,
@@ -206,14 +207,14 @@ td .time-diff-mi {
 .user-state{
   text-shadow: 1px 1px 3px #000000;
 }
-.user-state.in{   
+.user-state.in{
   color: #4ee943;
   font-stretch: extra-expanded;
 }
-.user-state.out{   
+.user-state.out{
   color: #e94343;
 }
-.user-state.in.nocolor, .user-state.out.nocolor{   
+.user-state.in.nocolor, .user-state.out.nocolor{
   color: #97cce6;
   font-stretch: extra-expanded;
 }
@@ -250,7 +251,7 @@ span.checkbox-wrapper input {
 .main-container-wrapper.bg2 {
   /* background-color: #edf8f5; */
   background-color: #eff3f2;
-} 
+}
 
 .entryHeader span{
   font-size: 12px;
@@ -271,4 +272,14 @@ span.checkbox-wrapper input {
 a.toolbar.active.enabled {
   background-color: cadetblue;
   color: white;
+}
+
+div#inTimeAppAlert {
+    display: none;
+    position: fixed;
+    bottom: 5%;
+    width: 95%;
+    margin-left: 3%;
+    background-color: cadetblue;
+    color: white;
 }
