@@ -92,23 +92,16 @@ function renderTimes(lbl, val) {
             n2total += (i && (a.key == ENTRY_OUT && (prv && prv.key == ENTRY_IN)) ||
              (a.key == ENTRY_IN && (prv && prv.key == ENTRY_IN) )) ? a.p : 0;
 
-            rows.push('<tr class="'+CONTEXT[a.key]+'"><td>'+time+'</td><td class="time-diff">'+ _diff +'<span class="time-diff-mi"> '+ _diffMi +'</span></td><td class="text-right"><span class="entryStateSingle">'+a.key+'</span><button type="button" data-i="'+i+'" class="btn-remove-entry btn btn-danger btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove-sign"></span></button></td></tr>');
+            rows.push('<tr class="'+CONTEXT[a.key]+'"><td>'+time+'</td><td class="time-diff">'+ _diff +'<span class="time-diff-mi"> '+ _diffMi +'</span></td><td class="text-right"><span class="entryStateSingle">'+a.key+'</span><button type="button" data-i="'+i+'" class="btn-remove-entry btn btn-default btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove"></span></button></td></tr>');
         });
     }
     var _total = getTimeFromTSDiff(total, true);
     var _ntotal = getTimeFromTSDiff(ntotal, true);
     var _n2total = getTimeFromTSDiff(n2total, true);
-/*     _rows2.push('<tr class="filo-total"><td><strong>FILO</strong></td><td class="time-diff">'+ _total.m +'</td><td class="time-diff-milli">'+total+'</td></tr>');
-    _rows2.push('<tr class="actual-total"><td><strong>'+(n2total != ntotal ? 'Paired' : 'In Time' ) + '</strong></td><td class="time-diff"><strong>'+ _n2total.m +'</strong></td><td class="time-diff-milli">'+n2total+'</td></tr>');
-    if(n2total != ntotal) {
-        _rows2.push('<tr class="office-total"><td><strong>Flexed</strong></td><td class="time-diff"><strong>'+ _ntotal.m +'</strong></td><td class="time-diff-milli">'+ntotal+'</td></tr>');
-    } */
-    _rows2.push('<tr class="filo-total"><td><strong>FILO</strong> Total</td><td class="time-diff"><strong>'+ _total.m +'</strong></td></tr>');
-    _rows2.push('<tr class="actual-total"><td>'+(n2total === ntotal ? 'Total ' : '' )+'<strong>'+(n2total === ntotal ? 'In Time' : 'Paired' ) + '</strong></td><td class="time-diff"><strong>'+ _n2total.m +'</strong></td></tr>');
-    if(n2total != ntotal) {
-        _rows2.push('<tr class="office-total"><td><strong>Flexed</strong></td><td class="time-diff"><strong>'+ _ntotal.m +'</strong></td></tr>');
-    }
-    _rows.push('<tr class="entryHeader"><td><span></span></td><td class="entryHeaderMilli text-align-right"><span>hh:mm:ss milli</span></td><td  class="text-align-right"><span>IN / OUT</span></td></tr>');
+    _rows2.push('<tr class="filo-total"><td><strong>Gross</strong> Total</td><td class="time-diff"><strong>'+ _total.m +'</strong></td></tr>');
+    _rows2.push('<tr class="actual-total"><td colspan="2" class="time-diff"><strong>'+ ( n2total === ntotal ? _n2total.m : _ntotal.m )+'</strong></td></tr>');
+    _rows.push('<tr class="entryHeader"><td></td><td class="entryHeaderMilli text-align-right"><span>hh:mm:ss milli</span></td><td><div class="clear-entries"><button type="button" class="btn btn-link btn-sm  btn-clear-entries"><span>Clear All</span></button></div></td></tr>');
+    /* class="text-align-right"><span>IN / OUT</span> */
     storageHelper.set(userCurrentDate, ins);
     storageHelper.set(KEY_TOTAL_TIME, total);
 
@@ -125,6 +118,12 @@ function renderTimes(lbl, val) {
     updateView(ins);
     setUserStateText(storageHelper.get(KEY_UC_STATE));
     toggleDateListEditIcon(true);
+    $(".btn-clear-entries").off("click");
+    $(".btn-clear-entries").on("click", function() {
+        storageHelper.unset(userCurrentDate);
+        renderTimes();
+        $(".clear-entries").hide();
+    });
 }
 
 var renderTime = getRenderTime({
@@ -162,14 +161,6 @@ function doIn(){
 function doOut(){
     renderTimes(ENTRY_OUT, (new Date()).getTime());
 }
-
-$(".btn-clear-entries").off("click");
-$(".btn-clear-entries").on("click", function() {
-    storageHelper.unset(userCurrentDate);
-    renderTimes();
-    $(".clear-entries").hide();
-});
-
 
 $('table#tabletime').off("click");
 $('table#tabletime').on("click", "button.btn-remove-entry",function(e) {
@@ -282,17 +273,17 @@ $('.setting-app-data').on("click", ".toolbar.app-data-import", function(e) {
     });
 });
 
-$('.menu').off("click");
-$('.menu').on("click", "button.edit.enabled", function(e) {
+$('.toolbar-wraper').off("click");
+$('.toolbar-wraper').on("click", "button.edit.enabled", function(e) {
     var ins = getEntries();
     var isEntries = ins && ins.length;
     if(isEntries) {
-        $('.menu .homeview, .menu .edit').hide();
-        $("body").data("is-edit", true);
+        $('.menu .homeview, .toolbar.edit, .option-swip-wrapper').hide();
+        $("body").addClass("is-edit").data("is-edit", true);
         storageHelper.set(KEY_ENTRIES_UNDO, ins);
         $(".confirm-edit, button.btn-remove-entry").show();
         $(".clear-entries").show();
-        $(this).addClass('active');
+        //$(this).addClass('active');
         $(".option-swip button").addClass('disabled');
         $(".option-swip button").removeClass('enabled');
         $(".last-row").addClass('edit-start');
@@ -312,10 +303,10 @@ $(".confirm-edit").on("click", "button", function(){
         storageHelper.set(userCurrentDate, ins);
         renderTimes();
     }
-    $('.menu .edit').show();
+    $('.toolbar.edit, .option-swip-wrapper').show();
     $(".clear-entries, .confirm-edit, button.btn-remove-entry").hide();
-    $("body").data("is-edit", false);
-    $('.menu button.edit').removeClass('active');
+    $("body").removeClass("is-edit").data("is-edit", false);
+    $('.toolbar.button.edit').removeClass('active');
     $(".option-swip button").removeClass('disabled');
     $(".option-swip button").addClass('enabled');
     $(".tools .toolbar").addClass('enabled');
@@ -372,7 +363,7 @@ $('.tools').on("click", "button.dateList.enabled", function(e) {
 })
 
 function toggleMenu(){
-    $(".mainContent").toggle();
+    $(".mainContent, .option-swip-wrapper").toggle();
     $(".data-list-wrapper").toggle();
     setDateListCheckBox(false);
     $('.homeview').hide();
@@ -383,6 +374,7 @@ function toggleMenu(){
 }
 function toggleHomeView(){
     var isToday = userCurrentDate === KEY_DATE_ENTRIES;
+    $('body').toggleClass('not-today', !isToday);
     $('.homeview').css('display', isToday ? 'none' : 'block');
     $('.option-swip, .setting-mode').css('display', isToday ? 'block' : 'none');
     $('.main-container-wrapper').toggleClass('bg2', !isToday);
