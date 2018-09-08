@@ -243,7 +243,7 @@ td .time-diff-mi {
 
 .user-state{
   text-shadow: 1px 1px 3px #000000;
-  position: absolute;
+  /* position: absolute; */
 }
 .user-state.in{
   color: #4ee943;
@@ -272,10 +272,11 @@ td .time-diff-mi {
 
 }
 span#entryDate {
-    color: burlywood;
+    color: #dcc3a6;
 }
 strong.pull-right {
-  width: 51px;
+    width: 60px;
+    text-align: center;
 }
 span.checkbox-wrapper {
   float: right;

@@ -22,7 +22,7 @@ function updateView(ins){
     ins = ins || getEntries();
     var uc_state = getLastEntryState(ins)
     if(ins.length === 0) {
-        $(".clear-entries").hide();
+        $(".entries-header").hide();
     }
     storageHelper.set(KEY_UC_STATE, uc_state);
     toggleStrictButton($('.option-strict button'), true);
@@ -112,7 +112,7 @@ function renderTimes(lbl, val) {
     if(isEntries) {
         var isEdit = $("body").data("is-edit");
         if(isEdit) {
-            $(".clear-entries, button.btn-remove-entry").show();
+            $(".entries-header, button.btn-remove-entry").show();
         }
     }
     updateView(ins);
