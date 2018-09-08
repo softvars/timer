@@ -5,14 +5,16 @@
 //- Import (skip or replace)
 - improve UI for time difference
 
+- edit button row is missing on fresh start
 - Add input modal. to add a new time entry.
+- Popup to show different times
 
 - App settings
     - to delete/ remove all the app data.
+
 - Add nxt prev buttons to navigate dates (date list will be used for edit)
 - Add help for export import
 
-- Popup to show different times
 -------------------------
 
 ## Affilitated ##
