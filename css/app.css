@@ -138,6 +138,7 @@ button#settings {
     font-size: 20px;
     color: darkcyan;
     border-bottom: 1px solid #eaeaea;
+    background-color: #ffffff;
 }
 .filo-total, .office-total {
     font-size: 17px;
@@ -184,17 +185,22 @@ button#settings {
 }
 
 #tabletimeTotal .actual-total .time-diff strong {
-    font-size: 38px;
+    /*
     font-family: fantasy;
-    color: white;
-    text-shadow: 0 0 7px #08666b;
+    color: #e4effb;
+    text-shadow: 0 0 7px #08666b; */
+    font-size: 38px;
+    font-family: serif;
+    color: #79b2f0;
+    text-shadow: 3px 0px 2px #08666b;
     letter-spacing: 6px;
 }
 
-/* .filo-total .time-diff,
+.filo-total .time-diff,
 .office-total .time-diff strong {
-  color: black;
-} */
+  /* color: black; */
+  font-family: serif;
+}
 
 #tabletimeTotal .time-diff-milli {
   font-size: 11px;
@@ -329,6 +335,10 @@ div#inTimeAppAlert {
 #tabletime {
     margin-bottom: 0;
 }
+/* .actual-total,  */
+#tabletimeTotal {
+    background-color: #e4effb;
+}
 
 #tabletime {
     border-bottom: 1px solid #dedede;
@@ -361,7 +371,7 @@ body.is-edit #tableTimeDiv {
 #tabletimeTotal .filo-total,
 #tabletimeTotal .filo-total td {
     font-size: 12px;
-    padding: 0 6px 0px;
+    padding: 4px 6px 0px;
     border: 0;
 }
 

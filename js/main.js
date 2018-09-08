@@ -124,6 +124,10 @@ function renderTimes(lbl, val) {
         renderTimes();
         $(".clear-entries").hide();
     });
+
+    var tableTimeDiv = document.getElementById('tableTimeDiv');
+    var tableTime = document.getElementById('tabletime');
+    tableTimeDiv.scrollTop = tableTime.offsetHeight
 }
 
 var renderTime = getRenderTime({
