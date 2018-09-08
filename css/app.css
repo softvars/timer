@@ -361,19 +361,19 @@ div#inTimeAppAlert {
 }
 
 #tableTimeDiv {
-    max-height: calc(100vh - 288px);
-    min-height: calc(100vh - 288px);
+    max-height: calc(100vh - 278px);
+    min-height: calc(100vh - 278px);
     overflow-y: auto;
 }
 
 body.not-today #tableTimeDiv {
-    max-height: calc(100vh - 218px);
-    min-height: calc(100vh - 218px);
+    max-height: calc(100vh - 208px);
+    min-height: calc(100vh - 208px);
 }
 
 body.is-edit #tableTimeDiv {
-    max-height: calc(100vh - 276px);
-    min-height: calc(100vh - 276px);
+    max-height: calc(100vh - 266px);
+    min-height: calc(100vh - 266px);
 }
 
 .padding_0 {
@@ -383,7 +383,7 @@ body.is-edit #tableTimeDiv {
 .actual-total td.time-diff {
     text-align: center;
     padding: 0;
-    /* box-shadow: 0px 0px 6px 1px #54b5c587; */
+    box-shadow: 0px 0px 7px -1px #54b5c587;
 }
 #tabletimeTotal .filo-total,
 #tabletimeTotal .filo-total td {
@@ -423,6 +423,9 @@ body.is-edit #tableTimeDiv {
 .entries-edit-wrapper .edit {
     line-height: 19px;
     padding-right: 11px;
+    width: 35px;
+    float: right;
+    cursor: pointer;
 }
 .entries-edit-wrapper .edit span {
     font-size: 16px;
