@@ -83,12 +83,13 @@ button#settings {
 } */
 
 .tabletime-wrapper {
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
 
+.menu-wrapper .alert,
 .status-info .alert {
-  padding: 0;
   /* color: #97cce6; */
+  padding: 0;
   color: #008b8b;
   margin-bottom: 1px;
   font-size: x-large;
@@ -153,6 +154,7 @@ button#settings {
   /* margin-bottom: -2px;
   margin-top: 10px; */
   /* margin-bottom: 7px; */
+  padding-right: 11px;
 }
 .last-row.edit-start {
     margin-bottom: 45px;
@@ -174,6 +176,7 @@ button#settings {
     /* padding: 5px; */
     vertical-align: middle;
     font-size: 15px;
+    border: 0;
 }
 
 .inTimeRow {
@@ -189,11 +192,12 @@ button#settings {
     font-family: fantasy;
     color: #e4effb;
     text-shadow: 0 0 7px #08666b; */
-    font-size: 38px;
+    font-size: 44px;
     font-family: serif;
     color: #79b2f0;
     text-shadow: 3px 0px 2px #08666b;
     letter-spacing: 6px;
+    font-weight: 500;
 }
 
 .filo-total .time-diff,
@@ -239,6 +243,7 @@ td .time-diff-mi {
 
 .user-state{
   text-shadow: 1px 1px 3px #000000;
+  position: absolute;
 }
 .user-state.in{
   color: #4ee943;
@@ -263,6 +268,11 @@ td .time-diff-mi {
   /* background-color: #d6e9ea; */
   /* background-color: #ecf6f7; */
   box-shadow: 0px 0px 8px -2px #97cce6;
+  text-align: right;
+
+}
+span#entryDate {
+    color: burlywood;
 }
 strong.pull-right {
   width: 51px;
@@ -289,6 +299,9 @@ span.checkbox-wrapper input {
   background-color: #eff3f2;
 }
 
+.entryHeader{
+  text-align: right;
+}
 .entryHeader span{
   font-size: 12px;
 }
@@ -298,9 +311,11 @@ span.checkbox-wrapper input {
 }
 
 .table>tbody>tr.entryHeader>td {
-  padding: 1px 6px 1px 0;
+  padding: 1px 6px 2px 0;
   color: #cebda6;
   font-weight: bold;
+  min-width: 102px;
+  border-top: 0;
 }
 .main-container-wrapper.bg2 .table>tbody>tr.entryHeader>td {
   color: #c3ae92;
@@ -366,6 +381,7 @@ body.is-edit #tableTimeDiv {
 
 .actual-total td.time-diff {
     text-align: center;
+    padding: 0;
     /* box-shadow: 0px 0px 6px 1px #54b5c587; */
 }
 #tabletimeTotal .filo-total,
@@ -377,10 +393,11 @@ body.is-edit #tableTimeDiv {
 
 .btn-clear-entries:hover {
     text-decoration: none;
+    color: #a00f0f
 }
 .btn-clear-entries {
-    float: right;
-    color: #a00f0f;
+    /* float: right; */
+    color: #ce7777;
     font-size: 13px;
     text-decoration: none;
     font-weight: 800;
@@ -392,7 +409,22 @@ body.is-edit #tableTimeDiv {
     padding: 0;
     text-align: left;
 }
-
 #tabletime td.text-right {
     width: 102px;
+}
+.entries-header {
+    margin: 0;
+    border-bottom: 1px solid #eaeaea;
+}
+.edit-entries {
+    text-align: right;
+}
+.entries-edit-wrapper .edit {
+    line-height: 19px;
+    padding-right: 11px;
+}
+.entries-edit-wrapper .edit span {
+    font-size: 16px;
+    color: #337ab7;
+    margin-bottom: 3px;
 }

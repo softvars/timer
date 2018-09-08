@@ -3,14 +3,16 @@
 //- flex pair menu ui : high light selected mode
 //- Export
 //- Import (skip or replace)
-- improve UI for time difference 
+- improve UI for time difference
 
 - Add input modal. to add a new time entry.
 
-- App settings 
+- App settings
     - to delete/ remove all the app data.
 - Add nxt prev buttons to navigate dates (date list will be used for edit)
 - Add help for export import
+
+- Popup to show different times
 -------------------------
 
 ## Affilitated ##

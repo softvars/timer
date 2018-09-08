@@ -40,6 +40,9 @@
                 <div class="col-xs-12 col-md-10 col-md-offset-1">
                     <div class="row toolbar-wraper">
                       <div class="col-xs-4 text-left menu-wrapper">
+                        <div class="alert" role="alert">
+                            <strong><span class="user-state out">OUT</span></strong>
+                        </div>
                         <div class="btn-group menu" role="group" aria-label="...">
                           <button type="button" id="homeview" class="btn btn-default toolbar homeview enabled">
                             <span class="glyphicon glyphicon-home"></span>
@@ -51,9 +54,9 @@
                       </div>
                       <div class="col-xs-8 text-right tools-wrapper">
                         <div class="btn-group tools" role="group" aria-label="...">
-                          <button type="button" id="edit" class="btn btn-default toolbar edit enabled">
+                          <!-- <button type="button" id="edit" class="btn btn-default toolbar edit enabled">
                               <span class="glyphicon glyphicon-edit"></span>
-                          </button>
+                          </button> -->
                           <button type="button" id="dateList" class="btn btn-default toolbar dateList enabled">
                               <a href="#list" class="toolbar"><span class="glyphicon glyphicon-list-alt"></span></a>
                           </button>
@@ -105,8 +108,8 @@
                       <div class="row status-info text-center">
                         <div class="col-xs-12 status-info-bar">
                           <div class="alert clearfix" role="alert">
-                            <strong class="pull-left"><span id="entryDate"></span></strong>
-                            <strong class="pull-right"><span class="user-state out">OUT</span></strong>
+                            <strong class=""><span id="entryDate"></span></strong>
+                            <!-- <strong class="pull-right"><span class="user-state out">OUT</span></strong> -->
                           </div>
                         </div>
                       </div>
@@ -117,9 +120,32 @@
                                   <tr class="success"></tr>
                                 </table>
                             </div>
+                            <div class="row">
+                                <table class="table entries-header">
+                                    <tr class="entryHeader">
+                                        <td></td>
+                                        <td class="entryHeaderMilli text-align-right">
+                                            <span>hh:mm:ss milli</span>
+                                        </td>
+                                        <td class="edit-entries">
+                                            <div class="entries-edit-wrapper">
+                                                <!-- <button type="button" id="edit" class="btn btn-default toolbar edit enabled"> -->
+                                                <div id="edit" class="toolbar edit enabled">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                </div>
+                                            </div>
+                                            <div class="clear-entries">
+                                                <button type="button" class="btn btn-link btn-sm  btn-clear-entries">
+                                                    <span>Delete All</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                             <div class="row" id="tableTimeDiv">
                                 <table class="table" id="tabletime">
-                                <tr class="success"></tr>
+                                    <tr class="success"></tr>
                                 </table>
                             </div>
                         </div>

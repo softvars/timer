@@ -98,16 +98,16 @@ function renderTimes(lbl, val) {
     var _total = getTimeFromTSDiff(total, true);
     var _ntotal = getTimeFromTSDiff(ntotal, true);
     var _n2total = getTimeFromTSDiff(n2total, true);
-    _rows2.push('<tr class="filo-total"><td><strong>Gross</strong> Total</td><td class="time-diff"><strong>'+ _total.m +'</strong></td></tr>');
+    /* _rows2.push('<tr class="filo-total"><td><strong>Gross</strong> Total</td><td class="time-diff"><strong>'+ _total.m +'</strong></td></tr>'); */
     _rows2.push('<tr class="actual-total"><td colspan="2" class="time-diff"><strong>'+ ( n2total === ntotal ? _n2total.m : _ntotal.m )+'</strong></td></tr>');
-    _rows.push('<tr class="entryHeader"><td></td><td class="entryHeaderMilli text-align-right"><span>hh:mm:ss milli</span></td><td><div class="clear-entries"><button type="button" class="btn btn-link btn-sm  btn-clear-entries"><span>Clear All</span></button></div></td></tr>');
+    /* _rows.push('<tr class="entryHeader"><td></td><td class="entryHeaderMilli text-align-right"><span>hh:mm:ss milli</span></td><td><div class="clear-entries"><button type="button" class="btn btn-link btn-sm  btn-clear-entries"><span>Clear All</span></button></div></td></tr>'); */
     /* class="text-align-right"><span>IN / OUT</span> */
     storageHelper.set(userCurrentDate, ins);
     storageHelper.set(KEY_TOTAL_TIME, total);
 
     var htmlStrTotal = _rows2.join('');
     $('#tabletimeTotal').html(htmlStrTotal);
-    var htmlStr = _rows.join('') + rows.join('');
+    var htmlStr = /* _rows.join('') +  */rows.join('');
     $('#tabletime').html(htmlStr);
     if(isEntries) {
         var isEdit = $("body").data("is-edit");
@@ -127,7 +127,7 @@ function renderTimes(lbl, val) {
 
     var tableTimeDiv = document.getElementById('tableTimeDiv');
     var tableTime = document.getElementById('tabletime');
-    tableTimeDiv.scrollTop = tableTime.offsetHeight
+    tableTimeDiv.scrollTop = tableTime.offsetHeight;
 }
 
 var renderTime = getRenderTime({
@@ -277,8 +277,8 @@ $('.setting-app-data').on("click", ".toolbar.app-data-import", function(e) {
     });
 });
 
-$('.toolbar-wraper').off("click");
-$('.toolbar-wraper').on("click", "button.edit.enabled", function(e) {
+$('.entries-edit-wrapper').off("click");
+$('.entries-edit-wrapper').on("click", ".edit.enabled", function(e) {
     var ins = getEntries();
     var isEntries = ins && ins.length;
     if(isEntries) {
@@ -310,7 +310,7 @@ $(".confirm-edit").on("click", "button", function(){
     $('.toolbar.edit, .option-swip-wrapper').show();
     $(".clear-entries, .confirm-edit, button.btn-remove-entry").hide();
     $("body").removeClass("is-edit").data("is-edit", false);
-    $('.toolbar.button.edit').removeClass('active');
+    $('.toolbar.edit').removeClass('active');
     $(".option-swip button").removeClass('disabled');
     $(".option-swip button").addClass('enabled');
     $(".tools .toolbar").addClass('enabled');
@@ -372,7 +372,7 @@ function toggleMenu(){
     setDateListCheckBox(false);
     $('.homeview').hide();
     $('.main-container-wrapper').removeClass('bg2');
-    $('.status-info .user-state').removeClass('nocolor');
+    $('span.user-state').removeClass('nocolor');
     $('.toolbar.edit, .toolbar.dateList, .toolbar.goback, .toolbar.edit-list, .toolbar.dropdown-toggle').toggle();
     //toggleDateListEditIcon();
 }
@@ -383,7 +383,7 @@ function toggleHomeView(){
     $('.option-swip, .setting-mode').css('display', isToday ? 'block' : 'none');
     $('.main-container-wrapper').toggleClass('bg2', !isToday);
     $('.main-container-wrapper').toggleClass('bg2', !isToday);
-    $('.status-info .user-state').toggleClass('nocolor', !isToday);
+    $('span.user-state').toggleClass('nocolor', !isToday);
     toggleDateListEditIcon(true);
     var mode = storageHelper.get(KEY_UC_SETTINGS_MODE);
     if (mode === MODE_FLEX) {
@@ -556,8 +556,8 @@ function day_init() {
 
 function setUserStateText(state){
     if (state) {
-        $('.status-info span.user-state').removeClass('in out').addClass(state.toLowerCase());
-        $('.status-info span.user-state').get(0).innerText = state;
+        $('span.user-state').removeClass('in out').addClass(state.toLowerCase());
+        $('span.user-state').get(0).innerText = state;
     }
 }
 
