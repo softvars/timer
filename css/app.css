@@ -148,7 +148,8 @@ button#settings {
 }
 
 .clear-entries, .confirm-edit, button.btn-remove-entry {
-  display:none
+  display:none;
+  margin-right: 3px;
 }
 .clear-entries{
   /* margin-bottom: -2px;
@@ -420,14 +421,16 @@ body.is-edit #tableTimeDiv {
 .edit-entries {
     text-align: right;
 }
-.entries-edit-wrapper .edit {
+.entries-edit-wrapper .edit,
+.entries-edit-wrapper .add {
     line-height: 19px;
     padding-right: 11px;
     width: 35px;
     float: right;
     cursor: pointer;
 }
-.entries-edit-wrapper .edit span {
+.entries-edit-wrapper .edit span,
+.entries-edit-wrapper .add span {
     font-size: 16px;
     color: #337ab7;
     margin-bottom: 3px;

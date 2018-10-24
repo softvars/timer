@@ -110,6 +110,7 @@ function renderTimes(lbl, val) {
     var htmlStr = /* _rows.join('') +  */rows.join('');
     $('#tabletime').html(htmlStr);
     if(isEntries) {
+        $('.entries-header').show();
         var isEdit = $("body").data("is-edit");
         if(isEdit) {
             $(".entries-header, button.btn-remove-entry").show();
@@ -282,7 +283,7 @@ $('.entries-edit-wrapper').on("click", ".edit.enabled", function(e) {
     var ins = getEntries();
     var isEntries = ins && ins.length;
     if(isEntries) {
-        $('.menu .homeview, .toolbar.edit, .option-swip-wrapper').hide();
+        $('.menu .homeview, .toolbar.edit, .toolbar.add, .option-swip-wrapper').hide();
         $("body").addClass("is-edit").data("is-edit", true);
         storageHelper.set(KEY_ENTRIES_UNDO, ins);
         $(".confirm-edit, button.btn-remove-entry").show();
@@ -307,7 +308,7 @@ $(".confirm-edit").on("click", "button", function(){
         storageHelper.set(userCurrentDate, ins);
         renderTimes();
     }
-    $('.toolbar.edit, .option-swip-wrapper').show();
+    $('.toolbar.edit, .toolbar.add, .option-swip-wrapper').show();
     $(".clear-entries, .confirm-edit, button.btn-remove-entry").hide();
     $("body").removeClass("is-edit").data("is-edit", false);
     $('.toolbar.edit').removeClass('active');
@@ -373,7 +374,7 @@ function toggleMenu(){
     $('.homeview').hide();
     $('.main-container-wrapper').removeClass('bg2');
     $('span.user-state').removeClass('nocolor');
-    $('.toolbar.edit, .toolbar.dateList, .toolbar.goback, .toolbar.edit-list, .toolbar.dropdown-toggle').toggle();
+    $('.toolbar.edit,.toolbar.add, .toolbar.dateList, .toolbar.goback, .toolbar.edit-list, .toolbar.dropdown-toggle').toggle();
     //toggleDateListEditIcon();
 }
 function toggleHomeView(){
@@ -415,11 +416,11 @@ function toggleDateListEditIcon(isHome){
     var today = isAppDateListEmpty();
     if (today) {
         if (today.length === 0) {
-            $(".toolbar.edit, .toolbar.edit-list, .tools button.dateList, .entryHeader").hide();
+            $(".toolbar.edit, .toolbar.add, .toolbar.edit-list, .tools button.dateList, .entryHeader").hide();
         } else {
             $(".tools button.dateList, .entryHeader").show();
             !isHome && $(".toolbar.edit-list").show();
-            isHome && $(".toolbar.edit").show();
+            isHome && $(".toolbar.edit, .toolbar.add").show();
         }
         renderDateListModal();
     }

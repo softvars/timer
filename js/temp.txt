@@ -5,11 +5,11 @@
 //- Import (skip or replace)
 - improve UI for time difference
 
-- edit button row is missing on fresh start
+//- edit button row is missing on fresh start
 
-- Popup to show different times details
-- Time can be run if its in IN state upon user click.
 - Add input modal. to add a new time entry.
+- Time can be run if its in IN state upon user click.
+- Popup to show different times details
 
 - App settings
     - to delete/ remove all the app data.

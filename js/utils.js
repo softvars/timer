@@ -195,3 +195,14 @@ function exportAppData(fileNamePrefix){
     })
     dataToFileSave(data, fileNamePrefix)
 }
+
+function dateCompareAsc(o1, o2) {
+    return dateFns.compareAsc(new Date(o1.value), new Date(o2.value));
+}
+
+function sortObjectByDate(list) {
+    if(list && dateFns) {
+        list = list.sort(dateCompareAsc);
+    }
+    return list;
+}

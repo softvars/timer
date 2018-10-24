@@ -133,6 +133,9 @@
                                                 <div id="edit" class="toolbar edit enabled">
                                                     <span class="glyphicon glyphicon-edit"></span>
                                                 </div>
+                                                <div id="addEntry" class="toolbar add enabled">
+                                                    <span class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#newDateEntryModal"></span>
+                                                </div>
                                             </div>
                                             <div class="clear-entries">
                                                 <button type="button" class="btn btn-link btn-sm  btn-clear-entries">
@@ -199,6 +202,38 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <!-- Modal for new date entry  -->
+        <div class="modal fade" id="newDateEntryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title text-center" id="newDateEntryModalLabel">
+                    <!-- <span class="glyphicon glyphicon-alert"></span> -->
+                     New Entry </h4>
+                </div>
+                <div class="modal-body">
+                  <p>Provide Time and In/Out state. </p>
+                  <div>
+                      <span>
+                          <label for="addNewTime">Time:</label>
+                          <input required id="addNewTime" class="addNewTime" type="time" name="addNewTime" placeholder="time" />
+                       </span>
+                      <span>
+                          <select required class="addNewTime state" placeholder="time" name="addNewTimeSate">
+                              <option value="In">In</option>
+                              <option value="Out">Out</option>
+                          </select>
+                      </span>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-danger submit">Confirm</button>
+                </div>
+              </div>
             </div>
         </div>
         <!-- Modal Confirm Delete -->
@@ -301,6 +336,7 @@
         <script src="./js/vendor/jquery-1.12.0.min.js"></script>
         <script src="./js/vendor/bootstrap.min.js"></script>
         <script src="./js/vendor/FileSaver.min.js"></script>
+        <script src="./js/vendor/date_fns.v1.29.0.min.js"></script>
         <script src="./js/plugins.js"></script>
         <script src="./js/storage.js"></script>
         <script src="./js/const.js" ></script>
