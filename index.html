@@ -158,14 +158,14 @@
                       <ul class="date-list-group nav nav-pills nav-stacked"></ul>
                     </div>
                     <div class="row confirm-edit">
-                      <div class="col-xs-5 col-xs-offset-1 text-right cancel-edit">
-                        <button type="button" class="btn btn-info btn-block btn-cancel-edit">
-                            <span>Cancel</span>
-                        </button>
-                      </div>
                       <div class="col-xs-5 text-left done-edit">
                         <button type="button" class="btn btn-info  btn-block btn-done-edit">
                            <span>Save</span>
+                        </button>
+                      </div>
+                      <div class="col-xs-5 col-xs-offset-1 text-right cancel-edit">
+                        <button type="button" class="btn btn-default btn-block btn-cancel-edit">
+                            <span>Cancel</span>
                         </button>
                       </div>
                     </div>
@@ -215,16 +215,18 @@
                      New Entry </h4>
                 </div>
                 <div class="modal-body">
-                  <p>Provide Time and In/Out state. </p>
-                  <div>
-                      <span>
+                  <p>Provide details for Time & In/Out state </p>
+                  <div class="timeInputWrapper">
+                      <span class="addNewTimeInput">
                           <label for="addNewTime">Time:</label>
-                          <input required id="addNewTime" class="addNewTime" type="time" name="addNewTime" placeholder="time" />
+                          <input required id="addNewTime" class="addNewTime" type="time"
+                                 name="addNewTime" placeholder="time" step="2"
+                                 pattern="[0-9]{2}:[0-9]{2}" />
                        </span>
                       <span>
-                          <select required class="addNewTime state" placeholder="time" name="addNewTimeSate">
-                              <option value="In">In</option>
-                              <option value="Out">Out</option>
+                          <select required id="addNewTimeState" class="addNewTime state" placeholder="time" name="addNewTimeSate">
+                              <option value="IN">In</option>
+                              <option value="OUT">Out</option>
                           </select>
                       </span>
                   </div>

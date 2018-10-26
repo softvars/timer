@@ -160,11 +160,11 @@ var renderDate = getRenderTime({
 });
 
 function doIn(){
-    renderTimes(ENTRY_IN, (new Date()).getTime());
+    renderTimes(ENTRY_IN, Date.now() /* (new Date()).getTime() */);
 }
 
 function doOut(){
-    renderTimes(ENTRY_OUT, (new Date()).getTime());
+    renderTimes(ENTRY_OUT, Date.now() /* (new Date()).getTime() */);
 }
 
 $('table#tabletime').off("click");
@@ -224,6 +224,38 @@ $('#myDataImportModal').on("click", "button.submit, button.cancel", function(e) 
     var callback = $('#myDataImportModal').data('callback');
     callback($this.hasClass("submit"));
     $('#myDataImportModal').modal('hide');
+});
+
+
+$('#newDateEntryModal').off("click");
+$('#newDateEntryModal').on("click", "button.submit", function(e) {
+    //var $this = $(this);
+    var addNewTime = $('#addNewTime').val(); /* "hh:mm:ss" */
+    var addNewTimeState = $('#addNewTimeState').val(); /**/
+    if(addNewTime) {
+        var currDate = null;
+        var ins = getEntries();
+        if (ins.length > 0) {
+            var lastEntry = ins[ins.length-1] ;
+            currDate = lastEntry && lastEntry.value
+        }
+        currDate = currDate && new Date(currDate) || new Date();
+        currDate.setMilliseconds(0);
+        var timeDiff = addNewTime.split(':')
+        if (timeDiff.length > 1) {
+            timeDiff[0] = parseInt(timeDiff[0])
+            timeDiff[0] && currDate.setHours(timeDiff[0]);
+            timeDiff[1] = parseInt(timeDiff[1])
+            timeDiff[1] && currDate.setMinutes(timeDiff[1]);
+            timeDiff[2] = parseInt(timeDiff[2])
+            timeDiff[2] && currDate.setSeconds(timeDiff[2]);
+        }
+        ins = sortObjectByDate(ins);
+        storageHelper.set(userCurrentDate, ins);
+        renderTimes(addNewTimeState, currDate.getTime());
+    }
+    console.log(`${addNewTime}:${addNewTimeState}`)
+    $('#newDateEntryModal').modal('hide');
 });
 
 function confirmOverWrite(callback) {
@@ -308,7 +340,7 @@ $(".confirm-edit").on("click", "button", function(){
         storageHelper.set(userCurrentDate, ins);
         renderTimes();
     }
-    $('.toolbar.edit, .toolbar.add, .option-swip-wrapper').show();
+    $('.toolbar.edit, .toolbar.add, .   option-swip-wrapper').show();
     $(".clear-entries, .confirm-edit, button.btn-remove-entry").hide();
     $("body").removeClass("is-edit").data("is-edit", false);
     $('.toolbar.edit').removeClass('active');

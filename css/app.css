@@ -435,3 +435,36 @@ body.is-edit #tableTimeDiv {
     color: #337ab7;
     margin-bottom: 3px;
 }
+.btn-done-edit {
+    background-color: #ce2d22;
+    border-color: #da4646;
+}
+
+#newDateEntryModal .timeInputWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#newDateEntryModal .addNewTimeInput{
+    margin-right: 10px;
+}
+#newDateEntryModal select,
+#newDateEntryModal select option {
+    font-size: 16px;
+    font-weight: 600;
+}
+#newDateEntryModal .addNewTime.state{
+    line-height: 26px;
+    height: 26px;
+    margin-left: 10px;
+    margin-bottom: 2px;
+}
+#newDateEntryModal input,
+#newDateEntryModal select {
+    outline: 0;
+    border:none;
+}
+#newDateEntryModal input {
+    caret-color: red;
+    font: 16px "Helvetica", "Arial", "sans-serif";
+}
