@@ -52,7 +52,7 @@ a:active {
 }
 
 button#settings {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 .toolbar span {
   font-size: large;
@@ -166,7 +166,7 @@ button#settings {
     background-color: rgba(34, 34, 28, 0.67); */
     position: fixed;
     /* padding: 7px 0 11px; */
-    padding: 14px 0 15px;
+    padding: 12px 0 13px;
     bottom: 0;
     width: 100%;
     background-color: white;
@@ -199,12 +199,19 @@ button#settings {
     text-shadow: 3px 0px 2px #08666b;
     letter-spacing: 6px;
     font-weight: 500;
+
 }
 
 .filo-total .time-diff,
 .office-total .time-diff strong {
   /* color: black; */
   font-family: serif;
+  text-align: left;
+}
+.filo-total-gross,
+.filo-total-actual {
+  text-align: right;
+  color: #cebda6;
 }
 
 #tabletimeTotal .time-diff-milli {
@@ -247,7 +254,8 @@ td .time-diff-mi {
   /* position: absolute; */
 }
 .user-state.in{
-  color: #4ee943;
+  /* color: #4ee943; */
+  color: #ffffff;
   font-stretch: extra-expanded;
 }
 .user-state.out{
@@ -273,7 +281,9 @@ td .time-diff-mi {
 
 }
 span#entryDate {
-    color: #dcc3a6;
+    /* color: #dcc3a6; */
+    color: #ffffff;
+    text-shadow: 0px 1px 4px #737373;
 }
 strong.pull-right {
     width: 60px;
@@ -308,8 +318,21 @@ span.checkbox-wrapper input {
   font-size: 12px;
 }
 
-.entryHeader .text-align-right{
+.text-align-right{
   text-align: right;
+}
+.repeat-icon {
+    font-size: 21px;
+    line-height: 30px;
+    cursor: pointer;
+    color: #7eb4e4;
+    margin-left: 5px;
+    margin-top: 1px;
+    text-shadow: 0px 1px 1px #737373;
+}
+
+.repeat-icon.hiddenIcon {
+    visibility: hidden;
 }
 
 .table>tbody>tr.entryHeader>td {
@@ -318,6 +341,9 @@ span.checkbox-wrapper input {
   font-weight: bold;
   min-width: 102px;
   border-top: 0;
+}
+.table>tbody>tr.entryHeader>td.entryHeaderMilli {
+  padding: 1px 0px 2px 0;
 }
 .main-container-wrapper.bg2 .table>tbody>tr.entryHeader>td {
   color: #c3ae92;
@@ -341,7 +367,7 @@ div#inTimeAppAlert {
     position: fixed;
     bottom: 0;
     /* width: 100%; */
-    padding: 9px 0 10px;
+    padding: 8px 0 9px;
     /* background-color: #4e2639; */
     background-color: #e4effb;
     /* box-shadow: 1px 5px 18px #3F51B5; */
@@ -362,19 +388,19 @@ div#inTimeAppAlert {
 }
 
 #tableTimeDiv {
-    max-height: calc(100vh - 278px);
-    min-height: calc(100vh - 278px);
+    max-height: calc(100vh - 284px);
+    min-height: calc(100vh - 284px);
     overflow-y: auto;
 }
 
 body.not-today #tableTimeDiv {
-    max-height: calc(100vh - 208px);
-    min-height: calc(100vh - 208px);
+    max-height: calc(100vh - 218px);
+    min-height: calc(100vh - 218px);
 }
 
 body.is-edit #tableTimeDiv {
-    max-height: calc(100vh - 266px);
-    min-height: calc(100vh - 266px);
+    max-height: calc(100vh - 283px);
+    min-height: calc(100vh - 283px);
 }
 
 .padding_0 {
@@ -435,10 +461,10 @@ body.is-edit #tableTimeDiv {
     color: #337ab7;
     margin-bottom: 3px;
 }
-.btn-done-edit {
+/* .btn-done-edit {
     background-color: #ce2d22;
     border-color: #da4646;
-}
+} */
 
 #newDateEntryModal .timeInputWrapper{
     display: flex;

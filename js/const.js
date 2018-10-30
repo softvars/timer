@@ -26,3 +26,5 @@ var KEY_UC_STATE = "User_Curr_State";
 var KEY_UC_DATE = "User_Curr_Date";
 var KEY_UC_SETTINGS_MODE = "User_Curr_Swip_Mode";
 var KEY_DAY_ENTRIES = "_TimeEntries";
+
+var KEY_ENTRIES_TOTALS = "entries_totals";

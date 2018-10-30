@@ -131,22 +131,20 @@ function getRenderTime(c) {
     }
 };
 
-var timerAnch;
+//var timerAnch;
 function startTimer(conf) {
-    console.log(timerAnch);
-    if(!timerAnch) {
-        timerAnch = setInterval(conf.fn.render, conf.interval);
-        console.log("::" + timerAnch);
-    }
+    conf.anch = setInterval(conf.fn.render, conf.interval);
+    console.log("startTimer::" + conf.anch);
+    return conf;
 }
 
-function stopTimer() {
-    if(timerAnch) {
-        console.log("::" + timerAnch);
-        clearInterval(timerAnch);
-        timerAnch = null;
+function stopTimer(conf) {
+    if(conf && conf.anch) {
+        var anch = conf.anch;
+        console.log("startTimer::" + anch);
+        conf.anch = clearInterval(anch);
     }
-    console.log(timerAnch);
+    return conf;
 }
 
 function getDateFormted(date, noTime){

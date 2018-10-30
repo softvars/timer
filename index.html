@@ -131,7 +131,7 @@
                                             <div class="entries-edit-wrapper">
                                                 <!-- <button type="button" id="edit" class="btn btn-default toolbar edit enabled"> -->
                                                 <div id="edit" class="toolbar edit enabled">
-                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                    <span class="glyphicon glyphicon-trash"></span>
                                                 </div>
                                                 <div id="addEntry" class="toolbar add enabled">
                                                     <span class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#newDateEntryModal"></span>
@@ -158,14 +158,14 @@
                       <ul class="date-list-group nav nav-pills nav-stacked"></ul>
                     </div>
                     <div class="row confirm-edit">
-                      <div class="col-xs-5 text-left done-edit">
-                        <button type="button" class="btn btn-info  btn-block btn-done-edit">
-                           <span>Save</span>
-                        </button>
-                      </div>
                       <div class="col-xs-5 col-xs-offset-1 text-right cancel-edit">
                         <button type="button" class="btn btn-default btn-block btn-cancel-edit">
                             <span>Cancel</span>
+                        </button>
+                      </div>
+                      <div class="col-xs-5 text-left done-edit">
+                        <button type="button" class="btn btn-info  btn-block btn-done-edit">
+                           <span>Save</span>
                         </button>
                       </div>
                     </div>
@@ -175,7 +175,7 @@
                     <div class="row option-swip-wrapper">
                         <div class="col-xs-12 col-md-10  option-swip option-strict">
                             <div class="col-xs-offset-2 col-xs-8">
-                                <button type="button" class="btn btn-primary btn-lg btn-block enabled swip-in-out">
+                                <button type="button" class="btn btn-primary btn-block enabled swip-in-out">
                                         <span class=""> Swip </span>
                                         <span class="ti-btn-lbl">IN</span>
                                         <span class="glyphicon glyphicon-plus-sign ti-plus-sign"></span>
@@ -185,14 +185,14 @@
                         <div class="col-xs-12 col-md-10 option-swip option-flex">
                             <div class="col-xs-12">
                                 <div class="col-xs-6">
-                                <button type="button" class="btn btn-primary btn-lg btn-block enabled swip-in">
+                                <button type="button" class="btn btn-primary btn-block enabled swip-in">
                                     <span> Swip </span>
                                     <span class="ti-btn-lbl">IN</span>
                                     <span class="glyphicon glyphicon-plus-sign ti-plus-sign"></span>
                                 </button>
                                 </div>
                                 <div class="col-xs-6">
-                                <button type="button" class="btn btn-warning btn-lg btn-block enabled swip-out">
+                                <button type="button" class="btn btn-warning btn-block enabled swip-out">
                                         <span> Swip </span>
                                         <span class="ti-btn-lbl">OUT</span>
                                         <span class="glyphicon glyphicon-plus-sign ti-plus-sign"></span>
@@ -317,8 +317,8 @@
                     </li>
                     <li><strong>Home <span class="glyphicon glyphicon-home"></span></strong>
                       To <u>reload today's entries</u> in main view.</li>
-                    <li><strong>Edit <span class="glyphicon glyphicon-edit"></span></strong>
-                      Can be used to <u>any particular entry or all entries</u> for the selected date.</li>
+                    <li><strong>Delete <span class="glyphicon glyphicon-trash"></span></strong>
+                      Can be used to <u> remove any particular entry or all entries</u>.</li>
                   </ul>
                 </div>
                 <div class="modal-footer">

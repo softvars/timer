@@ -59,10 +59,15 @@ function removeEntry(i) {
 	}
     return ins;
 }
+var reRenderTotal_Conf = {
+    interval : 1000,
+    fn: { render: reRenderTotal }
+};
 
 function renderTimes(lbl, val) {
     var rows = [], _rows = [], _rows2 = [];
     var ins = createEntry(lbl, val);
+    ins = sortObjectByDate(ins);
     var isEntries = ins && ins.length;
     var total = 0, ntotal =0, n2total=0;
     if(isEntries) {
@@ -75,7 +80,7 @@ function renderTimes(lbl, val) {
             a.p  = a.p || 0;
             var _diff = a.m || "00", prv = arr[i-1];
             var _diffMi = a.mi || "000";
-            if(!(a.m)) {
+            /* if(!(a.m)) { */
                 if(prv){
                     var diff = getDiff(a, prv);
                     a.p = diff.p;
@@ -84,22 +89,24 @@ function renderTimes(lbl, val) {
                     arr[i] = a;
                 }
                 //diff = checkTime(t.h - p.h) + ":" + checkTime(t.m - p.m) + ":" + checkTime(t.s - p.s);
-            }
+            /* } */
             total += a.p;
             ntotal += (i && (a.key == ENTRY_OUT && ((prv && prv.key == ENTRY_IN) || (prv && prv.key == ENTRY_OUT))) ||
              (a.key == ENTRY_IN && (prv && prv.key == ENTRY_IN) )) ? a.p : 0;
+            n2total += (i && (a.key == ENTRY_OUT && (prv && prv.key == ENTRY_IN))) ? a.p : 0;
 
-            n2total += (i && (a.key == ENTRY_OUT && (prv && prv.key == ENTRY_IN)) ||
-             (a.key == ENTRY_IN && (prv && prv.key == ENTRY_IN) )) ? a.p : 0;
+            storageHelper.set(KEY_ENTRIES_TOTALS, {total: total, ntotal: ntotal, n2total: n2total});
 
-            rows.push('<tr class="'+CONTEXT[a.key]+'"><td>'+time+'</td><td class="time-diff">'+ _diff +'<span class="time-diff-mi"> '+ _diffMi +'</span></td><td class="text-right"><span class="entryStateSingle">'+a.key+'</span><button type="button" data-i="'+i+'" class="btn-remove-entry btn btn-default btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove"></span></button></td></tr>');
+            rows.push('<tr class="'+CONTEXT[a.key]+'"><td class="text-align-right">'+time+'</td><td class="time-diff">'+ _diff +'<span class="time-diff-mi"> '+ _diffMi +'</span></td><td class="text-right"><span class="entryStateSingle">'+a.key+'</span><button type="button" data-i="'+i+'" class="btn-remove-entry btn btn-default btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove"></span></button></td></tr>');
         });
     }
+
     var _total = getTimeFromTSDiff(total, true);
     var _ntotal = getTimeFromTSDiff(ntotal, true);
     var _n2total = getTimeFromTSDiff(n2total, true);
-    /* _rows2.push('<tr class="filo-total"><td><strong>Gross</strong> Total</td><td class="time-diff"><strong>'+ _total.m +'</strong></td></tr>'); */
-    _rows2.push('<tr class="actual-total"><td colspan="2" class="time-diff"><strong>'+ ( n2total === ntotal ? _n2total.m : _ntotal.m )+'</strong></td></tr>');
+    //_rows2.push('<tr class="filo-total"><td><strong>Gross</strong></td><td class="time-diff"><strong>'+ _total.m +'</strong></td></tr>');
+    _rows2.push('<tr class="filo-total"><td class="filo-total-gross"><strong>Gross</strong></td><td class="time-diff"><strong class="time-diff-gross">'+ _total.m +'</strong></td><td class="filo-total-actual"><strong>Actual</strong></td><td class="time-diff"><strong class="time-diff-actual">'+ _n2total.m +'</strong></td></tr>');
+    _rows2.push('<tr class="actual-total"><td colspan="4" class="time-diff"><strong class="time-diff-total">'+ ( _ntotal.m )+'</strong></td></tr>');
     /* _rows.push('<tr class="entryHeader"><td></td><td class="entryHeaderMilli text-align-right"><span>hh:mm:ss milli</span></td><td><div class="clear-entries"><button type="button" class="btn btn-link btn-sm  btn-clear-entries"><span>Clear All</span></button></div></td></tr>'); */
     /* class="text-align-right"><span>IN / OUT</span> */
     storageHelper.set(userCurrentDate, ins);
@@ -129,7 +136,50 @@ function renderTimes(lbl, val) {
     var tableTimeDiv = document.getElementById('tableTimeDiv');
     var tableTime = document.getElementById('tabletime');
     tableTimeDiv.scrollTop = tableTime.offsetHeight;
+
+   /*  reRenderTotal_Conf = startTimer({
+        interval : 1000,
+        fn: { render: reRenderTotal }
+    }); */
+
+    $('.actual-total').off("click");
+    $('.actual-total').on("click", function(e) {
+        if(reRenderTotal_Conf && reRenderTotal_Conf.anch) {
+            reRenderTotal_Conf = stopTimer(reRenderTotal_Conf);
+        } else {
+            reRenderTotal_Conf = startTimer(reRenderTotal_Conf);
+        }
+    });
 }
+
+function reRenderTotal() {
+    var ins = getEntries();
+    if (ins.length > 0) {
+        var et = storageHelper.get(KEY_ENTRIES_TOTALS); /* {total: total, ntotal: ntotal, n2total: n2total} */
+        if (et && et.ntotal && et.n2total) {
+            var total = et.total
+            var ntotal = et.ntotal
+            var n2total = et.n2total
+            var lastEntry = ins[ins.length-1] ;
+            if (lastEntry && lastEntry.key == ENTRY_IN) {
+                currDate = lastEntry.value
+                var lastDiff = getDiff({value: Date.now()}, lastEntry);
+                total += lastDiff && lastDiff.p || 0;
+                n2total += lastDiff && lastDiff.p || 0;
+                ntotal += lastDiff && lastDiff.p || 0;
+                //$('.repeat-icon').removeClass('hiddenIcon')
+                var _total = getTimeFromTSDiff(total, true);
+                var _ntotal = getTimeFromTSDiff(ntotal, true);
+                var _n2total = getTimeFromTSDiff(n2total, true);
+                $(".time-diff-gross").html(_total.m);
+                $(".time-diff-actual").html(_n2total.m);
+                $(".time-diff-total").html(_ntotal.m);
+            }
+        }
+    }
+}
+
+//var reRenderTotal_TimerAnch = setInterval(reRenderTotal, 1000);
 
 var renderTime = getRenderTime({
     elm_id: "intimer",
@@ -139,7 +189,7 @@ var renderTime = getRenderTime({
     noMilli: true
 });
 
-startTimer({
+var renderTime_Conf = startTimer({
     interval : 1000,
     fn: renderTime
 });
@@ -166,6 +216,11 @@ function doIn(){
 function doOut(){
     renderTimes(ENTRY_OUT, Date.now() /* (new Date()).getTime() */);
 }
+
+$('div.status-info-bar').off("click");
+$('div.status-info-bar').on("click", "span.repeat-icon",function(e) {
+    renderTimes();
+});
 
 $('table#tabletime').off("click");
 $('table#tabletime').on("click", "button.btn-remove-entry",function(e) {
@@ -250,9 +305,12 @@ $('#newDateEntryModal').on("click", "button.submit", function(e) {
             timeDiff[2] = parseInt(timeDiff[2])
             timeDiff[2] && currDate.setSeconds(timeDiff[2]);
         }
+        var ins = createEntry(addNewTimeState, currDate.getTime());
         ins = sortObjectByDate(ins);
         storageHelper.set(userCurrentDate, ins);
-        renderTimes(addNewTimeState, currDate.getTime());
+        renderTimes();
+        $('#addNewTime').val('')
+        $('#addNewTimeState').val('IN')
     }
     console.log(`${addNewTime}:${addNewTimeState}`)
     $('#newDateEntryModal').modal('hide');
@@ -340,7 +398,7 @@ $(".confirm-edit").on("click", "button", function(){
         storageHelper.set(userCurrentDate, ins);
         renderTimes();
     }
-    $('.toolbar.edit, .toolbar.add, .   option-swip-wrapper').show();
+    $('.toolbar.edit, .toolbar.add, .option-swip-wrapper').show();
     $(".clear-entries, .confirm-edit, button.btn-remove-entry").hide();
     $("body").removeClass("is-edit").data("is-edit", false);
     $('.toolbar.edit').removeClass('active');
