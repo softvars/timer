@@ -494,3 +494,7 @@ body.is-edit #tableTimeDiv {
     caret-color: red;
     font: 16px "Helvetica", "Arial", "sans-serif";
 }
+
+tr.inTimeRow {
+    color: #2075bf;
+}
