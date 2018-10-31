@@ -141,7 +141,7 @@ function startTimer(conf) {
 function stopTimer(conf) {
     if(conf && conf.anch) {
         var anch = conf.anch;
-        console.log("startTimer::" + anch);
+        console.log("stopTimer::" + anch);
         conf.anch = clearInterval(anch);
     }
     return conf;

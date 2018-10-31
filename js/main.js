@@ -141,28 +141,29 @@ function renderTimes(lbl, val) {
         interval : 1000,
         fn: { render: reRenderTotal }
     }); */
-
-    $('.actual-total').off("click");
-    $('.actual-total').on("click", function(e) {
-        if(reRenderTotal_Conf && reRenderTotal_Conf.anch) {
-            reRenderTotal_Conf = stopTimer(reRenderTotal_Conf);
-        } else {
-            reRenderTotal_Conf = startTimer(reRenderTotal_Conf);
-        }
-    });
+    var isToday = userCurrentDate === KEY_DATE_ENTRIES;
+    if(isToday) {
+        $('.actual-total').off("click");
+        $('.actual-total').on("click", function(e) {
+            if(reRenderTotal_Conf && reRenderTotal_Conf.anch) {
+                reRenderTotal_Conf = stopTimer(reRenderTotal_Conf);
+            } else {
+                reRenderTotal_Conf = startTimer(reRenderTotal_Conf);
+            }
+        });
+    }
 }
 
 function reRenderTotal() {
     var ins = getEntries();
     if (ins.length > 0) {
         var et = storageHelper.get(KEY_ENTRIES_TOTALS); /* {total: total, ntotal: ntotal, n2total: n2total} */
-        if (et && et.ntotal && et.n2total) {
-            var total = et.total
-            var ntotal = et.ntotal
-            var n2total = et.n2total
+        if (et) {
             var lastEntry = ins[ins.length-1] ;
             if (lastEntry && lastEntry.key == ENTRY_IN) {
-                currDate = lastEntry.value
+                var total = et.total
+                var ntotal = et.ntotal
+                var n2total = et.n2total
                 var lastDiff = getDiff({value: Date.now()}, lastEntry);
                 total += lastDiff && lastDiff.p || 0;
                 n2total += lastDiff && lastDiff.p || 0;
