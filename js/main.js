@@ -18,7 +18,7 @@ function getLastEntryState(ins) {
     }
     return uc_state;
 }
-function updateView(ins){
+function updateView(ins) {
     ins = ins || getEntries();
     var uc_state = getLastEntryState(ins)
     if(ins.length === 0) {
@@ -26,6 +26,14 @@ function updateView(ins){
     }
     storageHelper.set(KEY_UC_STATE, uc_state);
     toggleStrictButton($('.option-strict button'), true);
+}
+
+function getUserSettings() {
+    return storageHelper.get(KEY_USER_SETTINGS, {});
+}
+
+function setUserSettings(settings) {
+    return storageHelper.set(KEY_USER_SETTINGS, settings);
 }
 
 /* ENTRY_IN,

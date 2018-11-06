@@ -22,6 +22,7 @@ CONTEXT[ENTRY_OUT] = 'outTimeRow'; //"info";
 var KEY_ENTRIES = "entries";
 var KEY_ENTRIES_UNDO = "entries_undo";
 var KEY_TOTAL_TIME = "entriesTimeTotal";
+var KEY_USER_SETTINGS = "User_Settings";
 var KEY_UC_STATE = "User_Curr_State";
 var KEY_UC_DATE = "User_Curr_Date";
 var KEY_UC_SETTINGS_MODE = "User_Curr_Swip_Mode";

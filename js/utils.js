@@ -8,6 +8,13 @@ myMap.prototype.key = null;
 myMap.prototype.value = null;
 myMap.prototype.idx = null;
 
+
+var mySettings = function(inTimeAutoRunner){
+    this.inTimeAutoRunner = inTimeAutoRunner;
+};
+mySettings.prototype.inTimeAutoRunner = null;
+
+
 var KEY_DATE_ENTRIES = (function(){
     var date = getDate();
     return "" + date.y + date.m + date.d + KEY_DAY_ENTRIES;
