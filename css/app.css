@@ -5,7 +5,6 @@
 .btn:active.focus,
 .btn.active.focus {
   outline: 0;
-  border:none;
 }
 #settings.btn:focus {
   border:1px solid #ccc;
@@ -497,4 +496,8 @@ body.is-edit #tableTimeDiv {
 
 tr.inTimeRow {
     color: #2075bf;
+}
+
+.inTimeAutoRunlabel{
+    line-height: 34px;
 }

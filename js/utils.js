@@ -14,6 +14,23 @@ var mySettings = function(inTimeAutoRunner){
 };
 mySettings.prototype.inTimeAutoRunner = null;
 
+function extend(obj, src) {
+    for (var key in src) {
+        if (src.hasOwnProperty(key)) obj[key] = src[key];
+    }
+    return obj;
+}
+
+
+function getUserSettings() {
+    return storageHelper.get(KEY_USER_SETTINGS, {});
+}
+
+function setUserSettings(settings) {
+    var settingsObj =  getUserSettings();
+    settingsObj = extend(settingsObj,  settings);
+    return storageHelper.set(KEY_USER_SETTINGS, settingsObj);
+}
 
 var KEY_DATE_ENTRIES = (function(){
     var date = getDate();
@@ -140,16 +157,19 @@ function getRenderTime(c) {
 
 //var timerAnch;
 function startTimer(conf) {
-    conf.anch = setInterval(conf.fn.render, conf.interval);
+    conf.anch = conf.anch || []
+    conf.anch.push(setInterval(conf.fn.render, conf.interval));
     console.log("startTimer::" + conf.anch);
     return conf;
 }
 
 function stopTimer(conf) {
     if(conf && conf.anch) {
-        var anch = conf.anch;
-        console.log("stopTimer::" + anch);
-        conf.anch = clearInterval(anch);
+        conf.anch.forEach(function(a){
+            console.log("stopTimer::" + a);
+            clearInterval(a);
+        })
+        conf.anch = []
     }
     return conf;
 }

@@ -28,14 +28,6 @@ function updateView(ins) {
     toggleStrictButton($('.option-strict button'), true);
 }
 
-function getUserSettings() {
-    return storageHelper.get(KEY_USER_SETTINGS, {});
-}
-
-function setUserSettings(settings) {
-    return storageHelper.set(KEY_USER_SETTINGS, settings);
-}
-
 /* ENTRY_IN,
 ENTRY_OUT
 (new Date()).getTime());
@@ -78,6 +70,8 @@ function renderTimes(lbl, val) {
     ins = sortObjectByDate(ins);
     var isEntries = ins && ins.length;
     var total = 0, ntotal =0, n2total=0;
+    var settings =  getUserSettings();
+
     if(isEntries) {
         ins.forEach(function(a, i, arr){
             if(!(a && a.value)) {
@@ -149,41 +143,46 @@ function renderTimes(lbl, val) {
         interval : 1000,
         fn: { render: reRenderTotal }
     }); */
+
+    if (settings.inTimeAutoRunner === undefined) {
+        settings.inTimeAutoRunner = true;
+        setUserSettings(settings)
+    }
+    updateTotalTimer(settings.inTimeAutoRunner);
+}
+
+function updateTotalTimer(inTimeAutoRunner){
     var isToday = userCurrentDate === KEY_DATE_ENTRIES;
-    if(isToday) {
-        $('.actual-total').off("click");
-        $('.actual-total').on("click", function(e) {
-            if(reRenderTotal_Conf && reRenderTotal_Conf.anch) {
-                reRenderTotal_Conf = stopTimer(reRenderTotal_Conf);
-            } else {
-                reRenderTotal_Conf = startTimer(reRenderTotal_Conf);
-            }
-        });
+    var ins = getEntries();
+    var lastEntry = ins[ins.length-1] ;
+    if(isToday && inTimeAutoRunner && lastEntry && lastEntry.key === ENTRY_IN) {
+        reRenderTotal_Conf = startTimer(reRenderTotal_Conf);
+    } else {
+        if(reRenderTotal_Conf && reRenderTotal_Conf.anch) {
+            reRenderTotal_Conf = stopTimer(reRenderTotal_Conf);
+        }
     }
 }
 
 function reRenderTotal() {
     var ins = getEntries();
-    if (ins.length > 0) {
-        var et = storageHelper.get(KEY_ENTRIES_TOTALS); /* {total: total, ntotal: ntotal, n2total: n2total} */
-        if (et) {
-            var lastEntry = ins[ins.length-1] ;
-            if (lastEntry && lastEntry.key == ENTRY_IN) {
-                var total = et.total
-                var ntotal = et.ntotal
-                var n2total = et.n2total
-                var lastDiff = getDiff({value: Date.now()}, lastEntry);
-                total += lastDiff && lastDiff.p || 0;
-                n2total += lastDiff && lastDiff.p || 0;
-                ntotal += lastDiff && lastDiff.p || 0;
-                //$('.repeat-icon').removeClass('hiddenIcon')
-                var _total = getTimeFromTSDiff(total, true);
-                var _ntotal = getTimeFromTSDiff(ntotal, true);
-                var _n2total = getTimeFromTSDiff(n2total, true);
-                $(".time-diff-gross").html(_total.m);
-                $(".time-diff-actual").html(_n2total.m);
-                $(".time-diff-total").html(_ntotal.m);
-            }
+    var et = storageHelper.get(KEY_ENTRIES_TOTALS); /* {total: total, ntotal: ntotal, n2total: n2total} */
+    if (et) {
+        var lastEntry = ins[ins.length-1] ;
+        var lastDiff = getDiff({value: Date.now()}, lastEntry);
+        if (lastDiff) {
+            var total = et.total
+            var ntotal = et.ntotal
+            var n2total = et.n2total
+            total += lastDiff && lastDiff.p || 0;
+            n2total += lastDiff && lastDiff.p || 0;
+            ntotal += lastDiff && lastDiff.p || 0;
+            var _total = getTimeFromTSDiff(total, true);
+            var _ntotal = getTimeFromTSDiff(ntotal, true);
+            var _n2total = getTimeFromTSDiff(n2total, true);
+            $(".time-diff-gross").html(_total.m);
+            $(".time-diff-actual").html(_n2total.m);
+            $(".time-diff-total").html(_ntotal.m);
         }
     }
 }
@@ -570,6 +569,17 @@ $('.tools').on("click", "button.select-all.enabled", function(e) {
     setDateListCheckBox(true)
 })
 
+$('.inTimeAutoRunBtn').off('click');
+$('.inTimeAutoRunBtn').on('click', function(e){
+    var inTimeAutoRun = false;
+    try {
+        inTimeAutoRun = $(e.target).find('input[name=inTimeAutoRun]').val() === 'yes';
+    } catch {}
+    console.log('inTimeAutoRun: ' + inTimeAutoRun);
+    setUserSettings({inTimeAutoRunner: inTimeAutoRun})
+    updateTotalTimer(inTimeAutoRun);
+});
+
 function updateDeleteIcon(){
     var isDateSelectedForDelete = dateSelectedForDelete(null, true);
     $('.toolbar.delete-date-list').css('display', isDateSelectedForDelete ? 'block' : 'none');
@@ -680,7 +690,12 @@ function page_init() {
     day_init();
     $(".edit-list, .edit-close, .clear-all, .select-all, .delete-date-list, .goback").hide();
     renderTimes();
+
+    var settings =  getUserSettings();
+    $('.inTimeAutoRunYes').toggleClass('active', settings.inTimeAutoRunner);
+    $('.inTimeAutoRunNo').toggleClass('active', !settings.inTimeAutoRunner);
 }
+
 function app_in_time_init() {
     page_init();
     renderDateListModal();
