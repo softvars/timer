@@ -608,7 +608,7 @@ $('.data-list-wrapper').on("click", ".date-list", function(e) {
     }
 })
 
-function setCurrentDate(elm){
+function setCurrentDate(elm) {
     if (elm) {
         userCurrentDate = $(elm).data('date-key');
         storageHelper.set(KEY_UC_DATE, userCurrentDate);
@@ -618,15 +618,26 @@ function setCurrentDate(elm){
     }
 }
 
+function getDateInTimeTotal(dateKey) {
+    //dateKey.substring
+    var ins = storageHelper.get(dateKey);
+    //ins
+    //return '11:12:14';
+}
+
 function renderDateListModal() {
     var html = ''
     getDateKeys(function(o){
-        html += '<li role="presentation" class="date-list'+ ((o.key === userCurrentDate) && ' active' || '') +'" data-date-key="'+o.key+'"><a href="#">'+o.label+'<span class="checkbox-wrapper"><input class="delete-date" type="checkbox" id="inlineCheckbox1"></span></a></li>'
+        var dateInTimeTotal = getDateInTimeTotal(o.key) || '';
+        var l = o.label
+        l = l && l.substr(0, 4) + '-' + l.substr(4, 2) + '-' + l.substr(6, 2)
+        html += '<li role="presentation" class="date-list'+ ((o.key === userCurrentDate) && ' active' || '') +'" data-date-key="'+o.key+'"><a href="#">'+l+'<span class="dateListInTime">'+dateInTimeTotal+'</span><span class="checkbox-wrapper"><input class="delete-date" type="checkbox" id="inlineCheckbox1"></span></a></li>'
     })
     $('.data-list-wrapper .date-list-group').html(html);
     $(".checkbox-wrapper").hide();
     deleteDateKeyArray = {}
 }
+
 $(".data-list-wrapper").hide();
 
 var getDateFromKeys =function(k){
