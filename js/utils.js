@@ -106,7 +106,7 @@ function getTimeFromTSDiff(p, noDot) {
                 _p.m = _p.m % 60;
 
                 if(_p.h > 24) {
-                    diff.m = "Hr > 24 Err";
+                    diff.m = "Err: Hour is > 24";
                     return diff;
                 }
             }

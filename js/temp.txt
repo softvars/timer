@@ -13,6 +13,7 @@
 - Add nxt prev buttons to navigate dates (date list will be used for edit)
 - App settings
     - to delete/ remove all the app data.
+
 - Add help for export import
 
 -------------------------

@@ -1,3 +1,5 @@
+var userCurrentDate = KEY_DATE_ENTRIES
+
 function getEntries() {
     return storageHelper.get(userCurrentDate, []);
 }
@@ -97,11 +99,14 @@ function renderTimes(lbl, val) {
              (a.key == ENTRY_IN && (prv && prv.key == ENTRY_IN) )) ? a.p : 0;
             n2total += (i && (a.key == ENTRY_OUT && (prv && prv.key == ENTRY_IN))) ? a.p : 0;
 
-            storageHelper.set(KEY_ENTRIES_TOTALS, {total: total, ntotal: ntotal, n2total: n2total});
-
             rows.push('<tr class="'+CONTEXT[a.key]+'"><td class="text-align-right">'+time+'</td><td class="time-diff">'+ _diff +'<span class="time-diff-mi"> '+ _diffMi +'</span></td><td class="text-right"><span class="entryStateSingle">'+a.key+'</span><button type="button" data-i="'+i+'" class="btn-remove-entry btn btn-default btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove"></span></button></td></tr>');
         });
     }
+    var entries_totals = storageHelper.get(KEY_ENTRIES_TOTALS);
+    entries_totals = entries_totals || {}
+    entries_totals[userCurrentDate] = {total: total, ntotal: ntotal, n2total: n2total}
+    storageHelper.set(KEY_ENTRIES_TOTALS, entries_totals);
+
 
     var _total = getTimeFromTSDiff(total, true);
     var _ntotal = getTimeFromTSDiff(ntotal, true);
@@ -164,25 +169,35 @@ function updateTotalTimer(inTimeAutoRunner){
     }
 }
 
+function reRenderTotalHelper(ins, et, lastDiff) {
+    var totalMap = null;
+    var total = et.total
+    var ntotal = et.ntotal
+    var n2total = et.n2total
+    if (lastDiff) {
+        total += lastDiff && lastDiff.p || 0;
+        n2total += lastDiff && lastDiff.p || 0;
+        ntotal += lastDiff && lastDiff.p || 0;
+    }
+    totalMap = {
+        gross:  getTimeFromTSDiff(total, true),
+        total:  getTimeFromTSDiff(ntotal, true),
+        actual: getTimeFromTSDiff(n2total, true)
+    }
+    return totalMap;
+}
 function reRenderTotal() {
     var ins = getEntries();
-    var et = storageHelper.get(KEY_ENTRIES_TOTALS); /* {total: total, ntotal: ntotal, n2total: n2total} */
+    var entries_totals = storageHelper.get(KEY_ENTRIES_TOTALS);
+    var et =  entries_totals && entries_totals[userCurrentDate];
     if (et) {
         var lastEntry = ins[ins.length-1] ;
         var lastDiff = getDiff({value: Date.now()}, lastEntry);
-        if (lastDiff) {
-            var total = et.total
-            var ntotal = et.ntotal
-            var n2total = et.n2total
-            total += lastDiff && lastDiff.p || 0;
-            n2total += lastDiff && lastDiff.p || 0;
-            ntotal += lastDiff && lastDiff.p || 0;
-            var _total = getTimeFromTSDiff(total, true);
-            var _ntotal = getTimeFromTSDiff(ntotal, true);
-            var _n2total = getTimeFromTSDiff(n2total, true);
-            $(".time-diff-gross").html(_total.m);
-            $(".time-diff-actual").html(_n2total.m);
-            $(".time-diff-total").html(_ntotal.m);
+        var totalMap = reRenderTotalHelper(ins, et, lastDiff);
+        if (totalMap) {
+            $(".time-diff-gross").html(totalMap.gross.m);
+            $(".time-diff-actual").html(totalMap.actual.m);
+            $(".time-diff-total").html(totalMap.total.m);
         }
     }
 }
@@ -289,6 +304,12 @@ $('#myDataImportModal').on("click", "button.submit, button.cancel", function(e) 
     $('#myDataImportModal').modal('hide');
 });
 
+
+$('table#tabletime').off("click");
+$('table#tabletime').on("click", "tr.inTimeRow, tr.outTimeRow", function(e) {
+    /* TODO */
+    $('#newDateEntryModal').modal('show');
+});
 
 $('#newDateEntryModal').off("click");
 $('#newDateEntryModal').on("click", "button.submit", function(e) {
@@ -618,17 +639,26 @@ function setCurrentDate(elm) {
     }
 }
 
-function getDateInTimeTotal(dateKey) {
-    //dateKey.substring
+function getDateInTimeTotal(entries_totals, dateKey) {
     var ins = storageHelper.get(dateKey);
-    //ins
-    //return '11:12:14';
+    var time = '';
+    if (entries_totals) {
+        var et =  entries_totals[dateKey];
+        if (et) {
+            var totalMap = reRenderTotalHelper(ins, et);
+            if (totalMap) {
+                time = totalMap.total.m;
+            }
+        }
+    }
+    return time;
 }
 
 function renderDateListModal() {
     var html = ''
+    var entries_totals = storageHelper.get(KEY_ENTRIES_TOTALS);
     getDateKeys(function(o){
-        var dateInTimeTotal = getDateInTimeTotal(o.key) || '';
+        var dateInTimeTotal = getDateInTimeTotal(entries_totals, o.key) || '';
         var l = o.label
         l = l && l.substr(0, 4) + '-' + l.substr(4, 2) + '-' + l.substr(6, 2)
         html += '<li role="presentation" class="date-list'+ ((o.key === userCurrentDate) && ' active' || '') +'" data-date-key="'+o.key+'"><a href="#">'+l+'<span class="dateListInTime">'+dateInTimeTotal+'</span><span class="checkbox-wrapper"><input class="delete-date" type="checkbox" id="inlineCheckbox1"></span></a></li>'
@@ -655,7 +685,6 @@ function getDateKeys(fn) {
     }
 }
 
-var userCurrentDate = KEY_DATE_ENTRIES
 storageHelper.set(KEY_UC_DATE, KEY_DATE_ENTRIES);
 function updateDateView() {
     var todayEntries = storageHelper.get(userCurrentDate);
@@ -701,6 +730,7 @@ function page_init() {
     day_init();
     $(".edit-list, .edit-close, .clear-all, .select-all, .delete-date-list, .goback").hide();
     renderTimes();
+    //renderDateListModal();
 
     var settings =  getUserSettings();
     $('.inTimeAutoRunYes').toggleClass('active', settings.inTimeAutoRunner);

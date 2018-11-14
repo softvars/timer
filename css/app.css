@@ -494,8 +494,12 @@ body.is-edit #tableTimeDiv {
     font: 16px "Helvetica", "Arial", "sans-serif";
 }
 
-tr.inTimeRow {
+table#tabletime tr.inTimeRow {
     color: #2075bf;
+}
+table#tabletime tr.inTimeRow,
+table#tabletime tr.outTimeRow {
+    cursor: pointer;
 }
 
 .inTimeAutoRunlabel{
