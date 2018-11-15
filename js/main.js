@@ -48,18 +48,25 @@ function insertEntry(entry) {
     return ins;
 }
 
-function removeEntry(i) {
-    var ins = getEntries();
-    if(i >= 0 && i < ins.length) {
-        ins.splice(i, 1);
-        var nextEntry = ins[i];
-        if(nextEntry && nextEntry.m){
-            nextEntry.p = nextEntry.m = null;
-            ins[i] = nextEntry;
-        }
-        storageHelper.set(userCurrentDate, ins);
-	}
-    return ins;
+function removeEntry(value) {
+    var entry = null;
+    if(value) {
+        var ins = getEntries();
+        entry = ins.find(function(a, i, arr) {
+         var isFound = value === a.value;
+         if (isFound) {
+            ins.splice(i, 1);
+            var nextEntry = ins[i];
+            if(nextEntry && nextEntry.m){
+                nextEntry.p = nextEntry.m = null;
+                ins[i] = nextEntry;
+            }
+            storageHelper.set(userCurrentDate, ins);
+         }
+         return isFound;
+        })
+    }
+    return entry;
 }
 var reRenderTotal_Conf = {
     interval : 1000,
@@ -98,8 +105,8 @@ function renderTimes(lbl, val) {
             ntotal += (i && (a.key == ENTRY_OUT && ((prv && prv.key == ENTRY_IN) || (prv && prv.key == ENTRY_OUT))) ||
              (a.key == ENTRY_IN && (prv && prv.key == ENTRY_IN) )) ? a.p : 0;
             n2total += (i && (a.key == ENTRY_OUT && (prv && prv.key == ENTRY_IN))) ? a.p : 0;
-
-            rows.push('<tr class="'+CONTEXT[a.key]+'"><td class="text-align-right">'+time+'</td><td class="time-diff">'+ _diff +'<span class="time-diff-mi"> '+ _diffMi +'</span></td><td class="text-right"><span class="entryStateSingle">'+a.key+'</span><button type="button" data-i="'+i+'" class="btn-remove-entry btn btn-default btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove"></span></button></td></tr>');
+            /* Time entry Row */
+            rows.push('<tr class="'+CONTEXT[a.key]+'" data-entry-idx="'+i+'" data-entry-time="'+time+'"  data-entry-key="'+a.key+'" data-entry-value="'+a.value+'"><td class="text-align-right">'+time+'</td><td class="time-diff">'+ _diff +'<span class="time-diff-mi"> '+ _diffMi +'</span></td><td class="text-right"><span class="entryStateSingle">'+a.key+'</span><button type="button" data-i="'+i+'" class="btn-remove-entry btn btn-default btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove"></span></button></td></tr>');
         });
     }
     var entries_totals = storageHelper.get(KEY_ENTRIES_TOTALS);
@@ -247,10 +254,14 @@ $('div.status-info-bar').on("click", "span.repeat-icon",function(e) {
 
 $('table#tabletime').off("click");
 $('table#tabletime').on("click", "button.btn-remove-entry",function(e) {
-    var i = $(this).data("i");
+    //var i = $(this).data("i");
     //console.log(i);
-    removeEntry(i);
-    renderTimes();
+    var rowElement = $(e.currentTarget).parents('tr');
+    var value = rowElement && rowElement.data('entry-value');
+    if(value) {
+        removeEntry(value);
+        renderTimes();
+    }
 });
 
 $('.settings-menu.enabled').off("click");
@@ -304,44 +315,82 @@ $('#myDataImportModal').on("click", "button.submit, button.cancel", function(e) 
     $('#myDataImportModal').modal('hide');
 });
 
-
-$('table#tabletime').off("click");
-$('table#tabletime').on("click", "tr.inTimeRow, tr.outTimeRow", function(e) {
+/* CW */
+$('table#tabletime').on("click", "td.text-align-right, td.time-diff, .entryStateSingle", function(e) {
     /* TODO */
+    var targetElem = $(e.target);
+    var curTargetElem = $(e.currentTarget);
+    var rowElement = $(e.currentTarget).parents('tr')
+    var entryModalData = {};
+    if(rowElement) {
+        entryModalData.entryValue = rowElement.data('entry-value');
+        entryModalData.entryTime = rowElement.data('entry-time');
+        entryModalData.entryKey = rowElement.data('entry-key');
+        entryModalData.entryIdx = rowElement.data('entry-idx');
+        console.log('entryModalData: ' + entryModalData)
+    }
+    $('#newDateEntryModal').data('EntryModalData', entryModalData);
     $('#newDateEntryModal').modal('show');
 });
 
+$('#newDateEntryModal').on('show.bs.modal', function (event) {
+    $('#addNewTime').val('');
+    $('#addNewTimeState').val('IN');
+});
+
+$('#newDateEntryModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var operation = button.data('entry-op');
+    var isAddNewEntry = operation === "add";
+    var modal = $(this);
+    modal.data('isAddNewEntry', isAddNewEntry);
+    if (!isAddNewEntry) {
+        var entryModalData = modal.data('EntryModalData');
+        $('#addNewTime').val(entryModalData.entryTime); /* "hh:mm:ss" */
+        $('#addNewTimeState').val(entryModalData.entryKey); /**/
+    }
+});
+
 $('#newDateEntryModal').off("click");
-$('#newDateEntryModal').on("click", "button.submit", function(e) {
+$('#newDateEntryModal').on("click", "button.submit", function(e, data) {
     //var $this = $(this);
+    var modal = $('#newDateEntryModal');
+    var isAddNewEntry = modal.data('isAddNewEntry');
+    var entryModalData = modal.data('EntryModalData');
+    console.log('isAddNewEntry: ' + isAddNewEntry)
     var addNewTime = $('#addNewTime').val(); /* "hh:mm:ss" */
     var addNewTimeState = $('#addNewTimeState').val(); /**/
     if(addNewTime) {
         var currDate = null;
         var ins = getEntries();
         if (ins.length > 0) {
+            if (!isAddNewEntry && entryModalData && (addNewTime !== entryModalData.entryTime)) {
+                var value = entryModalData.entryValue;
+                removeEntry(value);
+            }
             var lastEntry = ins[ins.length-1] ;
             currDate = lastEntry && lastEntry.value
         }
-        currDate = currDate && new Date(currDate) || new Date();
+        currDate = currDate && new Date(currDate) || new Date(); // todo: date with current date
         currDate.setMilliseconds(0);
         var timeDiff = addNewTime.split(':')
         if (timeDiff.length > 1) {
             timeDiff[0] = parseInt(timeDiff[0])
-            timeDiff[0] && currDate.setHours(timeDiff[0]);
             timeDiff[1] = parseInt(timeDiff[1])
-            timeDiff[1] && currDate.setMinutes(timeDiff[1]);
             timeDiff[2] = parseInt(timeDiff[2])
-            timeDiff[2] && currDate.setSeconds(timeDiff[2]);
+
+            currDate.setHours(timeDiff[0] || 0);
+            currDate.setMinutes(timeDiff[1] || 0);
+            currDate.setSeconds(timeDiff[2] || 0);
         }
         var ins = createEntry(addNewTimeState, currDate.getTime());
         ins = sortObjectByDate(ins);
         storageHelper.set(userCurrentDate, ins);
         renderTimes();
-        $('#addNewTime').val('')
-        $('#addNewTimeState').val('IN')
+        $('#addNewTime').val('');
+        $('#addNewTimeState').val('IN');
+        console.log(`${addNewTime}:${addNewTimeState}`);
     }
-    console.log(`${addNewTime}:${addNewTimeState}`)
     $('#newDateEntryModal').modal('hide');
 });
 
@@ -646,7 +695,8 @@ function getDateInTimeTotal(entries_totals, dateKey) {
         var et =  entries_totals[dateKey];
         if (et) {
             var totalMap = reRenderTotalHelper(ins, et);
-            if (totalMap) {
+            var m = totalMap && totalMap.total && totalMap.total.m;
+            if (m && m !== '0:0:0') {
                 time = totalMap.total.m;
             }
         }
