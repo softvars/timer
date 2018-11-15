@@ -148,7 +148,7 @@ button#settings {
 
 .clear-entries, .confirm-edit, button.btn-remove-entry {
   display:none;
-  margin-right: 3px;
+  margin-right: 5px;
 }
 .clear-entries{
   /* margin-bottom: -2px;
