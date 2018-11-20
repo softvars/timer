@@ -1,4 +1,4 @@
-var userCurrentDate = KEY_DATE_ENTRIES
+var userCurrentDate = KEY_DATE_ENTRIES;
 
 function getEntries() {
     return storageHelper.get(userCurrentDate, []);
@@ -13,16 +13,16 @@ function createEntry(lbl, val) {
 }
 function getLastEntryState(ins) {
     ins = ins || getEntries();
-    var uc_state = ENTRY_OUT
+    var uc_state = ENTRY_OUT;
     if(ins.length > 0) {
         var lastEntry = ins[ins.length-1] ;
-        uc_state = lastEntry && lastEntry.key
+        uc_state = lastEntry && lastEntry.key;
     }
     return uc_state;
 }
 function updateView(ins) {
     ins = ins || getEntries();
-    var uc_state = getLastEntryState(ins)
+    var uc_state = getLastEntryState(ins);
     if(ins.length === 0) {
         $(".entries-header").hide();
     }
@@ -64,7 +64,7 @@ function removeEntry(value) {
             storageHelper.set(userCurrentDate, ins);
          }
          return isFound;
-        })
+        });
     }
     return entry;
 }
@@ -102,16 +102,15 @@ function renderTimes(lbl, val) {
                 //diff = checkTime(t.h - p.h) + ":" + checkTime(t.m - p.m) + ":" + checkTime(t.s - p.s);
             /* } */
             total += a.p;
-            ntotal += (i && (a.key == ENTRY_OUT && ((prv && prv.key == ENTRY_IN) || (prv && prv.key == ENTRY_OUT))) ||
-             (a.key == ENTRY_IN && (prv && prv.key == ENTRY_IN) )) ? a.p : 0;
-            n2total += (i && (a.key == ENTRY_OUT && (prv && prv.key == ENTRY_IN))) ? a.p : 0;
+            ntotal += (i && (a.key === ENTRY_OUT && ((prv && prv.key === ENTRY_IN) || (prv && prv.key === ENTRY_OUT))) || (a.key === ENTRY_IN && (prv && prv.key === ENTRY_IN) )) ? a.p : 0;
+            n2total += (i && (a.key === ENTRY_OUT && (prv && prv.key === ENTRY_IN))) ? a.p : 0;
             /* Time entry Row */
             rows.push('<tr class="'+CONTEXT[a.key]+'" data-entry-idx="'+i+'" data-entry-time="'+time+'"  data-entry-key="'+a.key+'" data-entry-value="'+a.value+'"><td class="text-align-right">'+time+'</td><td class="time-diff">'+ _diff +'<span class="time-diff-mi"> '+ _diffMi +'</span></td><td class="text-right"><span class="entryStateSingle">'+a.key+'</span><button type="button" data-i="'+i+'" class="btn-remove-entry btn btn-default btn-xs"> <span data-i="'+i+'" class="removeEntry glyphicon glyphicon-remove"></span></button></td></tr>');
         });
     }
     var entries_totals = storageHelper.get(KEY_ENTRIES_TOTALS);
-    entries_totals = entries_totals || {}
-    entries_totals[userCurrentDate] = {total: total, ntotal: ntotal, n2total: n2total}
+    entries_totals = entries_totals || {};
+    entries_totals[userCurrentDate] = {total: total, ntotal: ntotal, n2total: n2total};
     storageHelper.set(KEY_ENTRIES_TOTALS, entries_totals);
 
 
@@ -287,7 +286,7 @@ $('.settings-menu.enabled').on("click", ".toolbar.flex", function(e) {
 $('.option-strict').off("click");
 $('.option-strict').on("click", "button.enabled", function(e) {
     var uc_state = toggleStrictButton($(this), false);
-    if(uc_state == ENTRY_OUT) {
+    if(uc_state === ENTRY_OUT) {
        doIn();
     } else {
        doOut();
@@ -389,7 +388,6 @@ $('#newDateEntryModal').on("click", "button.submit", function(e, data) {
         renderTimes();
         $('#addNewTime').val('');
         $('#addNewTimeState').val('IN');
-        console.log(`${addNewTime}:${addNewTimeState}`);
     }
     $('#newDateEntryModal').modal('hide');
 });
@@ -644,7 +642,7 @@ $('.inTimeAutoRunBtn').on('click', function(e){
     var inTimeAutoRun = false;
     try {
         inTimeAutoRun = $(e.target).find('input[name=inTimeAutoRun]').val() === 'yes';
-    } catch {}
+    } catch(e) {}
     console.log('inTimeAutoRun: ' + inTimeAutoRun);
     setUserSettings({inTimeAutoRunner: inTimeAutoRun})
     updateTotalTimer(inTimeAutoRun);
@@ -763,14 +761,14 @@ function setUserStateText(state){
 
 function setupStrictButton($elm, state) {
     $elm.children('span.ti-btn-lbl').get(0).innerText = state;
-    $elm.addClass(state == ENTRY_IN ? 'btn-primary' : 'btn-warning swip-out');
-    $elm.removeClass(state == ENTRY_OUT ? 'btn-primary' : 'btn-warning swip-out');
+    $elm.addClass(state === ENTRY_IN ? 'btn-primary' : 'btn-warning swip-out');
+    $elm.removeClass(state === ENTRY_OUT ? 'btn-primary' : 'btn-warning swip-out');
 }
 
 function toggleStrictButton($elm, noswap) {
     if($elm) {
         var uc_state = storageHelper.get(KEY_UC_STATE);
-        var state = (!!(noswap) && ((uc_state == ENTRY_IN) ? ENTRY_OUT : ENTRY_IN)) || uc_state;
+        var state = (!!(noswap) && ((uc_state === ENTRY_IN) ? ENTRY_OUT : ENTRY_IN)) || uc_state;
         setupStrictButton($elm, state);
         return uc_state;
     }

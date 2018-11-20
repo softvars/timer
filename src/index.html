@@ -6,15 +6,32 @@
         <title>In Time</title>
         <meta name="description" content="timer is an app to track your time for all day">
         <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+        <meta name="author" content="Prakash Subramani" />
+        <meta name="keywords" content="Softvars" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <!-- Place favicon.ico in the root directory -->
+        <link rel="shortcut icon" href="favicon.png" />
 
+        <!-- build:css(src) styles/vendor.css -->
+        <!-- injector:vendor:css -->
+        <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+        <!-- endinjector -->
+        <!-- endbuild -->
+
+        <!-- build:css(src) styles/main.css -->
+        <!-- injector:css -->
+        <link rel="stylesheet" href="styles/normalize.css">
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/app.css">
+        <!-- endinjector -->
+        <!-- endbuild -->
+
+        <!-- <link rel="stylesheet" href="./css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/normalize.css">
-        <link rel="stylesheet" href="./css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/main.css">
-        <link rel="stylesheet" href="./css/app.css">
+        <link rel="stylesheet" href="./css/app.css"> -->
     </head>
     <body onload="">
         <!--[if lt IE 8]>
@@ -372,8 +389,26 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <span class="alertMessage"> Hi </span>
           </div>
+        <!-- build:js(src) scripts/vendor.js -->
+        <!-- injector:vendor:js -->
+        <script src="vendor/libs/jquery-1.12.0.min.js"></script>
+        <script src="vendor/libs/bootstrap.min.js"></script>
+        <script src="vendor/libs/FileSaver.min.js"></script>
+        <script src="vendor/libs/date_fns.v1.29.0.min.js"></script>
+        <!-- endinjector -->
+        <!-- endbuild -->
 
-        <script src="./js/vendor/jquery-1.12.0.min.js"></script>
+        <!-- build:js(src) scripts/scripts.js -->
+        <!-- injector:js -->
+        <script src="scripts/const.js"></script>
+        <script src="scripts/storage.js"></script>
+        <script src="scripts/JSONReader.js"></script>
+        <script src="scripts/utils.js"></script>
+        <script src="scripts/main.js"></script>
+        <!-- endinjector -->
+        <!-- endbuild -->
+
+       <!--  <script src="./js/vendor/jquery-1.12.0.min.js"></script>
         <script src="./js/vendor/bootstrap.min.js"></script>
         <script src="./js/vendor/FileSaver.min.js"></script>
         <script src="./js/vendor/date_fns.v1.29.0.min.js"></script>
@@ -382,6 +417,6 @@
         <script src="./js/const.js" ></script>
         <script src="./js/JSONReader.js" ></script>
         <script src="./js/utils.js"></script>
-        <script src="./js/main.js"></script>
+        <script src="./js/main.js"></script> -->
     </body>
 </html>

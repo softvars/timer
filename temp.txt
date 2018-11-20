@@ -1,0 +1,48 @@
+//- row header
+//- remove highlight borders came over the buttons/links
+//- flex pair menu ui : high light selected mode
+//- Export
+//- Import (skip or replace)
+- improve UI for time difference
+
+//- edit button row is missing on fresh start
+//- Add input modal. to add a new time entry.
+//- Time can be run if its in IN state upon user click.
+//- Popup to show different times details
+
+- For empty ins array we have to show add button.
+
+- Adding note/icon for entry.
+- Double click to start auto timer for IN time total.
+  Add info to the preference option so that this option can be used later.
+
+- Add nxt prev buttons to navigate dates (date list will be used for edit).
+
+- App settings
+    - to delete/ remove all the app data.
+- Add help for export import
+
+-------------------------
+
+## Affilitated ##
+
+Added improvements in UI.
+Removed highlight borders came over the buttons/links.
+high light selected mode in the settings menu.
+Added file Export functionality.
+
+,
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "date-fns": "^1.29.0",
+    "file-saver": "^2.0.0",
+    "jquery": "^1.12.4"
+  }
+
+
+    grunt-contrib-imagemin
+    npm install --save grunt-contrib-cssmin  grunt-contrib-htmlmin grunt-contrib-jshint grunt-contrib-uglify grunt-contrib-watch
+    npm install --save grunt-exec grunt-filerev grunt-injector grunt-jscs grunt-newer grunt-postcss grunt-usemin jit-grunt jshint-stylish time-grunt
+    npm install --save grunt-svgmin
+
+    npm install --save jasmine-core karma karma-jasmine karma-phantomjs-launcher phantomjs-prebuilt grunt-wiredep
