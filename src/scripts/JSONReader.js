@@ -42,7 +42,12 @@ var JSONReader = function () {
             var reader = new FileReader();
             reader.onload = function (event) {
                 if (event.target.readyState === 2) {
-                    _this.result = JSON.parse(reader.result);
+                    try {
+                      _this.result = JSON.parse(reader.result);
+                    } catch(e) {
+                      console.log('Error: ' + e.message)
+                      toggleAlert({msg: 'Please use only exported to import data.'});
+                    }
                     if (typeof _this.onCompleted === 'function') {
                         _this.onCompleted(_this.result);
                     }

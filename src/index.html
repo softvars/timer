@@ -389,6 +389,10 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <span class="alertMessage"> Hi </span>
           </div>
+          <div id="appAlert" class="alert alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong  id="appAlerInfo"></strong> <span id="appAlertMessage"></span>
+          </div>
         <!-- build:js(src) scripts/vendor.js -->
         <!-- injector:vendor:js -->
         <script src="vendor/libs/jquery-1.12.0.min.js"></script>
@@ -402,8 +406,8 @@
         <!-- injector:js -->
         <script src="scripts/const.js"></script>
         <script src="scripts/storage.js"></script>
-        <script src="scripts/JSONReader.js"></script>
         <script src="scripts/utils.js"></script>
+        <script src="scripts/JSONReader.js"></script>
         <script src="scripts/main.js"></script>
         <!-- endinjector -->
         <!-- endbuild -->

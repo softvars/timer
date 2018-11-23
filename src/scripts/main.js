@@ -785,10 +785,14 @@ function page_init() {
     $('.inTimeAutoRunNo').toggleClass('active', !settings.inTimeAutoRunner);
 }
 
+
+
 function app_in_time_init() {
     page_init();
     renderDateListModal();
+    toggleAlert(false);
 }
 $(function(){
     app_in_time_init();
+    appAlert
 });

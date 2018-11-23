@@ -515,3 +515,14 @@ table#tabletime tr.outTimeRow {
 .active span.dateListInTime {
     color: white;
 }
+
+/* .modal.in .modal-dialog {
+  transform: translate(0,75%);
+}
+ */
+#appAlert {
+  position: absolute;
+  margin-bottom: 67px;
+  bottom: 2px;
+  width: 100%;
+}

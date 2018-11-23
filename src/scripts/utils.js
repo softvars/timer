@@ -21,7 +21,6 @@ function extend(obj, src) {
     return obj;
 }
 
-
 function getUserSettings() {
     return storageHelper.get(KEY_USER_SETTINGS, {});
 }
@@ -230,4 +229,20 @@ function sortObjectByDate(list) {
         list = list.sort(dateCompareAsc);
     }
     return list;
+}
+
+/* ALERT */
+function toggleAlert(at) {
+  var appAlert = $('#appAlert');
+  var show = !!at;
+  if (show) {
+    $('#appAlerInfo').html(at.title || 'Warning : ');
+    $('#appAlertMessage').html(at.msg);
+    appAlert.show();
+    var milli = at.milli || 4000;
+    setTimeout(function(){
+      appAlert.hide();
+    }, milli)
+  }
+  !show && appAlert.hide();
 }
