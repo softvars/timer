@@ -24,7 +24,8 @@ function updateView(ins) {
     ins = ins || getEntries();
     var uc_state = getLastEntryState(ins);
     if(ins.length === 0) {
-        $(".entries-header").hide();
+        //$(".entries-header").hide();
+        $('.entries-edit-wrapper .edit').hide();
     }
     storageHelper.set(KEY_UC_STATE, uc_state);
     toggleStrictButton($('.option-strict button'), true);
@@ -129,13 +130,16 @@ function renderTimes(lbl, val) {
     $('#tabletimeTotal').html(htmlStrTotal);
     var htmlStr = /* _rows.join('') +  */rows.join('');
     $('#tabletime').html(htmlStr);
+
     if(isEntries) {
-        $('.entries-header').show();
+        //$('.entries-header').show();
+        $('.entries-edit-wrapper .edit').show();
         var isEdit = $("body").data("is-edit");
         if(isEdit) {
             $(".entries-header, button.btn-remove-entry").show();
         }
     }
+
     updateView(ins);
     setUserStateText(storageHelper.get(KEY_UC_STATE));
     toggleDateListEditIcon(true);
@@ -315,7 +319,8 @@ $('#myDataImportModal').on("click", "button.submit, button.cancel", function(e) 
 });
 
 /* CW */
-$('table#tabletime').on("click", "td.text-align-right, td.time-diff, .entryStateSingle", function(e) {
+/* $('table#tabletime').on("click", "td.text-align-right, td.time-diff, .entryStateSingle", function(e) { */
+$('table#tabletime').on("click", "td.text-align-right, .entryStateSingle", function(e) {
     /* TODO */
     var targetElem = $(e.target);
     var curTargetElem = $(e.currentTarget);
@@ -332,10 +337,10 @@ $('table#tabletime').on("click", "td.text-align-right, td.time-diff, .entryState
     $('#newDateEntryModal').modal('show');
 });
 
-$('#newDateEntryModal').on('show.bs.modal', function (event) {
+/* $('#newDateEntryModal').on('show.bs.modal', function (event) {
     $('#addNewTime').val('');
     $('#addNewTimeState').val('IN');
-});
+}); */
 
 $('#newDateEntryModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
@@ -343,11 +348,17 @@ $('#newDateEntryModal').on('show.bs.modal', function (event) {
     var isAddNewEntry = operation === "add";
     var modal = $(this);
     modal.data('isAddNewEntry', isAddNewEntry);
+    var entryTime = '';
+    var entryKey = 'IN';
     if (!isAddNewEntry) {
         var entryModalData = modal.data('EntryModalData');
-        $('#addNewTime').val(entryModalData.entryTime); /* "hh:mm:ss" */
-        $('#addNewTimeState').val(entryModalData.entryKey); /**/
+        entryTime = entryModalData.entryTime; /* "hh:mm:ss" */
+        entryKey = entryModalData.entryKey; /**/
+        $('#newDateEntryModalLabel').html('Update Entry');
     }
+    $('#addNewTime').val(entryTime);
+    $('#addNewTimeState').val(entryKey);
+
 });
 
 $('#newDateEntryModal').off("click");
@@ -468,7 +479,7 @@ $(".confirm-edit").off("click");
 $(".confirm-edit").on("click", "button", function(){
     $this = $(this);
     if($this.hasClass("btn-done-edit")){
-        storageHelper.set(KEY_ENTRIES_UNDO, []);
+      storageHelper.set(KEY_ENTRIES_UNDO, []);
     } else if($this.hasClass("btn-cancel-edit")) {
         var ins = storageHelper.get(KEY_ENTRIES_UNDO, []);
         storageHelper.set(userCurrentDate, ins);
@@ -483,6 +494,7 @@ $(".confirm-edit").on("click", "button", function(){
     $(".tools .toolbar").addClass('enabled');
     $(".tools .toolbar").removeClass('disabled');
     $(".last-row").removeClass('edit-start');
+    updateView();
     toggleHomeView();
 });
 

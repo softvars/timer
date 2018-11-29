@@ -232,8 +232,8 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/index.html': [
             '<%= yeoman.app %>/scripts/const.js',
             '<%= yeoman.app %>/scripts/storage.js',
-            '<%= yeoman.app %>/scripts/JSONReader.js',
             '<%= yeoman.app %>/scripts/utils.js',
+            '<%= yeoman.app %>/scripts/JSONReader.js',
             '<%= yeoman.app %>/scripts/main.js',
             '<%= yeoman.app %>/scripts/**/*.js',
             '<%= yeoman.app %>/styles/normalize.css',
@@ -340,10 +340,10 @@ module.exports = function (grunt) {
     htmlmin: {
       dist: {
         options: {
-          /*collapseWhitespace: true,
-          conservativeCollapse: true*/
+          collapseWhitespace: true,
+          conservativeCollapse: true,
           /*collapseBooleanAttributes: true,*/
-          /*removeCommentsFromCDATA: true*/
+          removeCommentsFromCDATA: true
         },
         files: [{
           expand: true,

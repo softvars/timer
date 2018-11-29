@@ -10,16 +10,17 @@
 //- Time can be run if its in IN state upon user click.
 //- Popup to show different times details
 
-- For empty ins array we have to show add button.
+// - For empty ins array we have to show add button.
 
-- Adding note/icon for entry.
 - Double click to start auto timer for IN time total.
   Add info to the preference option so that this option can be used later.
 
+- Adding note/icon for entry.
 - Add nxt prev buttons to navigate dates (date list will be used for edit).
 
 - App settings
     - to delete/ remove all the app data.
+
 - Add help for export import
 
 -------------------------

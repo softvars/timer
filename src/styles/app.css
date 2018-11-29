@@ -502,7 +502,7 @@ table#tabletime tr.outTimeRow {
     cursor: pointer;
 }
 
-.inTimeAutoRunlabel{
+.inTimePreferencesLabel{
     line-height: 34px;
 }
 
