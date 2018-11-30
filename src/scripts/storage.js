@@ -24,9 +24,12 @@ StorageHelper.prototype.set = function(key, val){
 
 StorageHelper.prototype.unset = function(key){
     if(typeof key === TYPE_STRING) {
-        this.myStorage.removeItem(key);
+      return this.myStorage.removeItem(key);
     }
-    return;
+};
+
+StorageHelper.prototype.clear = function(key){
+  return this.myStorage.clear();
 };
 
 StorageHelper.prototype.each = function(fn){

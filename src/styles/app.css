@@ -360,6 +360,7 @@ div#inTimeAppAlert {
     margin-left: 3%;
     background-color: cadetblue;
     color: white;
+    z-index: 1060;
 }
 
 .option-swip {
@@ -525,4 +526,19 @@ table#tabletime tr.outTimeRow {
   margin-bottom: 67px;
   bottom: 2px;
   width: 100%;
+  z-index: 1060;
+}
+.resetWait, .reset-btn {
+  display: none
+}
+
+.inTimeAppResetBtn button{
+  min-width: 113px;
+}
+span.resetWait {
+  margin-right: 2px;
+  min-width: 21px;
+}
+span.resetWait.glyphicon.glyphicon-trash {
+  padding-right: 7px;
 }

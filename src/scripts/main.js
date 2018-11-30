@@ -212,6 +212,10 @@ function reRenderTotal() {
     }
 }
 
+/* $(".time-diff-total").dblclick(function() {
+  alert( "Handler for .dblclick() called." );
+});
+ */
 //var reRenderTotal_TimerAnch = setInterval(reRenderTotal, 1000);
 
 var renderTime = getRenderTime({
@@ -806,5 +810,4 @@ function app_in_time_init() {
 }
 $(function(){
     app_in_time_init();
-    appAlert
 });
