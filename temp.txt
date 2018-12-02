@@ -12,18 +12,22 @@
 
 // - For empty ins array we have to show add button.
 
-- App settings
-    - to delete/ remove all the app data.
-
+//- App settings
+//    - to delete/ remove all the app data.
 
 - Double click to start auto timer for IN time total.
   Add info to the preference option so that this option can be used later.
-
 - Adding note/icon for entry.
 - Add nxt prev buttons to navigate dates (date list will be used for edit).
 
-
+- Add fix for JS hint and JSCS
 - Add help for export import
+-----------------
+# APP
+Followings are not working: 
+- Import / Export
+- Window Reload after app reset done.
+
 
 -------------------------
 

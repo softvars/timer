@@ -212,10 +212,10 @@ function reRenderTotal() {
     }
 }
 
-/* $(".time-diff-total").dblclick(function() {
+$(".time-diff-total").dblclick(function() {
   alert( "Handler for .dblclick() called." );
 });
- */
+
 //var reRenderTotal_TimerAnch = setInterval(reRenderTotal, 1000);
 
 var renderTime = getRenderTime({

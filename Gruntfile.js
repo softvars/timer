@@ -24,7 +24,8 @@ module.exports = function (grunt) {
   var appConfig = {
     app: packageJson.srcPath,
     dist: packageJson.distPath,
-    wepAppFolder: packageJson.wepAppFolder
+    wepAppFolder: packageJson.wepAppFolder,
+    androidFolder: 'D:/MyGit/InTime/app/src/main/assets/www/'
   };
 
   // Define the configuration for all the tasks
@@ -37,7 +38,7 @@ module.exports = function (grunt) {
     watch: {
       js: {
         files: ['<%= yeoman.app %>/{scripts,vendor}/{,*/}*.js'],
-        tasks: ['injector', 'newer:jshint:all', 'newer:jscs:all'],
+        tasks: ['injector'/* , 'newer:jshint:all', 'newer:jscs:all' */],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
@@ -69,7 +70,8 @@ module.exports = function (grunt) {
     // The actual grunt server settings
     connect: {
       options: {
-        port: 9000,
+        // port: 9000,
+        port: 8080,
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: 'localhost',
         livereload: 35730
@@ -188,6 +190,11 @@ module.exports = function (grunt) {
         files: [{
           dot: true,
           src: appConfig.wepAppFolder +'{,*/}/*'
+        }]
+      },
+      android: {
+        files: [{
+          src: appConfig.androidFolder +'{,*/}/*'
         }]
       },
       vendor: '<%= yeoman.app %>/vendor/{,*/}*',
@@ -386,6 +393,12 @@ module.exports = function (grunt) {
         dest: appConfig.wepAppFolder,
         src :  '**/*'
       },
+      android: {
+        expand: true,
+        cwd: '<%= yeoman.dist %>',
+        dest: appConfig.androidFolder,
+        src :  '**/*'
+      },
       styles: {
         expand: true,
         cwd: '<%= yeoman.app %>/styles',
@@ -471,8 +484,10 @@ module.exports = function (grunt) {
 
   grunt.registerTask('buildc', [
     'clean:webapp',
+    'clean:android',
     'build',
-    'copy:webapp'
+    'copy:webapp',
+    'copy:android'
   ]);
 
   grunt.registerTask('default', [
