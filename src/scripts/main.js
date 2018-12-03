@@ -164,6 +164,7 @@ function renderTimes(lbl, val) {
         setUserSettings(settings)
     }
     updateTotalTimer(settings.inTimeAutoRunner);
+    appPrefInit();
 }
 
 function updateTotalTimer(inTimeAutoRunner){
@@ -196,6 +197,7 @@ function reRenderTotalHelper(ins, et, lastDiff) {
     }
     return totalMap;
 }
+
 function reRenderTotal() {
     var ins = getEntries();
     var entries_totals = storageHelper.get(KEY_ENTRIES_TOTALS);
@@ -212,9 +214,35 @@ function reRenderTotal() {
     }
 }
 
-$(".time-diff-total").dblclick(function() {
-  alert( "Handler for .dblclick() called." );
-});
+function toggleInTimeAutoRunner() {
+  var settings =  getUserSettings();
+  var inTimeAutoRun = !settings.inTimeAutoRunner;
+  $('.inTimeAutoRunYes').toggleClass('active', inTimeAutoRun);
+  $('.inTimeAutoRunNo').toggleClass('active', !inTimeAutoRun);
+  setUserSettings({inTimeAutoRunner: inTimeAutoRun})
+  updateTotalTimer(inTimeAutoRun);
+  console.log('inTimeAutoRun: ' + inTimeAutoRun);
+}
+
+function appPrefInit() {
+
+  //$('.time-diff').off('dblclick');
+  //$('.time-diff').on('dblclick', '.time-diff-total', function() {
+    //$('.time-diff-total').off('touch dblclick');
+  $('.time-diff').off('click');
+  $('.time-diff').on('click', '.time-diff-total', function() {
+  //$('.time-diff-total').dblclick(function() {
+    console.log('dblclick: time-diff-total');
+    toggleInTimeAutoRunner();
+    /* showAlert({
+      msg: 'In Time Total Dbl Clicked!'
+    }); */
+  });
+
+}
+/* $(function(){
+  appPrefInit();
+}); */
 
 //var reRenderTotal_TimerAnch = setInterval(reRenderTotal, 1000);
 
@@ -799,6 +827,7 @@ function page_init() {
     var settings =  getUserSettings();
     $('.inTimeAutoRunYes').toggleClass('active', settings.inTimeAutoRunner);
     $('.inTimeAutoRunNo').toggleClass('active', !settings.inTimeAutoRunner);
+    appPrefInit();
 }
 
 

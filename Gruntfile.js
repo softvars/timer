@@ -482,12 +482,15 @@ module.exports = function (grunt) {
     'htmlmin'
   ]);
 
+  grunt.registerTask('buildA', [
+    'clean:android',
+    'copy:android'
+  ]);
+
   grunt.registerTask('buildc', [
     'clean:webapp',
-    'clean:android',
     'build',
-    'copy:webapp',
-    'copy:android'
+    'copy:webapp'
   ]);
 
   grunt.registerTask('default', [

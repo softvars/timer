@@ -24,7 +24,7 @@
 - Add help for export import
 -----------------
 # APP
-Followings are not working: 
+Followings are not working:
 - Import / Export
 - Window Reload after app reset done.
 
@@ -53,3 +53,7 @@ Added file Export functionality.
     npm install --save grunt-svgmin
 
     npm install --save jasmine-core karma karma-jasmine karma-phantomjs-launcher phantomjs-prebuilt grunt-wiredep
+
+
+https://stackoverflow.com/questions/19448093/android-double-tap-webview-detect
+https://stackoverflow.com/questions/12301775/webview-getting-rid-of-double-tap-zoom?rq=1
