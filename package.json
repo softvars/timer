@@ -8,6 +8,7 @@
   "scripts": {
     "start": "start grunt serve",
     "build": "start grunt buildc",
+    "buildA": "start grunt buildA",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -180,22 +180,27 @@ function getDateFormted(date, noTime){
 };
 
 function showAlert(config) {
+    var toRet = null;
     var msg = config.msg;
     if(msg) {
-        var type = config.type;
+        var type = config.type || 'success';
         var duration = config.duration;
         //type = (type && 'alert-' + type);
         var appAlert = $('div#inTimeAppAlert');
-        appAlert.removeClass('alert-success alert-info  alert-warning  alert-danger');
+        appAlert.removeClass('alert-success alert-info alert-warning alert-danger');
         type && appAlert.addClass('alert-' + type);
         appAlert.show();
         appAlert.find('span.alertMessage').html(msg)
-        setTimeout(function(){
+        toRet = setTimeout(function(){
             /* appAlert.alert('close') */
             appAlert.hide();
         }, duration || 3500)
     }
+    return toRet;
 }
+$('.app-alert.alert').on('click', '.close', function(){
+    $('.app-alert.alert').hide();
+})
 
 function dataToFileSave(data, fileNamePrefix) {
     try {

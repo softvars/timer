@@ -36,7 +36,8 @@ a:active {
 }
 #intimerDate {
   float: left;
-  color: #c3bebe;
+  /* color: #c3bebe; */
+  color: #076797;
 }
 #intimer {
   /* color: peru; */
@@ -355,11 +356,11 @@ a.toolbar.active.enabled {
 div#inTimeAppAlert {
     display: none;
     position: fixed;
-    bottom: 5%;
+    bottom: 8%;
     width: 95%;
     margin-left: 3%;
-    background-color: cadetblue;
-    color: white;
+/*     background-color: cadetblue;
+    color: white; */
     z-index: 1060;
 }
 
@@ -541,4 +542,19 @@ span.resetWait {
 }
 span.resetWait.glyphicon.glyphicon-trash {
   padding-right: 7px;
+}
+
+.app-info.inTimeAutoRunInfo {
+  margin-left: 15px;
+  color: #388bb5;
+}
+
+.app-info.inTimeAutoRunInfo span {
+  font-size: 18px;
+  height: 34px;
+  cursor: pointer;
+}
+
+.myAboutModal-body p {
+  padding: 0 15px;
 }

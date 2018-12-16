@@ -89,7 +89,7 @@
                                 <span class="glyphicon glyphicon-random pull-right"></span>
                               </a>
                             </li>
-                            <li role="separator" class="divider"></li>
+                            <!-- <li role="separator" class="divider"></li>
                             <li class="setting-app-data">
                                 <a href="#export" class="toolbar app-data-export enabled">Export
                                   <span class="glyphicon glyphicon-open pull-right"></span>
@@ -99,7 +99,7 @@
                               <a href="#import" class="toolbar app-data-import enabled">Import
                                 <span class="glyphicon glyphicon-save pull-right"></span>
                               </a>
-                            </li>
+                            </li> -->
                             <li role="separator" class="divider"></li>
                             <li class="setting-app-pref">
                                 <a href="#preferences" class="toolbar app-pref enabled"  data-toggle="modal" data-target="#mySettingsModal">
@@ -112,6 +112,13 @@
                               <a href="#help" class="toolbar help enabled" data-toggle="modal" data-target="#myHelpModal">
                                 Help
                                 <span class="glyphicon glyphicon-question-sign pull-right"></span>
+                              </a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li class="setting-about">
+                              <a href="#about" class="toolbar about enabled" data-toggle="modal" data-target="#myAboutModal">
+                                About
+                                <span class="glyphicon glyphicon-tint pull-right"></span>
                               </a>
                             </li>
                           </ul>
@@ -181,12 +188,12 @@
                     </div>
                     <div class="row confirm-edit">
                       <div class="col-xs-5 col-xs-offset-1 text-right cancel-edit">
-                        <button type="button" class="btn btn-default btn-block btn-cancel-edit">
+                        <button type="button" class="btn btn-info default btn-block btn-cancel-edit">
                             <span>Cancel</span>
                         </button>
                       </div>
                       <div class="col-xs-5 text-left done-edit">
-                        <button type="button" class="btn btn-info  btn-block btn-done-edit">
+                        <button type="button" class="btn btn-primary  btn-block btn-done-edit">
                            <span>Save</span>
                         </button>
                       </div>
@@ -245,11 +252,14 @@
                             <span class="inTimeAutoRun">
                                 <div class="btn-group inTimeAutoRunBtn" data-toggle="buttons">
                                     <label class="btn btn-primary inTimeAutoRunYes active">
-                                        <input type="radio" name="inTimeAutoRun" id="inTimeAutoRun1" value="yes" autocomplete="off" checked> Yes
-                                    </label>
+                                        <inpu type="radio" name="inTimeAutoRun" id="inTimeAutoRun1" value="yes" autocomplete="off" checked> ON
+                                    </label> 
                                     <label class="btn btn-primary inTimeAutoRunNo">
-                                        <input type="radio" name="inTimeAutoRun" id="inTimeAutoRun2" value="no" autocomplete="off"> No
+                                        <input type="radio" name="inTimeAutoRun" id="inTimeAutoRun2" value="no" autocomplete="off"> OFF
                                     </label>
+                                    <span class="app-info inTimeAutoRunInfo">
+                                      <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                    </span>
                                 </div>
                             </span>
                         </div>
@@ -359,6 +369,26 @@
               </div>
             </div>
           </div>
+        <!-- Modal About -->
+        <div class="modal fade" id="myAboutModal" tabindex="-1" role="dialog" aria-labelledby="myAboutModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title text-center" id="myHelpModalLabel">About</h4>
+                </div>
+                <div class="modal-body myAboutModal-body">
+                  <p>Please share it and write to us for any thoughts.</p>
+                  <p><strong><a href="mailto:softvars@gmail.com?Subject=InTime%20Application" target="_top">softvars@gmail.com</a></strong> <span class="glyphicon glyphicon-comment pull-right"></span></p>
+                  <p><span>twitter</span> <strong><a href="twitter.com/softvars" target="_top">@softvars</a></strong></p>
+                  <p><strong><a href="http://softvars.com/" target="_blank">softvars.com</a></strong> <span class="glyphicon glyphicon-globe pull-right"></span></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default close-help" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
         <!-- Modal Help -->
         <div class="modal fade" id="myHelpModal" tabindex="-1" role="dialog" aria-labelledby="myHelpModalLabel">
             <div class="modal-dialog" role="document">
@@ -407,12 +437,12 @@
             </div>
           </div>
           <!-- Alert -->
-          <div id="inTimeAppAlert" class="alert alert-dismissible fade in" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <div id="inTimeAppAlert" class="app-alert alert alert-dismissible fade in" role="alert">
+            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <span class="alertMessage"> Hi </span>
           </div>
-          <div id="appAlert" class="alert alert-danger" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <div id="appAlert" class="app-alert alert alert-danger fade in" role="alert">
+            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <strong  id="appAlerInfo"></strong> <span id="appAlertMessage"></span>
           </div>
         <!-- build:js(src) scripts/vendor.js -->

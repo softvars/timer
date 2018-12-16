@@ -29,9 +29,21 @@ $('.inTimeAppResetBtn').on('click', '.reset-btn', function(e){
   });
 });
 
+var inTimeAutoRunInfo = null;
 $('#mySettingsModal').on('hidden.bs.modal', function (event) {
+  //clearTimeout(inTimeAutoRunInfo);
   $('.inTimeAppResetBtn .proceed-btn').show();
   $('.reset-btn').attr('disabled', 'disabled').hide();
   var resetWait = $('.resetWait');
   resetWait.removeClass('glyphicon glyphicon-trash').addClass('badge');
+  var appAlert = $('div#inTimeAppAlert');
+  appAlert.hide();
+});
+
+$('.app-info.inTimeAutoRunInfo').on('click', 'span', function(){
+  inTimeAutoRunInfo = showAlert({
+    msg: 'Touching over IN time total in main screen, Also toggles this auto timer preference.',
+    type: 'info',
+    delay: 5000
+  });
 });
