@@ -15,8 +15,10 @@
 //- App settings
 //    - to delete/ remove all the app data.
 
-- Double click to start auto timer for IN time total.
-  Add info to the preference option so that this option can be used later.
+//- Double click to start auto timer for IN time total.
+//  Add info to the preference option so that this option can be used later.
+
+- increase the size of the add / delete icon
 - Adding note/icon for entry.
 - Add nxt prev buttons to navigate dates (date list will be used for edit).
 
@@ -26,7 +28,7 @@
 # APP
 Followings are not working:
 - Import / Export
-- Window Reload after app reset done.
+- Window Reload after app data reset done.
 
 
 -------------------------
