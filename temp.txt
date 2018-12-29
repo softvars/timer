@@ -17,8 +17,8 @@
 
 //- Double click to start auto timer for IN time total.
 //  Add info to the preference option so that this option can be used later.
+//- increase the size of the add / delete icon
 
-- increase the size of the add / delete icon
 - Adding note/icon for entry.
 - Add nxt prev buttons to navigate dates (date list will be used for edit).
 
@@ -29,7 +29,6 @@
 Followings are not working:
 - Import / Export
 - Window Reload after app data reset done.
-
 
 -------------------------
 
@@ -59,3 +58,8 @@ Added file Export functionality.
 
 https://stackoverflow.com/questions/19448093/android-double-tap-webview-detect
 https://stackoverflow.com/questions/12301775/webview-getting-rid-of-double-tap-zoom?rq=1
+
+
+#076797
+
+            <!--android:theme="@style/AppTheme.NoActionBar"-->

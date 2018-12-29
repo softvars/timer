@@ -267,7 +267,9 @@ td .time-diff-mi {
 }
 
 .option-swip button {
-  border-radius: 27px;
+  /* border-radius: 27px; */
+  border-radius: 0;
+  font-size: 16px;
 }
 .status-info-bar {
   /* background-color: #eeeeee52;
@@ -315,7 +317,7 @@ span.checkbox-wrapper input {
   text-align: right;
 }
 .entryHeader span{
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .text-align-right{
@@ -336,7 +338,8 @@ span.checkbox-wrapper input {
 }
 
 .table>tbody>tr.entryHeader>td {
-  padding: 1px 6px 2px 0;
+  /* padding: 1px 6px 2px 0; */
+  padding: 6px 6px 6px 0;
   color: #cebda6;
   font-weight: bold;
   min-width: 102px;
@@ -389,8 +392,8 @@ div#inTimeAppAlert {
 }
 
 #tableTimeDiv {
-    max-height: calc(100vh - 284px);
-    min-height: calc(100vh - 284px);
+    max-height: calc(100vh - 292px);
+    min-height: calc(100vh - 292px);
     overflow-y: auto;
 }
 
@@ -400,8 +403,8 @@ body.not-today #tableTimeDiv {
 }
 
 body.is-edit #tableTimeDiv {
-    max-height: calc(100vh - 283px);
-    min-height: calc(100vh - 283px);
+    max-height: calc(100vh - 291px);
+    min-height: calc(100vh - 291px);
 }
 
 .padding_0 {
@@ -415,7 +418,7 @@ body.is-edit #tableTimeDiv {
 }
 #tabletimeTotal .filo-total,
 #tabletimeTotal .filo-total td {
-    font-size: 12px;
+    font-size: 16px;
     padding: 4px 6px 0px;
     border: 0;
 }
@@ -458,9 +461,10 @@ body.is-edit #tableTimeDiv {
 }
 .entries-edit-wrapper .edit span,
 .entries-edit-wrapper .add span {
-    font-size: 16px;
+    font-size: 22px;
     color: #337ab7;
-    margin-bottom: 3px;
+    margin-bottom: 1px;
+    margin-top: 0.5px;
 }
 /* .btn-done-edit {
     background-color: #ce2d22;

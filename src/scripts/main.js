@@ -88,7 +88,8 @@ function renderTimes(lbl, val) {
                 return;
             }
             var t = getTime(a.value);
-            var time = t.h + ":" + t.m + ":" + t.s;
+            //var time = (t.h < 10 ? ('0' + t.h) : t.h) + ":" + t.m + ":" + t.s;
+            var time = (t.h < 10 ? ('0' + t.h) : t.h) + ":" + t.m + ":" + t.s;
             a.p  = a.p || 0;
             var _diff = a.m || "00", prv = arr[i-1];
             var _diffMi = a.mi || "000";
