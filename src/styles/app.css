@@ -220,7 +220,7 @@ button#settings {
 }
 
 td.time-diff {
-  text-align: right;
+  text-align: center;
 }
 
 td .time-diff-mi {
@@ -321,8 +321,13 @@ span.checkbox-wrapper input {
 }
 
 .text-align-right{
-  text-align: right;
+  /* text-align: right; */
+  min-width: 175px;
 }
+#tabletime .text-align-right{
+  padding: 8px 8px 8px 14px;
+}
+
 .repeat-icon {
     font-size: 21px;
     line-height: 30px;
@@ -442,7 +447,8 @@ body.is-edit #tableTimeDiv {
     text-align: left;
 }
 #tabletime td.text-right {
-    width: 102px;
+    /* width: 102px; */
+    min-width: 76px;
 }
 .entries-header {
     margin: 0;
