@@ -374,7 +374,7 @@ $('table#tabletime').on("click", "td.text-align-right, .entryStateSingle", funct
     $('#addNewTime').val('');
     $('#addNewTimeState').val('IN');
 }); */
-
+$('#newDateEntryModal').off('show.bs.modal');
 $('#newDateEntryModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     var operation = button.data('entry-op');
@@ -383,15 +383,18 @@ $('#newDateEntryModal').on('show.bs.modal', function (event) {
     modal.data('isAddNewEntry', isAddNewEntry);
     var entryTime = '';
     var entryKey = 'IN';
+    var dialogTitle = 'New Entry';
     if (!isAddNewEntry) {
         var entryModalData = modal.data('EntryModalData');
-        entryTime = entryModalData.entryTime; /* "hh:mm:ss" */
-        entryKey = entryModalData.entryKey; /**/
-        $('#newDateEntryModalLabel').html('Update Entry');
+        if(entryModalData) {
+            entryTime = entryModalData.entryTime; /* "hh:mm:ss" */
+            entryKey = entryModalData.entryKey; /**/
+            dialogTitle = 'Update Entry';
+        }
     }
+    $('#newDateEntryModalLabel').html(dialogTitle);
     $('#addNewTime').val(entryTime);
     $('#addNewTimeState').val(entryKey);
-
 });
 
 $('#newDateEntryModal').off("click");

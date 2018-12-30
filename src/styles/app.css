@@ -321,7 +321,7 @@ span.checkbox-wrapper input {
 }
 
 .text-align-right{
-  /* text-align: right; */
+  text-align: center;
   min-width: 175px;
 }
 #tabletime .text-align-right{
@@ -347,11 +347,12 @@ span.checkbox-wrapper input {
   padding: 6px 6px 6px 0;
   color: #cebda6;
   font-weight: bold;
-  min-width: 102px;
+  /* min-width: 102px; */
   border-top: 0;
 }
 .table>tbody>tr.entryHeader>td.entryHeaderMilli {
   padding: 1px 0px 2px 0;
+  min-width: 202px;
 }
 .main-container-wrapper.bg2 .table>tbody>tr.entryHeader>td {
   color: #c3ae92;
@@ -460,7 +461,7 @@ body.is-edit #tableTimeDiv {
 .entries-edit-wrapper .edit,
 .entries-edit-wrapper .add {
     line-height: 19px;
-    padding-right: 11px;
+    padding-right: 5px;
     width: 35px;
     float: right;
     cursor: pointer;
@@ -471,16 +472,19 @@ body.is-edit #tableTimeDiv {
     color: #337ab7;
     margin-bottom: 1px;
     margin-top: 0.5px;
+    margin-right: 7px;
 }
 /* .btn-done-edit {
     background-color: #ce2d22;
     border-color: #da4646;
 } */
 
-#newDateEntryModal .timeInputWrapper{
+#newDateEntryModal .timeInputWrapper,
+#newDateEntryModal .noteInputWrapper {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 25px 0;
 }
 #newDateEntryModal .addNewTimeInput{
     margin-right: 10px;
@@ -491,21 +495,33 @@ body.is-edit #tableTimeDiv {
     font-weight: 600;
 }
 #newDateEntryModal .addNewTime.state{
-    line-height: 26px;
-    height: 26px;
+    line-height: 30px;
+    height: 30px;
     margin-left: 10px;
     margin-bottom: 2px;
+    font-size: 22px;
 }
 #newDateEntryModal input,
 #newDateEntryModal select {
     outline: 0;
     border:none;
 }
-#newDateEntryModal input {
+#newDateEntryModal .addNewTimeInput input {
     caret-color: red;
     font: 16px "Helvetica", "Arial", "sans-serif";
+    font-size: 20px;
+    font-weight: 600;
 }
-
+#newDateEntryModal .modal-body p {
+  text-align: center;
+}
+/* #newDateEntryModal .modal-body div,
+#newDateEntryModal .modal-body p {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 10px 20px;
+} */
 table#tabletime tr.inTimeRow {
     color: #2075bf;
 }
@@ -555,7 +571,7 @@ span.resetWait.glyphicon.glyphicon-trash {
 }
 
 .app-info.inTimeAutoRunInfo {
-  margin-left: 15px;
+  margin-right  : 15px;
   color: #388bb5;
 }
 
