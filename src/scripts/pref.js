@@ -21,12 +21,14 @@ $('.inTimeAppResetBtn').on('click', '.proceed-btn', function(e){
 
 $('.inTimeAppResetBtn').on('click', '.reset-btn', function(e){
   storageHelper.clear();
-  setTimeout(function() {
-    window && window.location && window.location.reload()
-  }, 100);
   showAlert({
-      msg: 'Application reset completed, All data removed!'
+    msg: 'Application reset completed, All data removed!'
   });
+  setTimeout(function() {
+    //window && window.location && window.location.reload()
+    renderTimes();
+    toggleHomeView();
+  }, 800);
 });
 
 var inTimeAutoRunInfo = null;

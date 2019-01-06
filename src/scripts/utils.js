@@ -73,18 +73,25 @@ function checkTime(i) {
     }
     return i;
 }
-function checkDiffTime(i, milli, noDot) {
-    if(!noDot && i === 0){
-        i = ' . ';
-    } else if (i < 10 && i >= 0) {
-        i = i && ((milli ? "00" : "0") + i);
+function checkDiffTime(i, milli, handleZero) {
+    /* if(handleZero !== false && i === 0) {
+        i = handleZero === 2 ? '' : ' . ';
+    }  */
+    if(i === 0) {
+        i = (milli ? '000' : '00');
+    } else if (i < 10 && i > 0) {
+        i = ((milli ? "00" : "0") + i);
     } else if (milli && i < 100 && i >= 10) {
         i = i && ("0" + i);
     };
     return i;
 }
 
-function getTimeFromTSDiff(p, noDot) {
+var hZ_ = function(t, handleZero) {
+    return (t === 0 && handleZero === 2) ? '' : ':';
+}
+
+function getTimeFromTSDiff(p, handleZero) {
     var diff = {};
     diff.p = p;
     var _p = {
@@ -111,7 +118,11 @@ function getTimeFromTSDiff(p, noDot) {
             }
         }
     }
-    diff.m = checkDiffTime(Math.floor(_p.h), false, noDot) + ":" + checkDiffTime(Math.floor(_p.m), false, noDot) + ":" + checkDiffTime(Math.floor(_p.s), false, noDot);
+    var _pH = Math.floor(_p.h);
+    var _pM = Math.floor(_p.m);
+    var _pS = Math.floor(_p.s);
+    //diff.m = checkDiffTime(_pH, false, handleZero) + hZ_(_pH, handleZero) + checkDiffTime(_pM, false, (handleZero === false && handleZero)|| (_pH === 0 && handleZero)) + hZ_(_pM, handleZero) + checkDiffTime(_pS, false, (handleZero === false && handleZero)|| ((_pH === 0 || _pM === 0) && handleZero));
+    diff.m = checkDiffTime(_pH, false, handleZero) + ':' + checkDiffTime(_pM, false, handleZero) + ':' + checkDiffTime(_pS, false, handleZero);
     diff.mi = checkDiffTime(Math.floor(_p.mi), true);
     return diff;
 }
@@ -121,7 +132,7 @@ function getDiff(a, b) {
         return null;
     }
     var p = a.value - b.value ;
-    return getTimeFromTSDiff(p);
+    return getTimeFromTSDiff(p, false);
 }
 
 /*-----*/

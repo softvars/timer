@@ -26,6 +26,7 @@ function updateView(ins) {
     if(ins.length === 0) {
         //$(".entries-header").hide();
         $('.entries-edit-wrapper .edit').hide();
+        $('.entryHeaderMilli span').hide();
     }
     storageHelper.set(KEY_UC_STATE, uc_state);
     toggleStrictButton($('.option-strict button'), true);
@@ -115,10 +116,10 @@ function renderTimes(lbl, val) {
     entries_totals[userCurrentDate] = {total: total, ntotal: ntotal, n2total: n2total};
     storageHelper.set(KEY_ENTRIES_TOTALS, entries_totals);
 
-
-    var _total = getTimeFromTSDiff(total, true);
-    var _ntotal = getTimeFromTSDiff(ntotal, true);
-    var _n2total = getTimeFromTSDiff(n2total, true);
+    var handleZero = false;
+    var _total = getTimeFromTSDiff(total, handleZero);
+    var _ntotal = getTimeFromTSDiff(ntotal, handleZero);
+    var _n2total = getTimeFromTSDiff(n2total, handleZero);
     //_rows2.push('<tr class="filo-total"><td><strong>Gross</strong></td><td class="time-diff"><strong>'+ _total.m +'</strong></td></tr>');
     _rows2.push('<tr class="filo-total"><td class="filo-total-gross"><strong>Gross</strong></td><td class="time-diff"><strong class="time-diff-gross">'+ _total.m +'</strong></td><td class="filo-total-actual"><strong>Actual</strong></td><td class="time-diff"><strong class="time-diff-actual">'+ _n2total.m +'</strong></td></tr>');
     _rows2.push('<tr class="actual-total"><td colspan="4" class="time-diff"><strong class="time-diff-total">'+ ( _ntotal.m )+'</strong></td></tr>');
@@ -135,6 +136,7 @@ function renderTimes(lbl, val) {
     if(isEntries) {
         //$('.entries-header').show();
         $('.entries-edit-wrapper .edit').show();
+        $('.entryHeaderMilli span').show();
         var isEdit = $("body").data("is-edit");
         if(isEdit) {
             $(".entries-header, button.btn-remove-entry").show();
@@ -191,10 +193,11 @@ function reRenderTotalHelper(ins, et, lastDiff) {
         n2total += lastDiff && lastDiff.p || 0;
         ntotal += lastDiff && lastDiff.p || 0;
     }
+    var handleZero = false;
     totalMap = {
-        gross:  getTimeFromTSDiff(total, true),
-        total:  getTimeFromTSDiff(ntotal, true),
-        actual: getTimeFromTSDiff(n2total, true)
+        gross:  getTimeFromTSDiff(total, handleZero),
+        total:  getTimeFromTSDiff(ntotal, handleZero),
+        actual: getTimeFromTSDiff(n2total, handleZero)
     }
     return totalMap;
 }
@@ -410,7 +413,7 @@ $('#newDateEntryModal').on("click", "button.submit", function(e, data) {
         var currDate = null;
         var ins = getEntries();
         if (ins.length > 0) {
-            if (!isAddNewEntry && entryModalData && (addNewTime !== entryModalData.entryTime)) {
+            if (!isAddNewEntry && entryModalData /*&& (addNewTime !== entryModalData.entryTime)*/) {
                 var value = entryModalData.entryValue;
                 removeEntry(value);
             }
